@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Match</string>
+    <string name="common_loading">加载中&#8230;</string>
+    <string name="dialog_prompt">提示</string>
+    <string name="dialog_prompt_no">暂无可提现余额</string>
+    <string name="dialog_prompt_yes">确定</string>
+    <string name="error_view_loading">加载中…</string>
+    <string name="error_view_load_error_click_to_refresh">内容加载失败\r\n点击重新加载</string>
+    <string name="error_view_network_error_click_to_refresh">没有可用的网络</string>
+    <string name="error_view_no_data">暂无内容</string>
+    <string name="tab_recommend">推荐</string>
+    <string name="tab_find">发现</string>
+    <string name="tab_notice">公告</string>
+    <string name="tab_group">群组</string>
+    <string name="tab_mine">我的</string>
 </resources>
