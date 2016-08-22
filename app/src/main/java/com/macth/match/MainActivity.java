@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -44,19 +45,21 @@ public class MainActivity extends BaseTitleActivity {
     /**
      * Tab图片没有选中的状态资源ID
      */
-//    private int[] mTabIconNors = {
-//            R.drawable.shouyexdpi_03,
-//            R.drawable.dingdanxdpi_03,
-//            R.drawable.huodongxdpi_03,
-//            R.drawable.wodexdpi_03};
-//    /**
-//     * Tab图片选中的状态资源ID
-//     */
-//    private int[] mTabIconSels = {
-//            R.drawable.shouyedxdpi_03,
-//            R.drawable.dingdandxdpi_03,
-//            R.drawable.huodongdxdpi_03_03,
-//            R.drawable.wodedxdpi_03};
+    private int[] mTabIconNors = {
+            R.drawable.tuijianxdpi_03,
+            R.drawable.faxianxdpi_03,
+            R.drawable.gonggaoxdpi_03,
+            R.drawable.qunzuxdpi_03,
+            R.drawable.wodexdpi_03};
+    /**
+     * Tab图片选中的状态资源ID
+     */
+    private int[] mTabIconSels = {
+            R.drawable.tuijianhxdpi_03,
+            R.drawable.faxianhxdpi_03,
+            R.drawable.gonggaohxdpi_03,
+            R.drawable.qunzuhxdpi_03,
+            R.drawable.wodehxdpi_03};
 
     private int currentTab=-1; // 当前Tab页面索引
     private TextView mBaseEnsure,mBaseBack;
@@ -193,11 +196,15 @@ public class MainActivity extends BaseTitleActivity {
         showFragment(targetFragment);
         for (int i = 0; i < TAB_NUM; i++) {
             if (idx == i) {
-                mTabViews[i].setBackgroundColor(getResources().getColor(R.color.navi_press));
-
+                mTabViews[i].setTextColor(ContextCompat.getColor(this, R.color.navi));
+                TextViewUtils.setTextViewIcon(this, mTabViews[i],
+                        mTabIconSels[i], R.dimen.bottom_tab_icon_width,
+                        R.dimen.bottom_tab_icon_height, TextViewUtils.DRAWABLE_TOP);
             } else {
-                mTabViews[i].setBackgroundColor(getResources().getColor(R.color.navi));
-
+                mTabViews[i].setTextColor(ContextCompat.getColor(this, R.color.color_ff));
+                TextViewUtils.setTextViewIcon(this, mTabViews[i],
+                        mTabIconNors[i], R.dimen.bottom_tab_icon_width,
+                        R.dimen.bottom_tab_icon_height, TextViewUtils.DRAWABLE_TOP);
             }
         }
         currentTab = idx; // 更新目标tab为当前tab

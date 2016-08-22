@@ -10,7 +10,7 @@
         android:background="@color/common_layout_bg"
         android:orientation="vertical"/>
 
-    <com.shejijia.common.widget.EmptyLayout
+    <com.macth.match.common.widget.EmptyLayout
         android:id="@+id/error_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

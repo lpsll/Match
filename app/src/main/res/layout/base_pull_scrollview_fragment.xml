@@ -28,7 +28,7 @@
         </android.support.v4.widget.NestedScrollView>
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
-    <com.qluxstory.qingshe.common.widget.EmptyLayout
+    <com.macth.match.common.widget.EmptyLayout
         android:id="@+id/error_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
