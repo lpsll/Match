@@ -5,10 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.macth.match.common.base.BaseFragment;
@@ -201,7 +198,7 @@ public class MainActivity extends BaseTitleActivity {
                         mTabIconSels[i], R.dimen.bottom_tab_icon_width,
                         R.dimen.bottom_tab_icon_height, TextViewUtils.DRAWABLE_TOP);
             } else {
-                mTabViews[i].setTextColor(ContextCompat.getColor(this, R.color.color_ff));
+                mTabViews[i].setTextColor(ContextCompat.getColor(this, R.color.btn_gray));
                 TextViewUtils.setTextViewIcon(this, mTabViews[i],
                         mTabIconNors[i], R.dimen.bottom_tab_icon_width,
                         R.dimen.bottom_tab_icon_height, TextViewUtils.DRAWABLE_TOP);

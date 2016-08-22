@@ -2,57 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#f5f5f5"
-    android:paddingBottom="@dimen/ds_5"
+    android:background="#ffffff"
     android:orientation="horizontal"
-    >
+    android:paddingBottom="@dimen/ds_15"
+    android:paddingTop="@dimen/ds_15">
 
-        <LinearLayout style="@style/BottomTabItemLayout"
-            >
+    <LinearLayout style="@style/BottomTabItemLayout">
 
-            <TextView
-                android:id="@+id/tv_tab_recommend"
-                style="@style/BottomTabItemText"
-                android:text="@string/tab_recommend" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_tab_recommend"
+            style="@style/BottomTabItemText"
+            android:text="@string/tab_recommend" />
+    </LinearLayout>
+    <LinearLayout style="@style/BottomTabItemLayout">
 
-
-        <LinearLayout style="@style/BottomTabItemLayout">
-
-            <TextView
-                android:id="@+id/tv_tab_find"
-                style="@style/BottomTabItemText"
-                android:text="@string/tab_find" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_tab_find"
+            style="@style/BottomTabItemText"
+            android:text="@string/tab_find" />
+    </LinearLayout>
 
 
-        <LinearLayout style="@style/BottomTabItemLayout">
+    <LinearLayout style="@style/BottomTabItemLayout">
 
-            <TextView
-                android:id="@+id/tv_tab_notice"
-                style="@style/BottomTabItemText"
-                android:text="@string/tab_notice" />
-        </LinearLayout>
-
-
-        <LinearLayout style="@style/BottomTabItemLayout">
-
-            <TextView
-                android:id="@+id/tv_tab_group"
-                style="@style/BottomTabItemText"
-                android:text="@string/tab_group" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_tab_notice"
+            style="@style/BottomTabItemText"
+            android:text="@string/tab_notice" />
+    </LinearLayout>
 
 
-        <LinearLayout style="@style/BottomTabItemLayout">
+    <LinearLayout style="@style/BottomTabItemLayout">
 
-            <TextView
-                android:id="@+id/tv_tab_mine"
-                style="@style/BottomTabItemText"
-                android:text="@string/tab_mine" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_tab_group"
+            style="@style/BottomTabItemText"
+            android:text="@string/tab_group" />
+    </LinearLayout>
 
 
+    <LinearLayout style="@style/BottomTabItemLayout">
+
+        <TextView
+            android:id="@+id/tv_tab_mine"
+            style="@style/BottomTabItemText"
+            android:text="@string/tab_mine" />
+    </LinearLayout>
 
 
 </LinearLayout>

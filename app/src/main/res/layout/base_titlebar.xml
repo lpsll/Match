@@ -42,7 +42,7 @@
                 android:clickable="true"
                 android:textColor="@color/color_ff"
                 android:text=""
-                android:textSize="@dimen/fs_50" />
+                android:textSize="@dimen/fs_60" />
 
             <TextView
                 android:id="@+id/base_titlebar_ensure"

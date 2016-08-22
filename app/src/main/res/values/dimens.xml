@@ -3,8 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <!-- 首页tab切换图片大小 -->
-    <dimen name="bottom_tab_icon_height">23dp</dimen>
-    <dimen name="bottom_tab_icon_width">23dp</dimen>
+    <dimen name="bottom_tab_icon_height">@dimen/ds_65</dimen>
+    <dimen name="bottom_tab_icon_width">@dimen/ds_65</dimen>
 
     <!-- 头部高度 -->
     <dimen name="common_titlebar_height">@dimen/ds_120</dimen>

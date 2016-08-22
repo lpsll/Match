@@ -2,6 +2,7 @@ package com.macth.match.group.fragment;
 
 import android.view.View;
 
+import com.macth.match.R;
 import com.macth.match.common.base.BaseFragment;
 
 /**
@@ -15,7 +16,7 @@ public class GroupFragment extends BaseFragment {
 
     @Override
     protected int getLayoutResId() {
-        return 0;
+        return R.layout.base_fragment;
     }
 
     @Override
