@@ -13,4 +13,7 @@
     <string name="tab_notice">公告</string>
     <string name="tab_group">群组</string>
     <string name="tab_mine">我的</string>
+    <string name="company">公司：</string>
+    <string name="money">金额：</string>
+    <string name="term">期限：</string>
 </resources>

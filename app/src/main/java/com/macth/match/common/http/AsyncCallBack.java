@@ -61,25 +61,26 @@ public class AsyncCallBack<T> implements Callback {
 
 		if (response.isSuccessful()) {
 			String reader = response.body().string();
-			//LogUtils.e("原始数据："+reader);
-			int startIndex=reader.indexOf("{",reader.indexOf("{")+1);
-			int endIndex=reader.lastIndexOf("]");
-			reader=reader.substring(startIndex,endIndex);
-			LogUtils.e("response success json-->" + reader);
+			LogUtils.e("原始数据："+reader);
+//			int startIndex=reader.indexOf("{",reader.indexOf("{")+1);
+//			int endIndex=reader.lastIndexOf("}");
+//			reader=reader.substring(startIndex,endIndex);
+//			LogUtils.e("response success json-->" + reader);
 			if(reader.contains("[{}]")){
 				reader=reader.replace("[{}]","null");
 			}
 			LogUtils.e("response success json 转换后-->" + reader);
 			try {
+				LogUtils.e("try-->" , "try");
 				T t = gson.fromJson(reader.trim(), clazz);
-
+				LogUtils.e("t-->" ,""+ t);
 					callback.sendMsg(CallBack.SUCCESS, t);
-
 					BaseEntity entity = (BaseEntity) t;
 					EventBus.getDefault().post(
-							new ErrorEvent(entity.getStatus(),
+							new ErrorEvent(entity.getCode(),
 									entity.getMsg(), tag));
 			}catch (Exception e){
+				LogUtils.e("catch-->" ,"catch");
 				callback.sendMsg(CallBack.FAIL, (T) AppConfig.ERROR_PARSER_MSG);
 				EventBus.getDefault().post(
 						new ErrorEvent(AppConfig.ERROR_PARSER,

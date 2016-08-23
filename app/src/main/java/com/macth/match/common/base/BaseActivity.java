@@ -136,7 +136,7 @@ public abstract class BaseActivity  extends FragmentActivity implements
 
     public void onEventMainThread(ErrorEvent event) {
         hideDialogLoading();
-        String status = event.getStatus();
+        String status = event.getCode();
         String message = event.getMsg();
         if (event.getTag().equals(this)) {
             if(!AppConfig.SUCCESS.equals(status)) {

@@ -20,7 +20,7 @@ public class AppConfig {
     public static final String ERROR_REQ_MSG="请求失败";
 
     public static final String SUCCESS="1";
-    public static final String BASE_URL="http://101.200.167.130:8080/jrjz-api/api-docs";
+    public static final String BASE_URL="http://cuohe.damaimob.com/";
 
 
 

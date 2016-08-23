@@ -1,31 +1,69 @@
 package com.macth.match.recommend.fragment;
 
-import android.view.View;
-
+import com.macth.match.AppConfig;
 import com.macth.match.R;
-import com.macth.match.common.base.BaseFragment;
+import com.macth.match.common.base.BaseListFragment;
+import com.macth.match.common.dto.BaseDTO;
+import com.macth.match.common.http.CallBack;
+import com.macth.match.common.http.CommonApiClient;
+import com.macth.match.common.utils.LogUtils;
+import com.macth.match.common.widget.EmptyLayout;
+import com.macth.match.recommend.adapter.RecommendAdapter;
+import com.macth.match.recommend.entity.RecommendEntity;
+import com.macth.match.recommend.entity.RecommendResult;
+import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
- * Created by John_Libo on 2016/8/22.
+ * 推荐页
  */
-public class RecommendFragment extends BaseFragment {
-    @Override
-    protected void retry() {
+public class RecommendFragment extends BaseListFragment<RecommendEntity> {
 
+    @Override
+    public BaseRecyclerAdapter<RecommendEntity> createAdapter() {
+        return new RecommendAdapter();
     }
 
     @Override
-    protected int getLayoutResId() {
-        return R.layout.base_fragment;
+    protected String getCacheKeyPrefix() {
+        return "RecommendFragment";
     }
 
     @Override
-    public void initView(View view) {
+    public List<RecommendEntity> readList(Serializable seri) {
+        return ((RecommendResult)seri).getData().getList();
+    }
+
+    @Override
+    protected void sendRequestData() {
+        BaseDTO dto=new BaseDTO();
+        CommonApiClient.recommend(this, dto, new CallBack<RecommendResult>() {
+            @Override
+            public void onSuccess(RecommendResult result) {
+                if(AppConfig.SUCCESS.equals(result.getCode())){
+                    LogUtils.e("推荐项目列表成功");
+                    mErrorLayout.setErrorMessage("暂无推荐记录",mErrorLayout.FLAG_NODATA);
+                    mErrorLayout.setErrorImag(R.drawable.page_icon_empty,mErrorLayout.FLAG_NODATA);
+                    if(null==result.getData()){
+                        mErrorLayout.setErrorType(EmptyLayout.NODATA);
+                    }else {
+                        requestDataSuccess(result);
+                        setDataResult(result.getData().getList());
+                    }
+                }
+
+            }
+        });
 
     }
 
     @Override
     public void initData() {
 
+    }
+    public boolean autoRefreshIn(){
+        return true;
     }
 }

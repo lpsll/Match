@@ -120,16 +120,16 @@ public class MainActivity extends BaseTitleActivity {
                 fragment = new RecommendFragment();
                 break;
             case 1:
-                fragment = new FindFragment();
+                fragment = new RecommendFragment();
                 break;
             case 2:
-                fragment = new NoticeFragment();
+                fragment = new RecommendFragment();
                 break;
             case 3:
-                fragment = new GroupFragment();
+                fragment = new RecommendFragment();
                 break;
             case 4:
-                fragment = new MineFragment();
+                fragment = new RecommendFragment();
                 break;
 
         }
