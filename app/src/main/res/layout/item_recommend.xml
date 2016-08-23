@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/rc_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ds_30"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/ds_40"
+        android:textSize="@dimen/ds_45"
+        android:gravity="center"
+        android:textColor="@color/color_00"
+        android:text="@string/company"/>
+
+        <TextView
+            android:id="@+id/rc_tv_company"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/ds_45"
+            android:gravity="center"
+            android:textColor="@color/color_00"
+            android:text="@string/company"/>
+
+    </LinearLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/ds_90">
+    <LinearLayout
+        android:id="@+id/rl_lin"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/ds_40"
+            android:textSize="@dimen/ds_45"
+            android:gravity="center"
+            android:textColor="@color/color_33"
+            android:text="@string/money"/>
+
+        <TextView
+            android:id="@+id/rc_tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/ds_45"
+            android:gravity="center"
+            android:textColor="@color/color_33"
+            android:text="@string/company"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/rl_lin"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/ds_40"
+            android:textSize="@dimen/ds_45"
+            android:gravity="center"
+            android:textColor="@color/color_33"
+            android:text="@string/term"/>
+
+        <TextView
+            android:id="@+id/rc_tv_term"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/ds_45"
+            android:gravity="center"
+            android:textColor="@color/color_33"
+            android:text="@string/term"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/rc_tv_data"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="@dimen/ds_40"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/ds_45"
+        android:gravity="center"
+        android:textColor="@color/color_33"
+        android:text="@string/company"/>
+</RelativeLayout>
+</LinearLayout>
