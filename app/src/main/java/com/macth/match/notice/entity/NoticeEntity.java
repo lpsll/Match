@@ -22,7 +22,6 @@ public class NoticeEntity extends BaseEntity{
     private String message_ctime;
     private String message_content;
     private String message_url;
-    private int count;
 
     public int getId() {
         return id;
@@ -56,13 +55,6 @@ public class NoticeEntity extends BaseEntity{
         this.message_url = message_url;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
 
     public String getMessage_content() {
         return message_content;
@@ -78,8 +70,8 @@ public class NoticeEntity extends BaseEntity{
                 "id=" + id +
                 ", message_title='" + message_title + '\'' +
                 ", message_ctime='" + message_ctime + '\'' +
+                ", message_content='" + message_content + '\'' +
                 ", message_url='" + message_url + '\'' +
-                ", count=" + count +
                 '}';
     }
 }

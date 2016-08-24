@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/base_recyclerview"/>
+    <include layout="@layout/find_recyclerview_header" />
+
+    <include layout="@layout/base_recyclerview" />
 
 </LinearLayout>

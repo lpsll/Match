@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.macth.match.AppContext;
 import com.macth.match.R;
@@ -41,6 +42,9 @@ public abstract class BaseListFragment<T> extends BaseFragment implements BaseRe
     public static final String BUNDLE_KEY_CATALOG = "BUNDLE_KEY_CATALOG";
     private int action;
 
+    //头部搜索布局
+    public LinearLayout ll_find_header;
+
 
     public RecyclerView.LayoutManager setupLayoutManager() {
         return new LinearLayoutManager(getActivity());
@@ -74,6 +78,8 @@ public abstract class BaseListFragment<T> extends BaseFragment implements BaseRe
         if (args != null) {
             mCatalog = args.getInt(BUNDLE_KEY_CATALOG, 0);
         }
+
+        ll_find_header = (LinearLayout) view.findViewById(R.id.ll_find_header);
         mPtrRecyclerView = (PtrRecyclerView) view.findViewById(R.id.base_recyclerview);
         mPtrRecyclerView.setLayoutManager(setupLayoutManager());
         mPtrRecyclerView.setPullRefreshHeaderView(setupPullRefreshHeaderView());
