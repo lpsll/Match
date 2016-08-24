@@ -4,6 +4,7 @@ package com.macth.match.common.http;
 import android.support.v4.app.Fragment;
 
 import com.macth.match.common.dto.BaseDTO;
+import com.macth.match.notice.entity.NoticeResult;
 import com.macth.match.recommend.entity.RecommendResult;
 
 /**
@@ -21,6 +22,19 @@ public class CommonApiClient extends BaseApiClient{
         AsyncCallBack<RecommendResult> asyncCallBack = new AsyncCallBack<>(
                 fragment, callback, RecommendResult.class);
         post(getAbsoluteUrl("Home/Projects/getHomeProjectsList"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 推荐项目列表
+     * @param dto
+     * @param callback
+     */
+    public static void notice(Fragment fragment, BaseDTO
+            dto, CallBack<NoticeResult> callback) {
+        AsyncCallBack<NoticeResult> asyncCallBack = new AsyncCallBack<>(
+                fragment, callback, NoticeResult.class);
+        post(getAbsoluteUrl("Home/Messages/getMessageList"), dto,
                 asyncCallBack);
     }
 }

@@ -6,19 +6,19 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ds_90"
         android:layout_marginLeft="@dimen/ds_40"
         android:layout_marginRight="@dimen/ds_40"
         android:layout_marginTop="@dimen/ds_30"
-        android:background="@drawable/find_tv_shape">
+        android:background="@drawable/find_tv_shape"
+        android:gravity="center">
 
         <ImageView
-            android:layout_marginRight="@dimen/ds_20"
-            android:src="@drawable/sousuoxdpi_03"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/ds_20"
+            android:src="@drawable/sousuoxdpi_03" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,11 +30,11 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_find"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ds_30" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_find"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ds_30" />
 
 </LinearLayout>
