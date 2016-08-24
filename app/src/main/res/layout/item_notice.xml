@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="@dimen/ds_60"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="金融成为重要推手"
+            android:textColor="@color/tv_black"
+            android:textSize="@dimen/fs_50" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="2016-09-09"
+            android:textColor="@color/tv_grey"
+            android:textSize="@dimen/fs_50" />
+
+        <TextView
+            android:textColor="@color/tv_grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title"
+            android:layout_marginTop="@dimen/ds_25"
+            android:lineSpacingExtra="@dimen/ds_10"
+            android:text="海天联创海天联创海天联创海天联创海天联创海天联创海天联创海天联创海天联创"
+            android:textSize="@dimen/fs_50" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ds_30"
+        android:background="@color/linear_gray" />
+
+</LinearLayout>
