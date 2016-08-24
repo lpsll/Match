@@ -23,7 +23,7 @@ public class RecommendAdapter extends BaseSimpleRecyclerAdapter<RecommendEntity>
         holder.setText(R.id.rc_tv_money,recommendEntity.getPrice());
         holder.setText(R.id.rc_tv_term,recommendEntity.getProject_termunit()+" "+recommendEntity.getProject_type());
         holder.setText(R.id.rc_tv_data,recommendEntity.getCtime());
-        ImageView mImg=holder.getView( R.id.rc_img);
+        ImageView mImg =holder.getView( R.id.rc_img);
         ImageLoaderUtils.displayImage(recommendEntity.getImage(), mImg);
     }
 }

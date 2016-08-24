@@ -49,7 +49,7 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
                     if(null==result.getData()){
                         mErrorLayout.setErrorType(EmptyLayout.NODATA);
                     }else {
-                        requestDataSuccess(result);
+//                        requestDataSuccess(result);
                         setDataResult(result.getData().getList());
                     }
                 }

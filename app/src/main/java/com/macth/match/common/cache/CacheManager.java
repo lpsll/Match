@@ -1,9 +1,11 @@
 package com.macth.match.common.cache;
 
 import android.content.Context;
+import android.util.Log;
 
 
 import com.macth.match.AppContext;
+import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.TDevice;
 
 import java.io.File;
@@ -25,6 +27,8 @@ public class CacheManager {
      */
     public static void saveObject(Serializable ser,
                                   String file) {
+        LogUtils.e("saveObject--ser--",""+ser);
+        LogUtils.e("saveObject--file--",""+file);
         AppContext.helper().put(file, ser);
     }
 
