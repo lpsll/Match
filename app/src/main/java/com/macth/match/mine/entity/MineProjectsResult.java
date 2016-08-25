@@ -1,4 +1,4 @@
-package com.macth.match.mine.fragment.entity;
+package com.macth.match.mine.entity;
 
 import com.macth.match.common.entity.BaseEntity;
 

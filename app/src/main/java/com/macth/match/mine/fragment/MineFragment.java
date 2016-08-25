@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.macth.match.R;
 import com.macth.match.common.base.BaseFragment;
+import com.macth.match.login.activity.LoginActivity;
+import com.macth.match.mine.activity.MineProjectsActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -60,6 +62,8 @@ public class MineFragment extends BaseFragment {
             case R.id.rl_mine_news:
                 break;
             case R.id.rl_mine_setting:
+                startActivity(new Intent(getActivity(),LoginActivity.class));
+
                 break;
             case R.id.rl_mine_exit:
                 break;

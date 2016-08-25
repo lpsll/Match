@@ -1,4 +1,4 @@
-package com.macth.match.mine.fragment.adapter;
+package com.macth.match.mine.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.macth.match.R;
 import com.macth.match.common.utils.ImageLoaderUtils;
-import com.macth.match.mine.fragment.entity.MineProjectsEntity;
+import com.macth.match.mine.entity.MineProjectsEntity;
 
 import java.util.List;
 

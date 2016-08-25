@@ -49,4 +49,5 @@
     <color name="tv_black">#333333</color>
     <color name="tv_hint">#cccccc</color>
     <color name="tv_grey">#a1a1a1</color>
+    <color name="tv_hintdc3">#dcdcdc</color>
 </resources>

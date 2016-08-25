@@ -62,7 +62,23 @@
         <item name="android:padding">@dimen/ds_20</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">@dimen/fs_50</item>
+    </style>
 
+=======
+    <!--点击按钮的样式-->
+    <style name="button_click1">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">@dimen/ds_140</item>
+    <item name="android:layout_gravity">center_horizontal</item>
+    <item name="android:layout_marginLeft">@dimen/ds_80</item>
+    <item name="android:layout_marginRight">@dimen/ds_80</item>
+    <item name="android:layout_marginTop">@dimen/ds_350</item>
+    <item name="android:background">@drawable/ok_selector</item>
+    <item name="android:gravity">center</item>
+    <item name="android:padding">@dimen/ds_20</item>
+    <item name="android:textColor">#ffffff</item>
+    <item name="android:textSize">@dimen/fs_50</item>
+>>>>>>> Stashed changes
 
     </style>
 </resources>

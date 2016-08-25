@@ -1,4 +1,4 @@
-package com.macth.match.mine.fragment;
+package com.macth.match.mine.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +11,9 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.widget.EmptyLayout;
-import com.macth.match.mine.fragment.adapter.MineProjectsAdapter;
-import com.macth.match.mine.fragment.entity.MineProjectsEntity;
-import com.macth.match.mine.fragment.entity.MineProjectsResult;
+import com.macth.match.mine.adapter.MineProjectsAdapter;
+import com.macth.match.mine.entity.MineProjectsEntity;
+import com.macth.match.mine.entity.MineProjectsResult;
 
 import java.util.List;
 
