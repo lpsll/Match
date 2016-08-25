@@ -61,9 +61,9 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <View
-        android:id="@+id/base_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/ds_1"
-        android:background="@color/color_cc" />
+    <!--<View-->
+        <!--android:id="@+id/base_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/ds_1"-->
+        <!--android:background="@color/color_cc" />-->
 </LinearLayout>

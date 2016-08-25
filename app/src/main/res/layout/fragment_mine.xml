@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/linear_gray"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ds_530"
+            android:background="@color/navi"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_marginTop="@dimen/ds_40"
+                android:layout_width="@dimen/ds_230"
+                android:layout_height="@dimen/ds_230"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/touxiangxdpi_03" />
+
+            <TextView
+                android:layout_marginTop="@dimen/ds_30"
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="王小二"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/fs_55" />
+
+            <TextView
+                android:id="@+id/tv_userphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/ds_10"
+                android:text="13166666666"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/fs_55" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_mine_projects"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ds_150"
+            android:layout_marginTop="@dimen/ds_25"
+            android:background="#ffffff">
+
+            <ImageView
+                android:layout_width="@dimen/ds_90"
+                android:layout_height="@dimen/ds_90"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/ds_80"
+                android:background="@drawable/wodexiangmuxdpi_03" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/ds_260"
+                android:text="我的项目"
+                android:textColor="@color/tv_black"
+                android:textSize="@dimen/fs_45" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/ds_70"
+                android:background="@drawable/arrow_right" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_mine_news"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ds_150"
+            android:layout_marginTop="@dimen/ds_25"
+            android:background="#ffffff">
+
+            <ImageView
+                android:layout_width="@dimen/ds_90"
+                android:layout_height="@dimen/ds_90"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/ds_80"
+                android:background="@drawable/xiaoxixdpi_03" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/ds_260"
+                android:text="消息"
+                android:textColor="@color/tv_black"
+                android:textSize="@dimen/fs_45" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/ds_70"
+                android:background="@drawable/arrow_right" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_mine_setting"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ds_150"
+            android:layout_marginTop="@dimen/ds_25"
+            android:background="#ffffff">
+
+            <ImageView
+                android:layout_width="@dimen/ds_90"
+                android:layout_height="@dimen/ds_90"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/ds_80"
+                android:background="@drawable/shezhixdpi_03" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/ds_260"
+                android:text="设置"
+                android:textColor="@color/tv_black"
+                android:textSize="@dimen/fs_45" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/ds_70"
+                android:background="@drawable/arrow_right" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ds_150"
+            android:layout_marginTop="@dimen/ds_25"
+            android:background="#ffffff">
+
+            <ImageView
+                android:id="@+id/rl_mine_exit"
+                android:layout_width="@dimen/ds_90"
+                android:layout_height="@dimen/ds_90"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/ds_80"
+                android:background="@drawable/tuichuxdpi_03" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/ds_260"
+                android:text="退出"
+                android:textColor="@color/tv_black"
+                android:textSize="@dimen/fs_45" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/ds_70"
+                android:background="@drawable/arrow_right" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

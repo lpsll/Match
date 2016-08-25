@@ -1,10 +1,12 @@
 package com.macth.match.common.http;
 
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.find.fragment.FindResult;
+import com.macth.match.mine.fragment.entity.MineProjectsResult;
 import com.macth.match.notice.entity.NoticeResult;
 import com.macth.match.recommend.entity.RecommendResult;
 
@@ -49,6 +51,19 @@ public class CommonApiClient extends BaseApiClient{
         AsyncCallBack<FindResult> asyncCallBack = new AsyncCallBack<>(
                 fragment, callback, FindResult.class);
         post(getAbsoluteUrl("Home/Projects/getProjectListFromFind"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 发现列表
+     * @param dto
+     * @param callback
+     */
+    public static void mineProjects(Activity act, BaseDTO
+            dto, CallBack<MineProjectsResult> callback, String uid) {
+        AsyncCallBack<MineProjectsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, MineProjectsResult.class);
+        post(getAbsoluteUrl("Home/Projects/getMyProjectsList?userid="+uid), dto,
                 asyncCallBack);
     }
 }

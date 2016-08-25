@@ -13,6 +13,7 @@ import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.TextViewUtils;
 import com.macth.match.find.fragment.FindFragment;
+import com.macth.match.mine.fragment.MineFragment;
 import com.macth.match.notice.fragment.NoticeFragment;
 import com.macth.match.recommend.fragment.RecommendFragment;
 
@@ -127,7 +128,7 @@ public class MainActivity extends BaseTitleActivity {
                 fragment = new RecommendFragment();
                 break;
             case 4:
-                fragment = new RecommendFragment();
+                fragment = new MineFragment();
                 break;
 
         }

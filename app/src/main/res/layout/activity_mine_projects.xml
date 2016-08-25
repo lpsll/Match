@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.macth.match.mine.fragment.MineProjectsActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mine_projects_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.macth.match.common.widget.EmptyLayout
+        android:id="@+id/error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</FrameLayout>

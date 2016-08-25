@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ds_40"
+        android:background="@color/linear_gray" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
-        android:padding="@dimen/ds_35">
+        android:padding="@dimen/ds_25">
 
         <ImageView
-            android:id="@+id/img_find"
+            android:id="@+id/img_mine_project"
             android:layout_width="@dimen/ds_400"
             android:layout_height="@dimen/ds_300"
             android:layout_centerVertical="true"
             android:background="#ffffff" />
 
         <TextView
-            android:id="@+id/tv_find_company_name"
+            android:id="@+id/tv_mine_project_company_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/ds_430"
@@ -28,21 +32,22 @@
             android:textSize="@dimen/fs_45" />
 
         <TextView
-            android:layout_below="@id/tv_find_company_name"
-            android:layout_marginTop="@dimen/ds_20"
-            android:id="@+id/tv_find_project_status"
+            android:id="@+id/tv_mine_project_project_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_mine_project_company_name"
             android:layout_marginRight="@dimen/ds_15"
+            android:layout_marginTop="@dimen/ds_20"
             android:text="进行中"
-            android:textColor="@color/btn_blue" />
+            android:textColor="@color/btn_blue"
+            android:textSize="@dimen/fs_45" />
 
         <LinearLayout
-            android:layout_below="@id/tv_find_company_name"
-            android:id="@+id/ll_find_sum"
+            android:id="@+id/ll_mine_project_sum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_mine_project_company_name"
             android:layout_marginLeft="@dimen/ds_430"
             android:layout_marginTop="@dimen/ds_30"
             android:orientation="horizontal">
@@ -56,7 +61,7 @@
                 android:textSize="@dimen/fs_45" />
 
             <TextView
-                android:id="@+id/tv_find_price"
+                android:id="@+id/tv_mine_project_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10万元"
@@ -68,7 +73,7 @@
             android:id="@+id/ll_deadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_find_sum"
+            android:layout_below="@+id/ll_mine_project_sum"
             android:layout_marginLeft="@dimen/ds_430"
             android:layout_marginTop="@dimen/ds_5"
             android:orientation="horizontal">
@@ -81,7 +86,7 @@
                 android:textSize="@dimen/fs_45" />
 
             <TextView
-                android:id="@+id/tv_find_project_termunit"
+                android:id="@+id/tv_mine_project_project_termunit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1年"
@@ -106,7 +111,7 @@
                 android:textSize="@dimen/fs_45" />
 
             <TextView
-                android:id="@+id/tv_find_project_type"
+                android:id="@+id/tv_mine_project_project_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="公司债"
@@ -124,14 +129,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="更新日期："
-                android:textColor="@color/tv_grey"
-                android:textSize="@dimen/fs_45" />
-
-            <TextView
-                android:id="@+id/tv_find_ctime"
+                android:id="@+id/tv_mine_project_ctime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2016-09-09"
@@ -139,11 +137,21 @@
                 android:textSize="@dimen/fs_45" />
         </LinearLayout>
 
-
+        <TextView
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/ll_project_type"
+            android:id="@+id/tv_mine_projects_update_milestone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/mine_projects_update_milestone"
+            android:paddingBottom="@dimen/ds_13"
+            android:paddingLeft="@dimen/ds_20"
+            android:paddingRight="@dimen/ds_20"
+            android:paddingTop="@dimen/ds_13"
+            android:text="更新里程碑"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/fs_40" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/ds_40"
-        android:background="@color/linear_gray" />
+
 </LinearLayout>

@@ -56,7 +56,7 @@ public abstract class BaseTitleActivity extends BaseActivity {
         mBaseBack.setOnClickListener(this);
 
         // 初始化返回按钮图片大小
-        TextViewUtils.setTextViewIcon(this, mBaseBack, R.drawable.left,
+        TextViewUtils.setTextViewIcon(this, mBaseBack, R.drawable.backleft,
                 R.dimen.common_titlebar_icon_width,
                 R.dimen.common_titlebar_icon_height, TextViewUtils.DRAWABLE_LEFT);
 
