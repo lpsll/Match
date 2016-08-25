@@ -11,7 +11,6 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.widget.EmptyLayout;
-import com.macth.match.notice.adapter.NoticeAdapter;
 import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.adapter.RecommendAdapter;
 import com.macth.match.recommend.entity.RecommendEntity;
@@ -20,8 +19,6 @@ import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 
 import java.io.Serializable;
 import java.util.List;
-
-import butterknife.OnItemClick;
 
 /**
  * 推荐页
@@ -80,7 +77,8 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
         RecommendEntity entity  = (RecommendEntity) itemBean;
         Bundle b = new Bundle();
         b.putString("pid",entity.getPid());
-        RecommendUiGoto.gotoProject(getActivity(),b);
+//        RecommendUiGoto.gotoProject(getActivity(),b);
 
+        RecommendUiGoto.gotoLogin(getActivity());
     }
 }

@@ -22,6 +22,11 @@ public class AppConfig {
     public static final String SUCCESS="1";
     public static final String BASE_URL="http://cuohe.damaimob.com/";
 
+    public static  String account;
+    public static  String usertoken;
+    public static  boolean isLogin;
+
+
 
 
 }

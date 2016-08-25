@@ -161,6 +161,7 @@ public class BaseApiClient {
 	 * @return 返回绝对路径地址
 	 */
 	public static String getAbsoluteUrl(String relativeUrl) {
+		LogUtils.d("url======"+AppConfig.BASE_URL+relativeUrl);
 		return AppConfig.BASE_URL+relativeUrl;
 	}
 

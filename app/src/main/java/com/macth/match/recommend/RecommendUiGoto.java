@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.macth.match.login.activity.LoginActivity;
 import com.macth.match.recommend.activity.AddItemActivity;
 import com.macth.match.recommend.activity.ChoiceCityActivity;
 import com.macth.match.recommend.activity.ProjectDetailsActivity;
@@ -32,6 +33,16 @@ public class RecommendUiGoto {
 
     public static void gotoAddItem(Context context){
         Intent intent = new Intent(context, AddItemActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转到新增项目
+     * @param context
+     */
+
+    public static void gotoLogin(Context context){
+        Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
     }
 
