@@ -10,6 +10,9 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.widget.EmptyLayout;
+import com.macth.match.find.adapter.FindAdapter;
+import com.macth.match.find.entity.FindEntity;
+import com.macth.match.find.entity.FindResult;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 
 import java.io.Serializable;

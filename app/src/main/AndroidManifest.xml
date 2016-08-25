@@ -26,6 +26,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".notice.activity.NoticeDetailActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".recommend.activity.ProjectDetailsActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".recommend.activity.AddItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".recommend.activity.ChoiceCityActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity android:name=".notice.activity.NoticeDetailActivity" />
         <activity android:name=".mine.fragment.MineProjectsActivity"></activity>
     </application>

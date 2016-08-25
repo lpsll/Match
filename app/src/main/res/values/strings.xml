@@ -16,4 +16,43 @@
     <string name="company">公司：</string>
     <string name="money">金额：</string>
     <string name="term">期限：</string>
+    <string name="collaborative_work">申请协同作业</string>
+    <string name="milepost">查看里程碑</string>
+    <string name="companya">公司</string>
+    <string name="province">省份</string>
+    <string name="city">地市</string>
+    <string name="type">项目类型</string>
+    <string name="nature">企业性质</string>
+    <string name="amount">项目金额</string>
+    <string name="terma">期限</string>
+    <string name="trust">增信措施</string>
+    <string name="corporation">担保公司</string>
+    <string name="rating">项目评级</string>
+    <string name="main_rating">主体评级</string>
+    <string name="evaluation_value">评估价值</string>
+    <string name="introduce">介绍</string>
+    <string name="bond_rating">债券评级</string>
+    <string name="add_money">添加资金用途+</string>
+    <string name="add_company">北京--公司</string>
+    <string name="add_province">请选择您所在的省份</string>
+    <string name="add_city">请选择您所在的地市</string>
+    <string name="add_type">请选择项目类型</string>
+    <string name="add_bature">请选择企业性质</string>
+    <string name="add_mn">请输入项目金额</string>
+    <string name="add_term">请选择期限</string>
+    <string name="add_trust">请选择增信措施</string>
+    <string name="add_guarantee">请输入担保公司名称</string>
+    <string name="add_grade">请输入项目评级</string>
+    <string name="add_subject">请输入主题评级</string>
+    <string name="add_value">请输入评估价值</string>
+    <string name="add_introduce">请填写介绍</string>
+    <string name="add_yn">是/否</string>
+    <string name="add_government">哪一级政府</string>
+    <string name="add_explain">其他说明</string>
+    <string name="add_rating">请选择债券评级</string>
+    <string name="add_comprehensive">综合成本</string>
+    <string name="pop_ok">完成</string>
+    <string name="choise_city">请选择地区</string>
+
+
 </resources>

@@ -1,7 +1,6 @@
-package com.macth.match.find.fragment;
+package com.macth.match.find.entity;
 
 import com.macth.match.common.entity.BaseEntity;
-import com.macth.match.find.fragment.FindEntity;
 
 import java.util.List;
 

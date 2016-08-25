@@ -15,6 +15,7 @@ import com.macth.match.common.utils.TextViewUtils;
 import com.macth.match.find.fragment.FindFragment;
 import com.macth.match.mine.fragment.MineFragment;
 import com.macth.match.notice.fragment.NoticeFragment;
+import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.fragment.RecommendFragment;
 
 import java.util.ArrayList;
@@ -68,9 +69,9 @@ public class MainActivity extends BaseTitleActivity {
     @Override
     public void initView() {
         mBaseBack = (TextView) findViewById(R.id.base_titlebar_back);
+        mBaseBack.setVisibility(View.GONE);
         mBaseEnsure = (TextView) findViewById(R.id.base_titlebar_ensure);
         mBaseEnsure.setOnClickListener(this);
-        mBaseBack.setOnClickListener(this);
 
         fragmentManager = getSupportFragmentManager();
         mTabViews[0] = mTvTabRecommend;
@@ -209,27 +210,23 @@ public class MainActivity extends BaseTitleActivity {
         switch (currentTab){
             case 0:
                 setTitleText("推荐");
-                mBaseBack.setVisibility(View.GONE);
+                mBaseEnsure.setVisibility(View.VISIBLE);
                 mBaseEnsure.setText("新增项目");
                 break;
             case 1:
                 setTitleText("发现");
-                mBaseBack.setVisibility(View.GONE);
                 mBaseEnsure.setText("筛选");
                 break;
             case 2:
                 setTitleText("公告");
-                mBaseBack.setVisibility(View.GONE);
                 mBaseEnsure.setVisibility(View.GONE);
                 break;
             case 3:
                 setTitleText("群组");
-                mBaseBack.setVisibility(View.GONE);
                 mBaseEnsure.setVisibility(View.GONE);
                 break;
             case 4:
                 setTitleText("我的");
-                mBaseBack.setVisibility(View.GONE);
                 mBaseEnsure.setVisibility(View.GONE);
                 break;
 
@@ -246,7 +243,8 @@ public class MainActivity extends BaseTitleActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-
+            case R.id.base_titlebar_ensure:
+                RecommendUiGoto.gotoAddItem(this);
             default:
                 break;
         }

@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import com.macth.match.common.dto.BaseDTO;
-import com.macth.match.find.fragment.FindResult;
+import com.macth.match.find.entity.FindResult;
 import com.macth.match.mine.fragment.entity.MineProjectsResult;
 import com.macth.match.notice.entity.NoticeResult;
+import com.macth.match.recommend.entity.AddItemListResult;
+import com.macth.match.recommend.entity.ProjectDetailsResult;
 import com.macth.match.recommend.entity.RecommendResult;
 
 /**
@@ -25,6 +27,34 @@ public class CommonApiClient extends BaseApiClient{
         AsyncCallBack<RecommendResult> asyncCallBack = new AsyncCallBack<>(
                 fragment, callback, RecommendResult.class);
         post(getAbsoluteUrl("Home/Projects/getHomeProjectsList"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 项目详情
+     * @param act
+     * @param dto
+     * @param callback
+     */
+    public static void projectDetails(Activity act, BaseDTO
+            dto, CallBack<ProjectDetailsResult> callback) {
+        AsyncCallBack<ProjectDetailsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, ProjectDetailsResult.class);
+        post(getAbsoluteUrl("Home/Projects/getProjectInfo"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 项目下拉框列表
+     * @param act
+     * @param dto
+     * @param callback
+     */
+    public static void addList(Activity act, BaseDTO
+            dto, CallBack<AddItemListResult> callback) {
+        AsyncCallBack<AddItemListResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, AddItemListResult.class);
+        post(getAbsoluteUrl("Home/Projects/getProjectContantsList"), dto,
                 asyncCallBack);
     }
 

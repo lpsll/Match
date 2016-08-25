@@ -1,6 +1,7 @@
-package com.macth.match.find.fragment;
+package com.macth.match.find.entity;
 
 import com.macth.match.common.entity.BaseEntity;
+import com.macth.match.find.entity.FindData;
 
 /**
  * Created by Administrator on 2016/8/24.

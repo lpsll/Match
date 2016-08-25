@@ -1,10 +1,11 @@
-package com.macth.match.find.fragment;
+package com.macth.match.find.adapter;
 
 import android.content.Context;
 import android.widget.ImageView;
 
 import com.macth.match.R;
 import com.macth.match.common.utils.ImageLoaderUtils;
+import com.macth.match.find.entity.FindEntity;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
 import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
 

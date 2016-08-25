@@ -54,4 +54,15 @@
         <item name="android:drawablePadding">2dp</item>
         <item name="android:paddingBottom">@dimen/ds_10</item>
     </style>
+
+    <!--按钮的样式-->
+    <style name="button_click">
+        <item name="android:background">@drawable/ok_selector_shap_unpressed</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/ds_20</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">@dimen/fs_50</item>
+
+
+    </style>
 </resources>

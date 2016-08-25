@@ -1,5 +1,8 @@
 package com.macth.match.recommend.fragment;
 
+import android.os.Bundle;
+import android.view.View;
+
 import com.macth.match.AppConfig;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseListFragment;
@@ -8,6 +11,8 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.widget.EmptyLayout;
+import com.macth.match.notice.adapter.NoticeAdapter;
+import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.adapter.RecommendAdapter;
 import com.macth.match.recommend.entity.RecommendEntity;
 import com.macth.match.recommend.entity.RecommendResult;
@@ -15,6 +20,8 @@ import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 
 import java.io.Serializable;
 import java.util.List;
+
+import butterknife.OnItemClick;
 
 /**
  * 推荐页
@@ -65,5 +72,15 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
     }
     public boolean autoRefreshIn(){
         return true;
+    }
+
+    @Override
+    public void onItemClick(View itemView, Object itemBean, int position) {
+        super.onItemClick(itemView, itemBean, position);
+        RecommendEntity entity  = (RecommendEntity) itemBean;
+        Bundle b = new Bundle();
+        b.putString("pid",entity.getPid());
+        RecommendUiGoto.gotoProject(getActivity(),b);
+
     }
 }

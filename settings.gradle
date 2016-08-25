@@ -1,1 +1,1 @@
-include ':app',':PtrRecyclerView'
+include ':app',':PtrRecyclerView',':lib_pickerview'

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Match.iml" filepath="$PROJECT_DIR$/Match.iml" />
       <module fileurl="file://$PROJECT_DIR$/PtrRecyclerView/PtrRecyclerView.iml" filepath="$PROJECT_DIR$/PtrRecyclerView/PtrRecyclerView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib_pickerview/lib_pickerview.iml" filepath="$PROJECT_DIR$/lib_pickerview/lib_pickerview.iml" />
     </modules>
   </component>
 </project>
