@@ -139,6 +139,8 @@ public class BaseApiClient {
 		enqueue(request, asyncCallBack);
 	}
 
+
+
 	public static <T> void enqueue( Request request,
 								   AsyncCallBack<T> asyncCallBack) {
 		mOkHttpClient.newCall(request).enqueue(asyncCallBack);

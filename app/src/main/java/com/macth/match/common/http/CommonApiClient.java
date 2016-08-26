@@ -21,6 +21,7 @@ import com.macth.match.recommend.entity.RecommendResult;
 import com.macth.match.register.entity.ForgetPwdDTO;
 import com.macth.match.register.entity.RegisterDTO;
 import com.macth.match.register.entity.SetNewPwdDTO;
+import com.macth.match.register.entity.ShenFenEntity;
 import com.macth.match.register.entity.VerifyDTO;
 
 /**
@@ -212,6 +213,32 @@ public class CommonApiClient extends BaseApiClient{
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
         post(getAbsoluteUrl("Home/Login/forgetUserPwdTwo?usermobile="+account+"&userpwd="+pwd), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 获取用户身份信息
+     * @param act
+     * @param
+     * @param callback
+     */
+    public static void getShenFen(Activity act,BaseDTO dto,CallBack<ShenFenEntity> callback) {
+        AsyncCallBack<ShenFenEntity> asyncCallBack = new AsyncCallBack<>(
+                act, callback, ShenFenEntity.class);
+        post(getAbsoluteUrl("Home/Login/getUserIdentityList"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 获取协同角色信息
+     * @param act
+     * @param
+     * @param callback
+     */
+    public static void getRole(Activity act,BaseDTO dto,CallBack<ShenFenEntity> callback) {
+        AsyncCallBack<ShenFenEntity> asyncCallBack = new AsyncCallBack<>(
+                act, callback, ShenFenEntity.class);
+        post(getAbsoluteUrl("Home/Login/getUserCooperativeList"), dto,
                 asyncCallBack);
     }
 }

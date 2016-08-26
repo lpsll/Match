@@ -171,16 +171,11 @@ public class RegisterActivity extends BaseTitleActivity {
 
     @OnClick({R.id.cb_register_username_img, R.id.TimeButton_register, R.id.cb_register_code_img, R.id.cb_register_pwd_img, R.id.cb_register_pwd_again_img, R.id.tv_register_login, R.id.tv_register_ok})
     public void onClick(View view) {
+        super.onClick(view);
         switch (view.getId()) {
-            case R.id.cb_register_username_img:
-                break;
-            case R.id.cb_register_code_img:
-                break;
-            case R.id.cb_register_pwd_img:
-                break;
-            case R.id.cb_register_pwd_again_img:
-                break;
             case R.id.tv_register_login:
+                //跳转登录页
+                startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
                 break;
             case R.id.tv_register_ok:
                 dataVerify();
@@ -248,9 +243,8 @@ public class RegisterActivity extends BaseTitleActivity {
                     LogUtils.e("注册成功");
                     ToastUtils.showShort(RegisterActivity.this, "注册成功");
                     LogUtils.e("result---", "" + result);
-                    //跳转到登录页面
-                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-
+                    //跳转到完善信息页面
+                    startActivity(new Intent(RegisterActivity.this, AddInfoActivity.class));
                     finish();
                 }
             }

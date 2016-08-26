@@ -1,7 +1,6 @@
 package com.macth.match.recommend.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -20,20 +19,16 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
-import com.macth.match.common.utils.TextViewUtils;
 import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.dto.AddItemListDTO;
-import com.macth.match.recommend.dto.ProjectDetailsDTO;
 import com.macth.match.recommend.dto.SubmitDTO;
 import com.macth.match.recommend.entity.AddItemListEntity;
 import com.macth.match.recommend.entity.AddItemListResult;
-import com.macth.match.recommend.entity.ProjectDetailsResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -209,9 +204,7 @@ public class AddItemActivity extends BaseTitleActivity {
                 if(AppConfig.SUCCESS.equals(result.getCode())){
                     LogUtils.e("提交项目成功");
                     finish();
-
                 }
-
             }
         });
     }

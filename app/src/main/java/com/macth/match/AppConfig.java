@@ -23,23 +23,17 @@ public class AppConfig {
     public static final String BASE_URL = "http://cuohe.damaimob.com/";
 
     /**
-     * 用户信息全局变量
-     * "username": "崔丹锋",---------用户名
-     * "usermobile": "18210013505",---用户手机号
-     * "useridentity": "内部用户",-----用户身份
-     * "usercompany": "醉美国际网络技术有限责任公司",
-     * "userwork": "IOS工程师",
-     * "usertoken": "3"-----------用户Token，
-     * "cooperativeid":"1"--------协同角色id
+     * 用户信息全局常量
      */
-    public static String username;
-    public static String usermobile;
-    public static String useridentity;
-    public static String usercompany;
-    public static String userwork;
-    public static String usertoken;
-    public static String cooperativeid;
-    public static boolean isLogin  = false;  //默认是false
+    public static final String USERNAME = "username";
+    public static final String USERMOBILE = "usermobile";
+    public static final String USERIDENTITY = "useridentity";
+    public static final String USERCOMPANY = "usercompany";
+    public static final String USERWORK = "userwork";
+    public static final String USERTOKEN = "usertoken";
+    public static final String COOPERATIVEID = "cooperativeid";
+    public static final String IS_LOGIN = "isLogin";
+
 
 
 }
