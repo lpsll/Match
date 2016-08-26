@@ -1,16 +1,25 @@
 package com.macth.match.register.activity;
 
-import android.os.Bundle;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.macth.match.AppConfig;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
+import com.macth.match.common.entity.BaseEntity;
+import com.macth.match.common.http.CallBack;
+import com.macth.match.common.http.CommonApiClient;
+import com.macth.match.common.utils.LogUtils;
+import com.macth.match.common.utils.PhoneUtils;
+import com.macth.match.common.utils.ToastUtils;
+import com.macth.match.register.entity.ForgetPwdDTO;
+import com.macth.match.register.entity.VerifyDTO;
 import com.macth.match.register.view.TimeButton;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ForgetPwdActivity extends BaseTitleActivity {
@@ -33,6 +42,10 @@ public class ForgetPwdActivity extends BaseTitleActivity {
     @Override
     public void initView() {
 
+        setTitleText("忘记密码");
+
+
+
     }
 
     @Override
@@ -40,20 +53,78 @@ public class ForgetPwdActivity extends BaseTitleActivity {
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     @OnClick({R.id.TimeButton_forget_pwd, R.id.tv_forget_pwd_next})
     public void onClick(View view) {
+        super.onClick(view);
         switch (view.getId()) {
             case R.id.TimeButton_forget_pwd:
+
+                //验证电话号码
+                boolean isValid = PhoneUtils.isPhoneNumberValid(etForgetPwdPhone.getText().toString());
+                if (!isValid) {
+                    TimeButtonForgetPwd.setLenght(0);
+                    new AlertDialog.Builder(this).setTitle("请输入正确的电话号码!").setPositiveButton("确定", null).show();
+                } else {
+                    TimeButtonForgetPwd.setLenght(60 * 1000);
+                    //获取验证码
+                    getSmsVerifyCode();
+                }
+
                 break;
             case R.id.tv_forget_pwd_next:
+
+                //手机号,验证码验证
+                phoneAndYZMVerify();
+
                 break;
         }
     }
+
+    /**
+     * 手机号,验证码验证
+     * 参数：usermobile---用户手机号
+             useryzm------短信验证码
+     */
+    private void phoneAndYZMVerify() {
+        ForgetPwdDTO forgetPwdDTO = new ForgetPwdDTO();
+        forgetPwdDTO.setUsermobile(etForgetPwdPhone.getText().toString().trim());
+        forgetPwdDTO.setUseryzm(etForgetPwdCode.getText().toString().trim());
+        CommonApiClient.forgetPwd(this, forgetPwdDTO, new CallBack<BaseEntity>() {
+            @Override
+            public void onSuccess(BaseEntity result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("手机号，验证码验证成功");
+                    ToastUtils.showShort(ForgetPwdActivity.this,"验证通过");
+
+                    //跳转到密码重设页
+                    Intent intent = new Intent(ForgetPwdActivity.this, SetNewPwdActivity.class);
+                    intent.putExtra("userMobile",etForgetPwdPhone.getText().toString().trim());
+                    startActivity(intent);
+                    finish();
+
+                }
+            }
+        }, etForgetPwdPhone.getText().toString().trim(),etForgetPwdCode.getText().toString());
+    }
+
+    /**
+     * 获取验证码
+     * 参数：user_mobile-----用户手机号
+     */
+    private void getSmsVerifyCode() {
+        VerifyDTO verifyDTO = new VerifyDTO();
+        verifyDTO.setUser_mobile(etForgetPwdPhone.getText().toString().trim());
+        CommonApiClient.verifyCode(this, verifyDTO, new CallBack<BaseEntity>() {
+            @Override
+            public void onSuccess(BaseEntity result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("获取验证码成功，");
+                    ToastUtils.showShort(ForgetPwdActivity.this,"获取验证码成功");
+
+                }
+            }
+        }, etForgetPwdPhone.getText().toString().trim());
+    }
+
 }

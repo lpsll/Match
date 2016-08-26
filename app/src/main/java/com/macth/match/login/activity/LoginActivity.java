@@ -118,6 +118,7 @@ public class LoginActivity extends BaseTitleActivity {
 
     @OnClick({R.id.cb_login_username_img, R.id.cb_login_pwd_img, R.id.tv_login_forgetpwd, R.id.tv_login_register, R.id.tv_login_ok})
     public void onClick(View view) {
+        super.onClick(view);
         switch (view.getId()) {
             case R.id.cb_login_username_img:
                 if (cbLoginUsernameImg.isChecked()) {
@@ -125,17 +126,15 @@ public class LoginActivity extends BaseTitleActivity {
                 }
                 break;
             case R.id.cb_login_pwd_img:
-//                pwdChangeLight();
                 break;
             case R.id.tv_login_forgetpwd:
                 startActivity(new Intent(LoginActivity.this, ForgetPwdActivity.class));
-
+                finish();
                 break;
             case R.id.tv_login_register:
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
                 break;
             case R.id.tv_login_ok:
-
                 //登录
                 //判断电话，密码格式和是否为空
                 if (TextUtils.isEmpty(etLoginUsername.getText().toString().trim())) {
@@ -151,10 +150,7 @@ public class LoginActivity extends BaseTitleActivity {
                     new AlertDialog.Builder(this).setMessage("请输入密码").setPositiveButton("确定", null).show();
                     break;
                 }
-
-
                 login();
-
                 break;
         }
     }
@@ -197,6 +193,4 @@ public class LoginActivity extends BaseTitleActivity {
             }
         }, account, pwd);
     }
-
-
 }

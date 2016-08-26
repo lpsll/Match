@@ -14,7 +14,9 @@ import com.macth.match.notice.entity.NoticeResult;
 import com.macth.match.recommend.entity.AddItemListResult;
 import com.macth.match.recommend.entity.ProjectDetailsResult;
 import com.macth.match.recommend.entity.RecommendResult;
+import com.macth.match.register.entity.ForgetPwdDTO;
 import com.macth.match.register.entity.RegisterDTO;
+import com.macth.match.register.entity.SetNewPwdDTO;
 import com.macth.match.register.entity.VerifyDTO;
 
 /**
@@ -139,6 +141,34 @@ public class CommonApiClient extends BaseApiClient{
         AsyncCallBack<LoginEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, LoginEntity.class);
         post(getAbsoluteUrl("Home/Login/login?account="+account+"&userpwd="+pwd), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 忘记密码  第一步
+     * @param act
+     * @param dto
+     * @param callback
+     */
+    public static void forgetPwd(Activity act, ForgetPwdDTO
+            dto, CallBack<BaseEntity> callback, String account,String useryzm) {
+        AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
+                act, callback, BaseEntity.class);
+        post(getAbsoluteUrl("Home/Login/forgetUserPwdOne?usermobile="+account+"&useryzm="+useryzm), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 重设密码(忘记密码第二步)
+     * @param act
+     * @param dto
+     * @param callback
+     */
+    public static void setNewPwd(Activity act, SetNewPwdDTO
+            dto, CallBack<BaseEntity> callback, String account,String pwd) {
+        AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
+                act, callback, BaseEntity.class);
+        post(getAbsoluteUrl("Home/Login/forgetUserPwdTwo?usermobile="+account+"&userpwd="+pwd), dto,
                 asyncCallBack);
     }
 }

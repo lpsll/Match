@@ -43,7 +43,8 @@
         <activity android:name=".mine.activity.MineProjectsActivity" />
         <activity android:name=".login.activity.LoginActivity" />
         <activity android:name=".register.activity.RegisterActivity" />
-        <activity android:name=".register.activity.ForgetPwdActivity"></activity>
+        <activity android:name=".register.activity.ForgetPwdActivity" />
+        <activity android:name=".register.activity.SetNewPwdActivity"></activity>
     </application>
 
 </manifest>

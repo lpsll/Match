@@ -20,6 +20,7 @@
             android:layout_height="@dimen/ds_150">
 
             <EditText
+                android:inputType="number"
                 android:id="@+id/et_forget_pwd_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,6 +70,7 @@
 
 
         <EditText
+            android:inputType="number"
             android:id="@+id/et_forget_pwd_code"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
