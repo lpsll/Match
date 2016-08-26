@@ -36,6 +36,7 @@
             android:checked="false" />
 
         <EditText
+            android:textCursorDrawable="@drawable/color_cursor"
             android:inputType="number"
             android:paddingRight="@dimen/ds_100"
             android:id="@+id/et_register_username"
@@ -94,6 +95,7 @@
             android:checked="false" />
 
         <EditText
+            android:textCursorDrawable="@drawable/color_cursor"
             android:inputType="number"
             android:id="@+id/et_register_code"
             android:layout_width="match_parent"
@@ -126,6 +128,7 @@
             android:checked="false" />
 
         <EditText
+            android:textCursorDrawable="@drawable/color_cursor"
             android:inputType="textPassword"
             android:id="@+id/et_register_pwd"
             android:layout_width="match_parent"
@@ -158,6 +161,7 @@
             android:checked="false" />
 
         <EditText
+            android:textCursorDrawable="@drawable/color_cursor"
             android:inputType="textPassword"
             android:id="@+id/et_register_pwd_again"
             android:layout_width="match_parent"

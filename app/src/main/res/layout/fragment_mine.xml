@@ -65,7 +65,7 @@
                 android:layout_marginLeft="@dimen/ds_260"
                 android:text="我的项目"
                 android:textColor="@color/tv_black"
-                android:textSize="@dimen/fs_45" />
+                android:textSize="@dimen/fs_50" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                 android:layout_marginLeft="@dimen/ds_260"
                 android:text="消息"
                 android:textColor="@color/tv_black"
-                android:textSize="@dimen/fs_45" />
+                android:textSize="@dimen/fs_50" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -133,7 +133,7 @@
                 android:layout_marginLeft="@dimen/ds_260"
                 android:text="设置"
                 android:textColor="@color/tv_black"
-                android:textSize="@dimen/fs_45" />
+                android:textSize="@dimen/fs_50" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -167,7 +167,7 @@
                 android:layout_marginLeft="@dimen/ds_260"
                 android:text="退出"
                 android:textColor="@color/tv_black"
-                android:textSize="@dimen/fs_45" />
+                android:textSize="@dimen/fs_50" />
 
             <ImageView
                 android:layout_width="wrap_content"

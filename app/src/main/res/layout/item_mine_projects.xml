@@ -37,8 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/tv_mine_project_company_name"
-            android:layout_marginRight="@dimen/ds_15"
-            android:layout_marginTop="@dimen/ds_20"
+            android:layout_marginTop="@dimen/ds_30"
             android:text="进行中"
             android:textColor="@color/btn_blue"
             android:textSize="@dimen/fs_45" />
@@ -138,19 +137,19 @@
         </LinearLayout>
 
         <TextView
+            android:layout_alignTop="@id/ll_update"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/ll_project_type"
             android:id="@+id/tv_mine_projects_update_milestone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/mine_projects_update_milestone"
-            android:paddingBottom="@dimen/ds_13"
+            android:paddingBottom="@dimen/ds_8"
             android:paddingLeft="@dimen/ds_20"
             android:paddingRight="@dimen/ds_20"
-            android:paddingTop="@dimen/ds_13"
+            android:paddingTop="@dimen/ds_8"
             android:text="更新里程碑"
             android:textColor="#ffffff"
-            android:textSize="@dimen/fs_40" />
+            android:textSize="@dimen/fs_45" />
     </RelativeLayout>
 
 

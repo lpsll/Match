@@ -38,6 +38,7 @@
             android:checked="false" />
 
         <EditText
+            android:textCursorDrawable="@drawable/color_cursor"
             android:inputType="number"
             android:background="@null"
             android:id="@+id/et_login_username"
@@ -73,6 +74,7 @@
             android:checked="false" />
 
         <EditText
+            android:textCursorDrawable="@drawable/color_cursor"
             android:inputType="textPassword"
             android:background="@null"
             android:id="@+id/et_login_pwd"

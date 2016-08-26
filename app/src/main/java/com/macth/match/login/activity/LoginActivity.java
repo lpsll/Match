@@ -72,7 +72,6 @@ public class LoginActivity extends BaseTitleActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-//                    etLoginUsername.setBackgroundColor(Color.parseColor("#ffffff"));
                     cbLoginUsernameImg.setChecked(true);
                     llLoginUsername.setBackgroundResource(R.drawable.login_border_light);
 
@@ -92,7 +91,6 @@ public class LoginActivity extends BaseTitleActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-//                    etLoginUsername.setBackgroundColor(Color.parseColor("#ffffff"));
                     cbLoginPwdImg.setChecked(true);
                     llLoginPwd.setBackgroundResource(R.drawable.login_border_light);
 
@@ -104,7 +102,6 @@ public class LoginActivity extends BaseTitleActivity {
                         cbLoginPwdImg.setChecked(false);
                         llLoginPwd.setBackgroundResource(R.drawable.login_border);
                     }
-
                 }
             }
         });

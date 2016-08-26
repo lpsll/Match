@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
         <EditText
+            android:textCursorDrawable="@drawable/color_cursor"
             android:inputType="textPassword"
             android:id="@+id/et_set_new_pwd"
             android:layout_width="match_parent"
@@ -38,6 +39,7 @@
 
 
         <EditText
+            android:textCursorDrawable="@drawable/color_cursor"
             android:inputType="textPassword"
             android:id="@+id/et_set_new_pwd_again"
             android:layout_width="match_parent"
