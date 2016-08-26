@@ -17,11 +17,15 @@ import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.TextViewUtils;
 import com.macth.match.common.widget.EmptyLayout;
+import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.dto.ProjectDetailsDTO;
 import com.macth.match.recommend.entity.ProjectDetailsData;
 import com.macth.match.recommend.entity.ProjectDetailsEntity;
+import com.macth.match.recommend.entity.ProjectDetailsListEntity;
 import com.macth.match.recommend.entity.ProjectDetailsResult;
 import com.macth.match.recommend.entity.RecommendResult;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,6 +77,8 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
     TextView mEt11;
     private TextView mBaseEnsure;
     private String mPid;
+    ProjectDetailsData data;
+    List<ProjectDetailsListEntity> mEntity;
 
     @Override
     protected int getContentResId() {
@@ -85,7 +91,7 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
         mBaseEnsure = (TextView) findViewById(R.id.base_titlebar_ensure);
         // 初始化返回按钮图片大小
         TextViewUtils.setTextViewIcon(this, mBaseEnsure, R.drawable.fenxiangxdpi_03,
-                R.dimen.common_titlebar_icon_width,
+                R.dimen.common_titlebar_right_width,
                 R.dimen.common_titlebar_icon_height, TextViewUtils.DRAWABLE_LEFT);
 
         Intent intent = getIntent();
@@ -120,8 +126,9 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
     }
 
     private void setData(ProjectDetailsResult result) {
-        ProjectDetailsData data = result.getData();
+        data = result.getData();
         ProjectDetailsEntity entity = data.getProject_signceritynode();
+        mEntity =data.getProject_fundslist();
         mEt01.setText(data.getProject_companyname());
         mEt02.setText(data.getProject_province());
         mEt03.setText(data.getProject_city());
@@ -193,6 +200,9 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
             case R.id.pd_tv02:
                 break;
             case R.id.tv_btn:
+                Bundle b = new Bundle();
+                b.putString("fundid",mEntity.get(0).getFundid());
+                RecommendUiGoto.gotoDetailsFunds(this,b);
                 break;
             case R.id.base_titlebar_ensure:
                 break;

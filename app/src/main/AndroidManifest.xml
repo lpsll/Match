@@ -39,12 +39,20 @@
         <activity
             android:name=".recommend.activity.ChoiceCityActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".mine.activity.MineProjectsActivity" />
-        <activity android:name=".login.activity.LoginActivity" />
-        <activity android:name=".register.activity.RegisterActivity" />
-        <activity android:name=".register.activity.ForgetPwdActivity" />
-        <activity android:name=".register.activity.SetNewPwdActivity"></activity>
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".recommend.activity.IncreaseCapitalActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".recommend.activity.DetailsFundsActivity"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity android:name=".recommend.activity.MilestoneDetailsActivity"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity android:name=".login.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity android:name=".mine.activity.MineProjectsActivity"></activity>
     </application>
 
 </manifest>

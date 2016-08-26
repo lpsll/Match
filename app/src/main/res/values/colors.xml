@@ -2,6 +2,7 @@
 <resources>
     <color name="status_color">#01e7df</color>
     <color name="navi">#12b8f6</color>
+    <color name="color_bf">#12b7f8</color>
     <color name="navi_press">#005085</color>
     <color name="color_bottom">#0570B6</color>
     <color name="colorPrimary">#3F51B5</color>

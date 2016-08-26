@@ -376,6 +376,10 @@
     android:id="@+id/tv_btn"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/ds_40"
+    android:layout_marginRight="@dimen/ds_200"
+    android:layout_marginLeft="@dimen/ds_310"
+    android:layout_marginBottom="@dimen/ds_100"
     android:textColor="@color/navi"
     android:textSize="@dimen/fs_45"
     android:text="项目资金用途1"/>

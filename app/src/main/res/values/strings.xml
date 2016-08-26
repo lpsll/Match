@@ -53,6 +53,12 @@
     <string name="add_comprehensive">综合成本</string>
     <string name="pop_ok">完成</string>
     <string name="choise_city">请选择地区</string>
+    <string name="project_introduction">项目介绍</string>
+    <string name="company_address">公司地址</string>
+    <string name="position_information">公司地理位置信息</string>
+    <string name="plesea_position_information">请输入项目介绍</string>
+    <string name="plesea_company_address">请输入公司地址</string>
+    <string name="project_picture">项目图片</string>
 
 
 </resources>

@@ -59,7 +59,7 @@
                     android:textSize="@dimen/fs_45"
                     android:textColor="@color/color_33"/>
 
-                <TextView
+                <EditText
                     android:id="@+id/et02"
                     android:layout_width="0dip"
                     android:layout_weight="1"
@@ -69,7 +69,7 @@
                     android:gravity="center_vertical"
                     android:layout_marginLeft="@dimen/ds_40"
                     android:background="@drawable/text_gray"
-                    android:text="@string/add_province"
+                    android:hint="@string/add_province"
                     android:textSize="@dimen/fs_45"
                     android:textColor="@color/color_01"
                     android:paddingLeft="@dimen/ds_40"

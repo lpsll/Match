@@ -10,6 +10,7 @@
     <dimen name="common_titlebar_height">@dimen/ds_120</dimen>
     <dimen name="common_titlebar_icon_height">@dimen/ds_50</dimen>
     <dimen name="common_titlebar_icon_width">@dimen/ds_30</dimen>
+    <dimen name="common_titlebar_right_width">@dimen/ds_50</dimen>
     <dimen name="common_titlebar_right_icon_height">@dimen/ds_50</dimen>
     <dimen name="common_titlebar_right_icon_width">@dimen/ds_40</dimen>
 

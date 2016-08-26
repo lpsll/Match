@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.http.CallBack;
@@ -177,6 +178,9 @@ public class LoginActivity extends BaseTitleActivity {
                     LogUtils.e("登录成功");
                     ToastUtils.showShort(LoginActivity.this, "登录成功");
 
+                    AppContext.set("usertoken",result.getData().getUsertoken());
+                    AppContext.set("cooperativeid",result.getData().getCooperativeid());
+                    AppContext.set("isLogin",true);
 
                     AppConfig.username = result.getData().getUsername();
                     AppConfig.usermobile = account;

@@ -11,7 +11,9 @@ import com.macth.match.login.entity.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.notice.entity.NoticeResult;
+import com.macth.match.recommend.dto.FundsDTO;
 import com.macth.match.recommend.entity.AddItemListResult;
+import com.macth.match.recommend.entity.FundsResult;
 import com.macth.match.recommend.entity.ProjectDetailsResult;
 import com.macth.match.recommend.entity.RecommendResult;
 import com.macth.match.register.entity.ForgetPwdDTO;
@@ -92,6 +94,19 @@ public class CommonApiClient extends BaseApiClient{
     }
 
     /**
+     * 获取项目资金用途详情
+     * @param dto
+     * @param callback
+     */
+    public static void funds(Activity act, FundsDTO
+            dto, CallBack<FundsResult> callback) {
+        AsyncCallBack<FundsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, FundsResult.class);
+        post(getAbsoluteUrl("Home/Projects/getProjectListFromFind"), dto,
+                asyncCallBack);
+    }
+
+    /**
      * 发现列表
      * @param dto
      * @param callback
@@ -137,7 +152,7 @@ public class CommonApiClient extends BaseApiClient{
      * @param callback
      */
     public static void login(Activity act, LoginDTO
-            dto, CallBack<LoginEntity> callback, String account,String pwd) {
+            dto, CallBack<LoginEntity> callback, String account, String pwd) {
         AsyncCallBack<LoginEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, LoginEntity.class);
         post(getAbsoluteUrl("Home/Login/login?account="+account+"&userpwd="+pwd), dto,

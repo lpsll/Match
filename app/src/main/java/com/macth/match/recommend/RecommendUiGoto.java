@@ -8,6 +8,8 @@ import android.os.Bundle;
 import com.macth.match.login.activity.LoginActivity;
 import com.macth.match.recommend.activity.AddItemActivity;
 import com.macth.match.recommend.activity.ChoiceCityActivity;
+import com.macth.match.recommend.activity.DetailsFundsActivity;
+import com.macth.match.recommend.activity.IncreaseCapitalActivity;
 import com.macth.match.recommend.activity.ProjectDetailsActivity;
 
 /**
@@ -54,5 +56,26 @@ public class RecommendUiGoto {
     public static void city(Activity act){
         Intent intent = new Intent(act, ChoiceCityActivity.class);
         act.startActivityForResult(intent, CITY_REQUEST);
+    }
+
+    /**
+     * 跳转到增加资金用途
+     * @param context
+     */
+    public static void increase(Context context){
+        Intent intent = new Intent(context, IncreaseCapitalActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转到资金用途详情
+     * @param context
+     * @param b
+     */
+
+    public static void gotoDetailsFunds(Context context, Bundle b){
+        Intent intent = new Intent(context, DetailsFundsActivity.class);
+        intent.putExtra("bundle",b);
+        context.startActivity(intent);
     }
 }

@@ -2,6 +2,8 @@ package com.macth.match.recommend.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,10 +18,13 @@ import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
+import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
+import com.macth.match.common.utils.TextViewUtils;
 import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.dto.AddItemListDTO;
 import com.macth.match.recommend.dto.ProjectDetailsDTO;
+import com.macth.match.recommend.dto.SubmitDTO;
 import com.macth.match.recommend.entity.AddItemListEntity;
 import com.macth.match.recommend.entity.AddItemListResult;
 import com.macth.match.recommend.entity.ProjectDetailsResult;
@@ -38,7 +43,7 @@ public class AddItemActivity extends BaseTitleActivity {
     @Bind(R.id.et01)
     EditText et01;
     @Bind(R.id.et02)
-    TextView et02;
+    EditText et02;
     @Bind(R.id.et03)
     TextView et03;
     @Bind(R.id.et04)
@@ -121,6 +126,7 @@ public class AddItemActivity extends BaseTitleActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.et02:
+                et02.setInputType(InputType.TYPE_DATETIME_VARIATION_NORMAL);
                 RecommendUiGoto.city(this);
                 break;
             case R.id.et03:
@@ -150,24 +156,60 @@ public class AddItemActivity extends BaseTitleActivity {
                 reqList();
                 break;
             case R.id.tv_btn:
+                RecommendUiGoto.increase(this);
                 break;
             case R.id.base_titlebar_back:
                 baseGoBack();
+                break;
             case R.id.base_titlebar_ensure:
-                reqSubmit();//提交
+                if(TextUtils.isEmpty(et01.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","公司名称不能为空", "知道了");
+                }
+                else if(TextUtils.isEmpty(et02.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","省份不能为空", "知道了");
+                }
+                else if(TextUtils.isEmpty(et03.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","地市不能为空", "知道了");
+                }
+                else if(TextUtils.isEmpty(et04.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","项目类型不能为空", "知道了");
+                }
+                else if(TextUtils.isEmpty(et05.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","企业性质不能为空", "知道了");
+                }
+                else if(TextUtils.isEmpty(et06.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","项目金额不能为空", "知道了");
+                }
+                else if(TextUtils.isEmpty(et07.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","期限不能为空", "知道了");
+                }
+                else if(TextUtils.isEmpty(et08.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","增信措施不能为空", "知道了");
+                }
+                else if(TextUtils.isEmpty(et09.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                }
+                else if(TextUtils.isEmpty(et10.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
+                }
+                else {
+                    reqSubmit();//提交
+                }
+
                 break;
         }
     }
 
     private void reqSubmit() {
-        AddItemListDTO dto=new AddItemListDTO();
-        CommonApiClient.addList(this, dto, new CallBack<AddItemListResult>() {
+        SubmitDTO dto=new SubmitDTO();
+        dto.setCompanyname(et01.getText().toString());
+        CommonApiClient.submit(this, dto, new CallBack<AddItemListResult>() {
             @Override
             public void onSuccess(AddItemListResult result) {
                 if(AppConfig.SUCCESS.equals(result.getCode())){
-                    LogUtils.e("获取项目下拉框列表成功");
-                    mListEntity = result.getData();
-                    showPop();
+                    LogUtils.e("提交项目成功");
+                    finish();
+
                 }
 
             }
@@ -353,11 +395,16 @@ public class AddItemActivity extends BaseTitleActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case RecommendUiGoto.CITY_REQUEST:
-                mProvince = data.getStringExtra("mCurrentProviceName");
-                mCity = data.getStringExtra("mCurrentCityName");
-                mArea = data.getStringExtra("mCurrentDistrictName");
-                et02.setText(mProvince);
-                et03.setText(mCity);
+                if(data ==null){
+                    return;
+                }else {
+                    mProvince = data.getStringExtra("mCurrentProviceName");
+                    mCity = data.getStringExtra("mCurrentCityName");
+                    mArea = data.getStringExtra("mCurrentDistrictName");
+                    et02.setText(mProvince);
+                    et03.setText(mCity);
+                }
+
                 break;
             default:
                 break;
