@@ -52,6 +52,9 @@
         <activity android:name=".login.activity.LoginActivity"
             android:screenOrientation="portrait"
             ></activity>
+        <activity android:name=".register.activity.RegisterActivity"
+            android:screenOrientation="portrait"
+            ></activity>
         <activity android:name=".mine.activity.MineProjectsActivity"></activity>
     </application>
 

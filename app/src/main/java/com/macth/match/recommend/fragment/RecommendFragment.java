@@ -77,8 +77,7 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
         RecommendEntity entity  = (RecommendEntity) itemBean;
         Bundle b = new Bundle();
         b.putString("pid",entity.getPid());
-//        RecommendUiGoto.gotoProject(getActivity(),b);
+        RecommendUiGoto.gotoProject(getActivity(),b);
 
-        RecommendUiGoto.gotoLogin(getActivity());
     }
 }

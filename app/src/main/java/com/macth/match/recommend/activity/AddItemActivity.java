@@ -156,7 +156,7 @@ public class AddItemActivity extends BaseTitleActivity {
                 reqList();
                 break;
             case R.id.tv_btn:
-                RecommendUiGoto.increase(this);
+                RecommendUiGoto.increase(this);//增加资金用途
                 break;
             case R.id.base_titlebar_back:
                 baseGoBack();

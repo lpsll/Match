@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.dto.BaseDTO;
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by John_Libo on 2016/8/24.
+ * 项目详情页
  */
 public class ProjectDetailsActivity extends BaseTitleActivity {
     @Bind(R.id.pd_tv01)
@@ -79,6 +80,7 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
     private String mPid;
     ProjectDetailsData data;
     List<ProjectDetailsListEntity> mEntity;
+    boolean bool;
 
     @Override
     protected int getContentResId() {
@@ -96,7 +98,7 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
 
         Intent intent = getIntent();
         mPid = intent.getBundleExtra("bundle").getString("pid");
-
+        bool = AppContext.get("isLogin",false);
     }
 
     @Override
@@ -198,11 +200,19 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
             case R.id.pd_tv01:
                 break;
             case R.id.pd_tv02:
+                if(bool){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("projectID",mPid);
+                    RecommendUiGoto.gotoMilestoneDetails(this,bundle);//里程碑详情
+                }else {
+                    RecommendUiGoto.gotoLogin(this);//登录
+                }
+
                 break;
             case R.id.tv_btn:
                 Bundle b = new Bundle();
                 b.putString("fundid",mEntity.get(0).getFundid());
-                RecommendUiGoto.gotoDetailsFunds(this,b);
+                RecommendUiGoto.gotoDetailsFunds(this,b);//资金用途详情
                 break;
             case R.id.base_titlebar_ensure:
                 break;

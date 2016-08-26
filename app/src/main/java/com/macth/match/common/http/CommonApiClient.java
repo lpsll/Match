@@ -12,6 +12,8 @@ import com.macth.match.login.entity.LoginEntity;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.notice.entity.NoticeResult;
 import com.macth.match.recommend.dto.FundsDTO;
+import com.macth.match.recommend.dto.MinestoneDetailsDTO;
+import com.macth.match.recommend.dto.SubmitDTO;
 import com.macth.match.recommend.entity.AddItemListResult;
 import com.macth.match.recommend.entity.FundsResult;
 import com.macth.match.recommend.entity.ProjectDetailsResult;
@@ -94,6 +96,19 @@ public class CommonApiClient extends BaseApiClient{
     }
 
     /**
+     * 提交项目
+     * @param dto
+     * @param callback
+     */
+    public static void submit(Activity act, SubmitDTO
+            dto, CallBack<AddItemListResult> callback) {
+        AsyncCallBack<AddItemListResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, AddItemListResult.class);
+        post(getAbsoluteUrl("Home/Projects/publishProject "), dto,
+                asyncCallBack);
+    }
+
+    /**
      * 获取项目资金用途详情
      * @param dto
      * @param callback
@@ -102,7 +117,20 @@ public class CommonApiClient extends BaseApiClient{
             dto, CallBack<FundsResult> callback) {
         AsyncCallBack<FundsResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, FundsResult.class);
-        post(getAbsoluteUrl("Home/Projects/getProjectListFromFind"), dto,
+        post(getAbsoluteUrl("Home/Projects/getFundInfo"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 里程碑详情
+     * @param dto
+     * @param callback
+     */
+    public static void milestoneDetails(Activity act, MinestoneDetailsDTO
+            dto, CallBack<FundsResult> callback) {
+        AsyncCallBack<FundsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, FundsResult.class);
+        post(getAbsoluteUrl("Home/Cooperatives/getMilePostDetailInfo"), dto,
                 asyncCallBack);
     }
 

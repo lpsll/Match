@@ -60,7 +60,7 @@ public class DetailsFundsActivity extends BaseTitleActivity {
             @Override
             public void onSuccess(FundsResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
-                    LogUtils.e("获取项目资金用途详情");
+                    LogUtils.e("获取资金用途详情成功");
                     setResult(result);
 
                 }

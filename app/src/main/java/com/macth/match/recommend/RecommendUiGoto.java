@@ -10,6 +10,7 @@ import com.macth.match.recommend.activity.AddItemActivity;
 import com.macth.match.recommend.activity.ChoiceCityActivity;
 import com.macth.match.recommend.activity.DetailsFundsActivity;
 import com.macth.match.recommend.activity.IncreaseCapitalActivity;
+import com.macth.match.recommend.activity.MilestoneDetailsActivity;
 import com.macth.match.recommend.activity.ProjectDetailsActivity;
 
 /**
@@ -75,6 +76,18 @@ public class RecommendUiGoto {
 
     public static void gotoDetailsFunds(Context context, Bundle b){
         Intent intent = new Intent(context, DetailsFundsActivity.class);
+        intent.putExtra("bundle",b);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转到里程碑详情
+     * @param context
+     * @param b
+     */
+
+    public static void gotoMilestoneDetails(Context context, Bundle b){
+        Intent intent = new Intent(context, MilestoneDetailsActivity.class);
         intent.putExtra("bundle",b);
         context.startActivity(intent);
     }

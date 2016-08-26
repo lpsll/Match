@@ -1,16 +1,19 @@
 package com.macth.match.recommend.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.recommend.dto.FundsDTO;
+import com.macth.match.recommend.dto.MinestoneDetailsDTO;
 import com.macth.match.recommend.entity.FundsResult;
 
 import butterknife.Bind;
@@ -77,6 +80,7 @@ public class MilestoneDetailsActivity extends BaseTitleActivity {
     TextView mMdTv703;
     @Bind(R.id.md_tv7_04)
     TextView mMdTv704;
+    private String mProjectID;
 
     @Override
     protected int getContentResId() {
@@ -86,6 +90,9 @@ public class MilestoneDetailsActivity extends BaseTitleActivity {
     @Override
     public void initView() {
         setTitleText("里程碑详情");
+        Intent intent = getIntent();
+        mProjectID = intent.getBundleExtra("bundle").getString("projectID");
+        LogUtils.e("mProjectID---",""+mProjectID);
 
     }
 
@@ -96,8 +103,10 @@ public class MilestoneDetailsActivity extends BaseTitleActivity {
     }
 
     private void reqMilDetails() {
-        FundsDTO dto = new FundsDTO();
-        CommonApiClient.funds(this, dto, new CallBack<FundsResult>() {
+        MinestoneDetailsDTO dto = new MinestoneDetailsDTO();
+        dto.setCooperativeID(AppContext.get("cooperativeid",""));
+        dto.setProjectID(mProjectID);
+        CommonApiClient.milestoneDetails(this, dto, new CallBack<FundsResult>() {
             @Override
             public void onSuccess(FundsResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
@@ -140,6 +149,9 @@ public class MilestoneDetailsActivity extends BaseTitleActivity {
             case R.id.md_tv7_03:
                 break;
             case R.id.md_tv7_04:
+                break;
+            case R.id.base_titlebar_back:
+                baseGoBack();
                 break;
         }
     }
