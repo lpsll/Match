@@ -78,7 +78,12 @@
     <item name="android:padding">@dimen/ds_20</item>
     <item name="android:textColor">#ffffff</item>
     <item name="android:textSize">@dimen/fs_50</item>
->>>>>>> Stashed changes
 
     </style>
+
+
+    <!--<item name="?android:attr/borderlessButtonStyle"/>-->
+
+
+
 </resources>

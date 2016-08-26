@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.macth.match.AppConfig;
@@ -18,6 +19,7 @@ import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.login.entity.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
+import com.macth.match.register.activity.ForgetPwdActivity;
 import com.macth.match.register.activity.RegisterActivity;
 
 import butterknife.Bind;
@@ -40,6 +42,10 @@ public class LoginActivity extends BaseTitleActivity {
     TextView tvLoginRegister;
     @Bind(R.id.tv_login_ok)
     TextView tvLoginOk;
+    @Bind(R.id.ll_login_username)
+    LinearLayout llLoginUsername;
+    @Bind(R.id.ll_login_pwd)
+    LinearLayout llLoginPwd;
 
     @Override
     protected int getContentResId() {
@@ -60,35 +66,43 @@ public class LoginActivity extends BaseTitleActivity {
      * 输入框在输入字符以后背景变亮
      */
     private void setEdittextBackground() {
+        cbLoginUsernameImg.setClickable(false);
+        cbLoginPwdImg.setClickable(false);
         etLoginUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
+                if (hasFocus) {
 //                    etLoginUsername.setBackgroundColor(Color.parseColor("#ffffff"));
                     cbLoginUsernameImg.setChecked(true);
-                    
-                }else {
-                    if(!TextUtils.isEmpty(etLoginUsername.getText().toString())) {
+                    llLoginUsername.setBackgroundResource(R.drawable.login_border_light);
+
+                } else {
+                    if (!TextUtils.isEmpty(etLoginUsername.getText().toString())) {
                         cbLoginUsernameImg.setChecked(true);
-                    }else {
+                        llLoginUsername.setBackgroundResource(R.drawable.login_border_light);
+                    } else {
                         cbLoginUsernameImg.setChecked(false);
+                        llLoginUsername.setBackgroundResource(R.drawable.login_border);
                     }
-                    
+
                 }
             }
         });
         etLoginPwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
+                if (hasFocus) {
 //                    etLoginUsername.setBackgroundColor(Color.parseColor("#ffffff"));
                     cbLoginPwdImg.setChecked(true);
+                    llLoginPwd.setBackgroundResource(R.drawable.login_border_light);
 
-                }else {
-                    if(!TextUtils.isEmpty(etLoginUsername.getText().toString())) {
+                } else {
+                    if (!TextUtils.isEmpty(etLoginUsername.getText().toString())) {
                         cbLoginPwdImg.setChecked(true);
-                    }else {
+                        llLoginPwd.setBackgroundResource(R.drawable.login_border_light);
+                    } else {
                         cbLoginPwdImg.setChecked(false);
+                        llLoginPwd.setBackgroundResource(R.drawable.login_border);
                     }
 
                 }
@@ -106,7 +120,7 @@ public class LoginActivity extends BaseTitleActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cb_login_username_img:
-                if(cbLoginUsernameImg.isChecked()) {
+                if (cbLoginUsernameImg.isChecked()) {
                     etLoginUsername.hasFocus();
                 }
                 break;
@@ -114,6 +128,8 @@ public class LoginActivity extends BaseTitleActivity {
 //                pwdChangeLight();
                 break;
             case R.id.tv_login_forgetpwd:
+                startActivity(new Intent(LoginActivity.this, ForgetPwdActivity.class));
+
                 break;
             case R.id.tv_login_register:
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
@@ -122,8 +138,8 @@ public class LoginActivity extends BaseTitleActivity {
 
                 //登录
                 //判断电话，密码格式和是否为空
-                if(TextUtils.isEmpty(etLoginUsername.getText().toString().trim())) {
-                    new AlertDialog.Builder(LoginActivity.this).setMessage("请输入用户名").setPositiveButton("确定",null).show();
+                if (TextUtils.isEmpty(etLoginUsername.getText().toString().trim())) {
+                    new AlertDialog.Builder(LoginActivity.this).setMessage("请输入用户名").setPositiveButton("确定", null).show();
                     break;
                 }
                 boolean isValid = PhoneUtils.isPhoneNumberValid(etLoginUsername.getText().toString());
@@ -131,8 +147,8 @@ public class LoginActivity extends BaseTitleActivity {
                     new AlertDialog.Builder(this).setTitle("请输入正确的电话号码!").setPositiveButton("确定", null).show();
                     break;
                 }
-                if(TextUtils.isEmpty(etLoginPwd.getText().toString().trim())) {
-                    new AlertDialog.Builder(this).setMessage("请输入密码").setPositiveButton("确定",null).show();
+                if (TextUtils.isEmpty(etLoginPwd.getText().toString().trim())) {
+                    new AlertDialog.Builder(this).setMessage("请输入密码").setPositiveButton("确定", null).show();
                     break;
                 }
 
@@ -143,13 +159,6 @@ public class LoginActivity extends BaseTitleActivity {
         }
     }
 
-
-
-    private void pwdChangeLight() {
-        cbLoginUsernameImg.setChecked(true);
-        etLoginUsername.hasFocus();
-
-    }
 
     /**
      * 登录操作
@@ -180,13 +189,14 @@ public class LoginActivity extends BaseTitleActivity {
                     AppConfig.usertoken = result.getData().getUsertoken();
                     AppConfig.isLogin = true;
 
-                    LogUtils.d( result.getData().toString());
+                    LogUtils.d(result.getData().toString());
 
                     //页面跳转
 
                 }
             }
-        },account,pwd);
+        }, account, pwd);
     }
+
 
 }

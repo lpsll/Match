@@ -14,7 +14,7 @@ public class PhoneUtils {
         CharSequence inputStr = phoneNumber;
         //正则表达式
 
-        String phone="^1[34578]\\d{9}$" ;
+        String phone="^1[3456789]\\d{9}$" ;
 
 
         Pattern pattern = Pattern.compile(phone);

@@ -37,7 +37,7 @@ public class RecommendUiGoto {
     }
 
     /**
-     * 跳转到新增项目
+     * 跳转到登录页面
      * @param context
      */
 

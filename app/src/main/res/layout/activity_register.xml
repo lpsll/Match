@@ -17,16 +17,17 @@
             android:background="@drawable/touxiang_zhuce" />
     </FrameLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/rl_register_username"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ds_140"
         android:layout_marginLeft="@dimen/ds_80"
         android:layout_marginRight="@dimen/ds_80"
         android:layout_marginTop="@dimen/ds_30"
-        android:background="@drawable/login_border"
-        android:orientation="horizontal">
+        android:background="@drawable/login_border">
 
         <CheckBox
+            android:clickable="false"
             android:id="@+id/cb_register_username_img"
             android:layout_width="@dimen/ds_140"
             android:layout_height="match_parent"
@@ -35,23 +36,46 @@
             android:checked="false" />
 
         <EditText
+            android:inputType="number"
+            android:paddingRight="@dimen/ds_100"
             android:id="@+id/et_register_username"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@null"
             android:gravity="center_vertical"
             android:hint="请输入用户名"
-            android:paddingLeft="@dimen/ds_40"
+            android:layout_marginLeft="@dimen/ds_180"
             android:textColor="@color/navi"
             android:textColorHint="@color/tv_hintdc3"
             android:textSize="@dimen/fs_55" />
 
 
 
+        <com.macth.match.register.view.TimeButton
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/TimeButton_register"
+            android:layout_width="@dimen/ds_310"
+            android:layout_height="@dimen/ds_85"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:button="@null"
+            android:text="获取验证码"
+            android:textColor="@color/navi"
+            android:textSize="@dimen/fs_42" />
 
-    </LinearLayout>
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="@dimen/ds_80"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/ds_10"
+            android:layout_toLeftOf="@id/TimeButton_register"
+            android:background="@color/tv_hint" />
+
+    </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/ll_register_code"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ds_140"
         android:layout_marginLeft="@dimen/ds_80"
@@ -61,6 +85,7 @@
         android:orientation="horizontal">
 
         <CheckBox
+            android:clickable="false"
             android:id="@+id/cb_register_code_img"
             android:layout_width="@dimen/ds_140"
             android:layout_height="match_parent"
@@ -69,6 +94,7 @@
             android:checked="false" />
 
         <EditText
+            android:inputType="number"
             android:id="@+id/et_register_code"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -81,6 +107,7 @@
             android:textSize="@dimen/fs_55" />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_register_pwd"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ds_140"
         android:layout_marginLeft="@dimen/ds_80"
@@ -90,6 +117,7 @@
         android:orientation="horizontal">
 
         <CheckBox
+            android:clickable="false"
             android:id="@+id/cb_register_pwd_img"
             android:layout_width="@dimen/ds_140"
             android:layout_height="match_parent"
@@ -98,6 +126,7 @@
             android:checked="false" />
 
         <EditText
+            android:inputType="textPassword"
             android:id="@+id/et_register_pwd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -110,6 +139,7 @@
             android:textSize="@dimen/fs_55" />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_register_pwd_again"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ds_140"
         android:layout_marginLeft="@dimen/ds_80"
@@ -119,6 +149,7 @@
         android:orientation="horizontal">
 
         <CheckBox
+            android:clickable="false"
             android:id="@+id/cb_register_pwd_again_img"
             android:layout_width="@dimen/ds_140"
             android:layout_height="match_parent"
@@ -127,6 +158,7 @@
             android:checked="false" />
 
         <EditText
+            android:inputType="textPassword"
             android:id="@+id/et_register_pwd_again"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -167,17 +199,6 @@
 
 
     </LinearLayout>
-
-    <com.macth.match.register.view.TimeButton
-        android:id="@+id/TimeButton_register"
-        android:layout_width="@dimen/ds_280"
-        android:layout_height="@dimen/ds_85"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/ds_60"
-        android:background="@color/navi"
-        android:text="获取验证码"
-        android:textColor="#ffffff"
-        android:textSize="@dimen/fs_37" />
 
     <TextView
         android:id="@+id/tv_register_ok"

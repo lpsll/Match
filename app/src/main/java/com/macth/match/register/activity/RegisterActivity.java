@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.macth.match.AppConfig;
@@ -50,6 +52,14 @@ public class RegisterActivity extends BaseTitleActivity {
     TextView tvRegisterOk;
     @Bind(R.id.TimeButton_register)
     TimeButton TimeButtonRegister;
+    @Bind(R.id.rl_register_username)
+    RelativeLayout rlRegisterUsername;
+    @Bind(R.id.ll_register_code)
+    LinearLayout llRegisterCode;
+    @Bind(R.id.ll_register_pwd)
+    LinearLayout llRegisterPwd;
+    @Bind(R.id.ll_register_pwd_again)
+    LinearLayout llRegisterPwdAgain;
 
     @Override
     protected int getContentResId() {
@@ -59,6 +69,98 @@ public class RegisterActivity extends BaseTitleActivity {
     @Override
     public void initView() {
 
+        setTitleText("注册");
+
+        //设置框背景色
+        setEdittextBackground();
+
+    }
+
+    /**
+     * 输入框在输入字符以后背景变亮
+     */
+    private void setEdittextBackground() {
+        cbRegisterUsernameImg.setClickable(false);
+        cbRegisterCodeImg.setClickable(false);
+        cbRegisterPwdImg.setClickable(false);
+        cbRegisterPwdAgainImg.setClickable(false);
+
+        etRegisterUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    cbRegisterUsernameImg.setChecked(true);
+                    rlRegisterUsername.setBackgroundResource(R.drawable.login_border_light);
+
+                } else {
+                    if (!TextUtils.isEmpty(etRegisterUsername.getText().toString())) {
+                        cbRegisterUsernameImg.setChecked(true);
+                        rlRegisterUsername.setBackgroundResource(R.drawable.login_border_light);
+                    } else {
+                        cbRegisterUsernameImg.setChecked(false);
+                        rlRegisterUsername.setBackgroundResource(R.drawable.login_border);
+                    }
+
+                }
+            }
+        });
+        etRegisterCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    cbRegisterCodeImg.setChecked(true);
+                    llRegisterCode.setBackgroundResource(R.drawable.login_border_light);
+
+                } else {
+                    if (!TextUtils.isEmpty(etRegisterCode.getText().toString())) {
+                        cbRegisterCodeImg.setChecked(true);
+                        llRegisterCode.setBackgroundResource(R.drawable.login_border_light);
+                    } else {
+                        cbRegisterCodeImg.setChecked(false);
+                        llRegisterCode.setBackgroundResource(R.drawable.login_border);
+                    }
+
+                }
+            }
+        });
+        etRegisterPwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    cbRegisterPwdImg.setChecked(true);
+                    llRegisterPwd.setBackgroundResource(R.drawable.login_border_light);
+
+                } else {
+                    if (!TextUtils.isEmpty(etRegisterPwd.getText().toString())) {
+                        cbRegisterPwdImg.setChecked(true);
+                        rlRegisterUsername.setBackgroundResource(R.drawable.login_border_light);
+                    } else {
+                        cbRegisterPwdImg.setChecked(false);
+                        llRegisterPwd.setBackgroundResource(R.drawable.login_border);
+                    }
+
+                }
+            }
+        });
+        etRegisterPwdAgain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    cbRegisterPwdAgainImg.setChecked(true);
+                    llRegisterPwdAgain.setBackgroundResource(R.drawable.login_border_light);
+
+                } else {
+                    if (!TextUtils.isEmpty(etRegisterPwdAgain.getText().toString())) {
+                        cbRegisterPwdAgainImg.setChecked(true);
+                        llRegisterPwdAgain.setBackgroundResource(R.drawable.login_border_light);
+                    } else {
+                        cbRegisterPwdAgainImg.setChecked(false);
+                        llRegisterPwdAgain.setBackgroundResource(R.drawable.login_border);
+                    }
+
+                }
+            }
+        });
     }
 
     @Override
@@ -67,7 +169,7 @@ public class RegisterActivity extends BaseTitleActivity {
     }
 
 
-    @OnClick({R.id.cb_register_username_img,R.id.TimeButton_register, R.id.cb_register_code_img, R.id.cb_register_pwd_img, R.id.cb_register_pwd_again_img, R.id.tv_register_login, R.id.tv_register_ok})
+    @OnClick({R.id.cb_register_username_img, R.id.TimeButton_register, R.id.cb_register_code_img, R.id.cb_register_pwd_img, R.id.cb_register_pwd_again_img, R.id.tv_register_login, R.id.tv_register_ok})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cb_register_username_img:
@@ -168,10 +270,10 @@ public class RegisterActivity extends BaseTitleActivity {
             public void onSuccess(BaseEntity result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("获取验证码成功");
-                    LogUtils.e("result---------", "" );
+                    LogUtils.e("result---------", "");
                 }
             }
-        },etRegisterUsername.getText().toString().trim());
+        }, etRegisterUsername.getText().toString().trim());
     }
 
 
