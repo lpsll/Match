@@ -177,14 +177,19 @@ public class LoginActivity extends BaseTitleActivity {
                     LogUtils.e("登录成功");
                     ToastUtils.showShort(LoginActivity.this, "登录成功");
 
-                    //保存用户信息
-                    AppConfig.account = account;
+
+                    AppConfig.username = result.getData().getUsername();
+                    AppConfig.usermobile = account;
+                    AppConfig.useridentity = result.getData().getUseridentity();
+                    AppConfig.usercompany = result.getData().getUsercompany();
+                    AppConfig.userwork = result.getData().getUserwork();
                     AppConfig.usertoken = result.getData().getUsertoken();
+                    AppConfig.cooperativeid = result.getData().getCooperativeid();
                     AppConfig.isLogin = true;
-
                     LogUtils.d(result.getData().toString());
-
                     //页面跳转
+
+
 
                 }
             }
