@@ -9,6 +9,7 @@ import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.find.entity.FindResult;
 import com.macth.match.login.entity.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
+import com.macth.match.mine.entity.AddInfoEntity;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.notice.entity.NoticeResult;
 import com.macth.match.recommend.dto.FundsDTO;
@@ -239,6 +240,18 @@ public class CommonApiClient extends BaseApiClient{
         AsyncCallBack<ShenFenEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, ShenFenEntity.class);
         post(getAbsoluteUrl("Home/Login/getUserCooperativeList"), dto,
+                asyncCallBack);
+    }
+    /**
+     * 完善用户信息信息
+     * @param act
+     * @param
+     * @param callback
+     */
+    public static void addInfo(Activity act,BaseDTO dto,CallBack<AddInfoEntity> callback) {
+        AsyncCallBack<AddInfoEntity> asyncCallBack = new AsyncCallBack<>(
+                act, callback, AddInfoEntity.class);
+        post(getAbsoluteUrl("Home/Login/perfectUserData"), dto,
                 asyncCallBack);
     }
 }

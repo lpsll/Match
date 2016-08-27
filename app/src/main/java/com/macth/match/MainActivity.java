@@ -13,6 +13,7 @@ import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.TextViewUtils;
 import com.macth.match.find.fragment.FindFragment;
+import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.fragment.MineFragment;
 import com.macth.match.notice.fragment.NoticeFragment;
 import com.macth.match.recommend.RecommendUiGoto;
@@ -251,7 +252,14 @@ public class MainActivity extends BaseTitleActivity {
     }
 
 
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == MineUIGoto.LOFIN_REQUEST)
+        {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            MineFragment meFragment = (MineFragment)fragmentManager.findFragmentByTag("tag4");
+            meFragment.initView(null);
+        }
+    }
 
 }

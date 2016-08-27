@@ -111,7 +111,25 @@ public class AddInfoActivity extends BaseTitleActivity {
      * 打开角色选择对话框
      */
     private void openRoleSelectDialog() {
+        if (roleStringArray != null && roleStringArray.length != 0) {
+            new AlertDialog.Builder(this)
+                    .setTitle("请选择您的协同角色")
+                    .setSingleChoiceItems(roleStringArray, -1,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    role = roleStringArray[which];
 
+                                }
+                            }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    LogUtils.d("which====" + which);
+                    etAddInfoRole.setText(role);
+                    dialog.dismiss();
+                }
+            }).setNegativeButton("取消", null).show();
+        }
 
 
     }
@@ -124,10 +142,10 @@ public class AddInfoActivity extends BaseTitleActivity {
             @Override
             public void onSuccess(ShenFenEntity result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
-                    LogUtils.e("获取协同角色成功");
+                    LogUtils.e("获取协同角色成功===="+result.getData().size());
                     roleData = result.getData();
-                    //把ShenFenData转换为数组
-                    changeShenFenDataToStringArray();
+                    //把角色信息转换为数组
+                    changeRoleDataToStringArray();
 
                 }
             }
@@ -147,7 +165,7 @@ public class AddInfoActivity extends BaseTitleActivity {
                     shenFenData = result.getData();
 
                     //把ShenFenData转换为数组
-                    changeRoleDataToStringArray();
+                    changeShenFenDataToStringArray();
 
                 }
             }
@@ -155,7 +173,7 @@ public class AddInfoActivity extends BaseTitleActivity {
     }
 
     /**
-     * 把ShenFenData转换为数组
+     * 把角色信息转换为数组
      */
     private void changeRoleDataToStringArray() {
         if (roleData != null && roleData.size() != 0) {
@@ -298,6 +316,7 @@ public class AddInfoActivity extends BaseTitleActivity {
                 if (hasFocus) {
                     cbAddInfoRole.setChecked(true);
                     llAddInfoRole.setBackgroundResource(R.drawable.login_border_light);
+                    openRoleSelectDialog();
 
                 } else {
                     if (!TextUtils.isEmpty(etAddInfoRole.getText().toString())) {
@@ -366,7 +385,6 @@ public class AddInfoActivity extends BaseTitleActivity {
             return;
         }
 
-
         //用户名非空验证
         if (TextUtils.isEmpty(username)) {
             new AlertDialog.Builder(this).setTitle("用户名不能为空!").setPositiveButton("确定", null).show();
@@ -381,6 +399,7 @@ public class AddInfoActivity extends BaseTitleActivity {
      * 完善用户信息
      */
     private void addInfo() {
+
 
 
     }

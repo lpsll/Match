@@ -2,18 +2,18 @@ package com.macth.match.mine.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseFragment;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
-import com.macth.match.login.activity.LoginActivity;
+import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.activity.MineProjectsActivity;
 import com.macth.match.register.activity.AddInfoActivity;
 
@@ -53,16 +53,17 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void initView(View view) {
+        //获取用户登录状态
+        isLogin = AppContext.get("IS_LOGIN", false);
+        LogUtils.i("登录状态====" + AppContext.get("IS_LOGIN", false));
+
+        addUsernameAndPhone();
 
     }
 
     @Override
     public void initData() {
-        //获取用户登录状态
-        isLogin = AppContext.get(AppConfig.IS_LOGIN, false);
-        LogUtils.i("登录状态====" + AppContext.get(AppConfig.IS_LOGIN, false));
 
-        addUsernameAndPhone();
     }
 
     /**
@@ -71,12 +72,14 @@ public class MineFragment extends BaseFragment {
     private void addUsernameAndPhone() {
         if (isLogin) {
             imgLoginTouxiang.setBackgroundResource(R.drawable.touxiangxdpi_03);
-            String userName = AppContext.get(AppConfig.USERNAME, "");
+            String userName = AppContext.get("username", "");
             tvUsername.setText(userName);
-            String mobile = AppContext.get(AppConfig.USERMOBILE, "");
+            String mobile = AppContext.get("usermobile", "");
             tvUserphone.setText(mobile);
         } else {
             imgLoginTouxiang.setBackgroundResource(R.drawable.touxiang_zhuce);
+            tvUserphone.setText("");
+            tvUsername.setText("请登录");
         }
     }
 
@@ -88,7 +91,8 @@ public class MineFragment extends BaseFragment {
                 //进入到我的项目页
                 if (!isLogin) {
                     //打开登录页面
-                    startActivity(new Intent(getContext(), LoginActivity.class));
+
+                    MineUIGoto.gotoLoginForPwd(getActivity());
                 } else {
                     startActivity(new Intent(getActivity(), MineProjectsActivity.class));
 
@@ -97,7 +101,7 @@ public class MineFragment extends BaseFragment {
             case R.id.rl_mine_news:
                 if (!isLogin) {
                     //打开登录页面
-                    startActivity(new Intent(getContext(), LoginActivity.class));
+                    MineUIGoto.gotoLoginForPwd(getActivity());
                 } else {
 
                 }
@@ -115,9 +119,9 @@ public class MineFragment extends BaseFragment {
             case R.id.rl_mine_exit:
                 if (!isLogin) {
                     //打开登录页面
-                    startActivity(new Intent(getContext(), LoginActivity.class));
+                    MineUIGoto.gotoLoginForPwd(getActivity());
 
-                }else {
+                } else {
                     //退出对话框
                     exitDialog();
 
@@ -128,7 +132,7 @@ public class MineFragment extends BaseFragment {
             case R.id.img_login_touxiang:
                 if (!isLogin) {
                     //打开登录页面
-                    startActivity(new Intent(getContext(), LoginActivity.class));
+                    MineUIGoto.gotoLoginForPwd(getActivity());
                 }
                 break;
         }
@@ -152,14 +156,21 @@ public class MineFragment extends BaseFragment {
      */
     private void exit() {
 
-        AppContext.set("username", null);
-        AppContext.set("usermobile", null);
-        AppContext.set("useridentity", null);
-        AppContext.set("usercompany", null);
-        AppContext.set("userwork", null);
-        AppContext.set("usertoken", null);
-        AppContext.set("cooperativeid", null);
-        AppContext.set("isLogin", false);
+        AppContext.set("username", "");
+        AppContext.set("usermobile", "");
+        AppContext.set("useridentity", "");
+        AppContext.set("usercompany", "");
+        AppContext.set("userwork", "");
+        AppContext.set("usertoken", "");
+        AppContext.set("cooperativeid", "");
+        AppContext.set("IS_LOGIN", false);
+
+
+        //刷新MainActivity
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        MineFragment meFragment = (MineFragment) fragmentManager.findFragmentByTag("tag4");
+        meFragment.initView(null);
+
 
 
     }

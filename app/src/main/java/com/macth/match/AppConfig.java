@@ -22,17 +22,6 @@ public class AppConfig {
     public static final String SUCCESS = "1";
     public static final String BASE_URL = "http://cuohe.damaimob.com/";
 
-    /**
-     * 用户信息全局常量
-     */
-    public static final String USERNAME = "username";
-    public static final String USERMOBILE = "usermobile";
-    public static final String USERIDENTITY = "useridentity";
-    public static final String USERCOMPANY = "usercompany";
-    public static final String USERWORK = "userwork";
-    public static final String USERTOKEN = "usertoken";
-    public static final String COOPERATIVEID = "cooperativeid";
-    public static final String IS_LOGIN = "isLogin";
 
 
 

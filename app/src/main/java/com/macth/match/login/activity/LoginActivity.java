@@ -179,8 +179,11 @@ public class LoginActivity extends BaseTitleActivity {
                     AppContext.set("userwork",result.getData().getUserwork());
                     AppContext.set("usertoken",result.getData().getUsertoken());
                     AppContext.set("cooperativeid",result.getData().getCooperativeid());
-                    AppContext.set("isLogin",true);
+                    AppContext.set("IS_LOGIN",true);
                     LogUtils.d("用户信息==="+result.getData().toString());
+
+
+                    setResult(1001);
                     //页面跳转
                     startActivity(new Intent(LoginActivity.this, AddInfoActivity.class));
 
