@@ -57,7 +57,9 @@
             android:name=".register.activity.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".mine.activity.MineProjectsActivity" />
-        <activity android:name=".register.activity.AddInfoActivity"></activity>
+        <activity android:name=".register.activity.AddInfoActivity" />
+        <activity android:name=".mine.activity.NewsActivity" />
+        <activity android:name=".mine.activity.NewsDetailsActivity"></activity>
     </application>
 
 </manifest>

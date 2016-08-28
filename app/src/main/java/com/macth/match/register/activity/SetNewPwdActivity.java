@@ -60,13 +60,13 @@ public class SetNewPwdActivity extends BaseTitleActivity {
         String pwd = etSetNewPwd.getText().toString().trim();
         String pwdAgain = etSetNewPwdAgain.getText().toString().trim();
         if (TextUtils.isEmpty(etSetNewPwd.getText().toString().trim())) {
-            new AlertDialog.Builder(this).setTitle("密码不能为空!").setPositiveButton("确定", null).show();
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("密码不能为空!").setPositiveButton("确定", null).show();
             return;
         }
         //两次密码一致验证
         if (!pwd.equals(pwdAgain)) {
             //进行注册操作
-            new AlertDialog.Builder(this).setTitle("两次密码不一致!").setPositiveButton("确定", null).show();
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("两次密码不一致!").setPositiveButton("确定", null).show();
             return;
         }
         // 重设密码操作

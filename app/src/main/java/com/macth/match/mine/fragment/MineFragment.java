@@ -103,7 +103,7 @@ public class MineFragment extends BaseFragment {
                     //打开登录页面
                     MineUIGoto.gotoLoginForPwd(getActivity());
                 } else {
-
+                    MineUIGoto.gotoNews(getActivity());
                 }
                 break;
             case R.id.rl_mine_setting:

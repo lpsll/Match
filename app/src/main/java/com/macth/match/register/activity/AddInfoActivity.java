@@ -13,10 +13,13 @@ import com.macth.match.AppConfig;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.dto.BaseDTO;
+import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
+import com.macth.match.common.utils.ToastUtils;
+import com.macth.match.mine.entity.AddInfoDTO;
 import com.macth.match.register.entity.Data;
 import com.macth.match.register.entity.ShenFenEntity;
 
@@ -141,16 +144,16 @@ public class AddInfoActivity extends BaseTitleActivity {
         CommonApiClient.getRole(this, new BaseDTO(), new CallBack<ShenFenEntity>() {
             @Override
             public void onSuccess(ShenFenEntity result) {
-                if (AppConfig.SUCCESS.equals(result.getCode())) {
-                    LogUtils.e("获取协同角色成功===="+result.getData().size());
-                    roleData = result.getData();
-                    //把角色信息转换为数组
-                    changeRoleDataToStringArray();
-
+                if (result != null) {
+                    if (AppConfig.SUCCESS.equals(result.getCode())) {
+                        LogUtils.e("获取协同角色成功====" + result.getData().size());
+                        roleData = result.getData();
+                        //把角色信息转换为数组
+                        changeRoleDataToStringArray();
+                    }
                 }
             }
         });
-
     }
 
     /**
@@ -160,14 +163,15 @@ public class AddInfoActivity extends BaseTitleActivity {
         CommonApiClient.getShenFen(this, new BaseDTO(), new CallBack<ShenFenEntity>() {
             @Override
             public void onSuccess(ShenFenEntity result) {
-                if (AppConfig.SUCCESS.equals(result.getCode())) {
-                    LogUtils.e("获取身份信息成功");
-                    shenFenData = result.getData();
-
-                    //把ShenFenData转换为数组
-                    changeShenFenDataToStringArray();
-
+                if(result!=null) {
+                    if (AppConfig.SUCCESS.equals(result.getCode())) {
+                        LogUtils.e("获取身份信息成功");
+                        shenFenData = result.getData();
+                        //把ShenFenData转换为数组
+                        changeShenFenDataToStringArray();
+                    }
                 }
+
             }
         });
     }
@@ -374,20 +378,20 @@ public class AddInfoActivity extends BaseTitleActivity {
         String username = etAddInfoUsername.getText().toString().trim();
         //手机号非空验证
         if (TextUtils.isEmpty(phone)) {
-            new AlertDialog.Builder(this).setTitle("手机号不能为空!").setPositiveButton("确定", null).show();
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("手机号不能为空!").setPositiveButton("确定", null).show();
             return;
         }
 
         //手机号码格式验证
         boolean valid = PhoneUtils.isPhoneNumberValid(phone);
         if (!valid) {
-            new AlertDialog.Builder(this).setTitle("请输入正确的电话号码!").setPositiveButton("确定", null).show();
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请输入正确的电话号码!").setPositiveButton("确定", null).show();
             return;
         }
 
         //用户名非空验证
         if (TextUtils.isEmpty(username)) {
-            new AlertDialog.Builder(this).setTitle("用户名不能为空!").setPositiveButton("确定", null).show();
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("用户名不能为空!").setPositiveButton("确定", null).show();
             return;
         }
 
@@ -397,12 +401,41 @@ public class AddInfoActivity extends BaseTitleActivity {
 
     /**
      * 完善用户信息
+     * 参数：usermobile-----用户手机号----必填
+     * username-------用户名称------必填
+     * identity-------用户身份
+     * company--------公司名称
+     * work-----------职务
+     * cooperative----协同角色
+     * userimg--------用户名片
      */
     private void addInfo() {
 
+        String usermobile = etAddInfoUsername.getText().toString().trim();
+        String username = etAddInfoUsername.getText().toString().trim();
+        String identity = etAddInfoShenfen.getText().toString().trim();
+        String company = etAddInfoCompany.getText().toString().trim();
+        String work = etAddInfoWork.getText().toString().trim();
+        String cooperative = etAddInfoRole.getText().toString().trim();
 
+        AddInfoDTO addInfoDto = new AddInfoDTO();
+        addInfoDto.setUsermobile(usermobile);
+        addInfoDto.setUsername(username);
+        addInfoDto.setIdentity(identity);
+        addInfoDto.setCompany(company);
+        addInfoDto.setWork(work);
+        addInfoDto.setCooperative(cooperative);
+        addInfoDto.setUserimg("");
 
+        CommonApiClient.addInfo(this, addInfoDto, new CallBack<BaseEntity>() {
+            @Override
+            public void onSuccess(BaseEntity result) {
+                LogUtils.e("result========" + result.getMsg());
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("完善用户信息成功");
+                    ToastUtils.showShort(AddInfoActivity.this, "信息补充成功");
+                }
+            }
+        });
     }
-
-
 }

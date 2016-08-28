@@ -3,7 +3,7 @@ package com.macth.match.register.entity;
 /**
  * Created by Administrator on 2016/8/26.
  * 参数：usermobile---用户手机号
- useryzm------短信验证码
+ * useryzm------短信验证码
  */
 public class ForgetPwdDTO {
 

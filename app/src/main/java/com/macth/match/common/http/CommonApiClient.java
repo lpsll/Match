@@ -9,8 +9,10 @@ import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.find.entity.FindResult;
 import com.macth.match.login.entity.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
-import com.macth.match.mine.entity.AddInfoEntity;
+import com.macth.match.mine.entity.AddInfoDTO;
+import com.macth.match.mine.entity.DeleteNewDTO;
 import com.macth.match.mine.entity.MineProjectsResult;
+import com.macth.match.mine.entity.NewsResult;
 import com.macth.match.notice.entity.NoticeResult;
 import com.macth.match.recommend.dto.FundsDTO;
 import com.macth.match.recommend.dto.MinestoneDetailsDTO;
@@ -28,10 +30,11 @@ import com.macth.match.register.entity.VerifyDTO;
 /**
  * Created by John_Libo on 2016/8/15.
  */
-public class CommonApiClient extends BaseApiClient{
+public class CommonApiClient extends BaseApiClient {
 
     /**
      * 推荐项目列表
+     *
      * @param dto
      * @param callback
      */
@@ -45,6 +48,7 @@ public class CommonApiClient extends BaseApiClient{
 
     /**
      * 项目详情
+     *
      * @param act
      * @param dto
      * @param callback
@@ -59,6 +63,7 @@ public class CommonApiClient extends BaseApiClient{
 
     /**
      * 项目下拉框列表
+     *
      * @param act
      * @param dto
      * @param callback
@@ -73,6 +78,7 @@ public class CommonApiClient extends BaseApiClient{
 
     /**
      * 公告列表
+     *
      * @param dto
      * @param callback
      */
@@ -86,6 +92,7 @@ public class CommonApiClient extends BaseApiClient{
 
     /**
      * 发现列表
+     *
      * @param dto
      * @param callback
      */
@@ -99,6 +106,7 @@ public class CommonApiClient extends BaseApiClient{
 
     /**
      * 提交项目
+     *
      * @param dto
      * @param callback
      */
@@ -112,6 +120,7 @@ public class CommonApiClient extends BaseApiClient{
 
     /**
      * 获取项目资金用途详情
+     *
      * @param dto
      * @param callback
      */
@@ -125,6 +134,7 @@ public class CommonApiClient extends BaseApiClient{
 
     /**
      * 里程碑详情
+     *
      * @param dto
      * @param callback
      */
@@ -138,6 +148,7 @@ public class CommonApiClient extends BaseApiClient{
 
     /**
      * 发现列表
+     *
      * @param dto
      * @param callback
      */
@@ -145,38 +156,43 @@ public class CommonApiClient extends BaseApiClient{
             dto, CallBack<MineProjectsResult> callback, String uid) {
         AsyncCallBack<MineProjectsResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, MineProjectsResult.class);
-        post(getAbsoluteUrl("Home/Projects/getMyProjectsList?userid="+uid), dto,
+        post(getAbsoluteUrl("Home/Projects/getMyProjectsList?userid=" + uid), dto,
                 asyncCallBack);
     }
 
     /**
      * 注册
+     *
      * @param act
      * @param dto
      * @param callback
      */
     public static void register(Activity act, RegisterDTO
-            dto, CallBack<BaseEntity> callback,String account,String pwd,String yzm) {
+            dto, CallBack<BaseEntity> callback, String account, String pwd, String yzm) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        post(getAbsoluteUrl("Home/Login/register?account="+account+"&userpwd="+pwd+"&yzm="+yzm), dto,
+        post(getAbsoluteUrl("Home/Login/register?account=" + account + "&userpwd=" + pwd + "&yzm=" + yzm), dto,
                 asyncCallBack);
     }
+
     /**
      * 获取验证码
+     *
      * @param act
      * @param dto
      * @param callback
      */
     public static void verifyCode(Activity act, VerifyDTO
-            dto, CallBack<BaseEntity> callback,String account) {
+            dto, CallBack<BaseEntity> callback, String account) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        post(getAbsoluteUrl("Home/Login/getMobileCode?user_mobile="+account), dto,
+        post(getAbsoluteUrl("Home/Login/getMobileCode?user_mobile=" + account), dto,
                 asyncCallBack);
     }
+
     /**
      * 登录
+     *
      * @param act
      * @param dto
      * @param callback
@@ -185,45 +201,48 @@ public class CommonApiClient extends BaseApiClient{
             dto, CallBack<LoginEntity> callback, String account, String pwd) {
         AsyncCallBack<LoginEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, LoginEntity.class);
-        post(getAbsoluteUrl("Home/Login/login?account="+account+"&userpwd="+pwd), dto,
+        post(getAbsoluteUrl("Home/Login/login?account=" + account + "&userpwd=" + pwd), dto,
                 asyncCallBack);
     }
 
     /**
      * 忘记密码  第一步
+     *
      * @param act
      * @param dto
      * @param callback
      */
     public static void forgetPwd(Activity act, ForgetPwdDTO
-            dto, CallBack<BaseEntity> callback, String account,String useryzm) {
+            dto, CallBack<BaseEntity> callback, String account, String useryzm) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        post(getAbsoluteUrl("Home/Login/forgetUserPwdOne?usermobile="+account+"&useryzm="+useryzm), dto,
+        post(getAbsoluteUrl("Home/Login/forgetUserPwdOne?usermobile=" + account + "&useryzm=" + useryzm), dto,
                 asyncCallBack);
     }
 
     /**
      * 重设密码(忘记密码第二步)
+     *
      * @param act
      * @param dto
      * @param callback
      */
     public static void setNewPwd(Activity act, SetNewPwdDTO
-            dto, CallBack<BaseEntity> callback, String account,String pwd) {
+            dto, CallBack<BaseEntity> callback, String account, String pwd) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        post(getAbsoluteUrl("Home/Login/forgetUserPwdTwo?usermobile="+account+"&userpwd="+pwd), dto,
+        post(getAbsoluteUrl("Home/Login/forgetUserPwdTwo?usermobile=" + account + "&userpwd=" + pwd), dto,
                 asyncCallBack);
     }
 
     /**
      * 获取用户身份信息
+     *
      * @param act
      * @param
      * @param callback
      */
-    public static void getShenFen(Activity act,BaseDTO dto,CallBack<ShenFenEntity> callback) {
+    public static void getShenFen(Activity act, BaseDTO dto, CallBack<ShenFenEntity> callback) {
         AsyncCallBack<ShenFenEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, ShenFenEntity.class);
         post(getAbsoluteUrl("Home/Login/getUserIdentityList"), dto,
@@ -232,26 +251,57 @@ public class CommonApiClient extends BaseApiClient{
 
     /**
      * 获取协同角色信息
+     *
      * @param act
      * @param
      * @param callback
      */
-    public static void getRole(Activity act,BaseDTO dto,CallBack<ShenFenEntity> callback) {
+    public static void getRole(Activity act, BaseDTO dto, CallBack<ShenFenEntity> callback) {
         AsyncCallBack<ShenFenEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, ShenFenEntity.class);
         post(getAbsoluteUrl("Home/Login/getUserCooperativeList"), dto,
                 asyncCallBack);
     }
+
     /**
      * 完善用户信息信息
+     *
      * @param act
      * @param
      * @param callback
      */
-    public static void addInfo(Activity act,BaseDTO dto,CallBack<AddInfoEntity> callback) {
-        AsyncCallBack<AddInfoEntity> asyncCallBack = new AsyncCallBack<>(
-                act, callback, AddInfoEntity.class);
+    public static void addInfo(Activity act, AddInfoDTO dto, CallBack<BaseEntity> callback) {
+        AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
+                act, callback, BaseEntity.class);
         post(getAbsoluteUrl("Home/Login/perfectUserData"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 消息列表
+     *
+     * @param act
+     * @param
+     * @param callback
+     */
+    public static void  newsList(Activity act, BaseDTO dto, CallBack<NewsResult> callback) {
+        AsyncCallBack<NewsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, NewsResult.class);
+        get(getAbsoluteUrl("Home/Notices/getNoticeList?userid="+dto.getUserid()), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 删除消息
+     *
+     * @param act
+     * @param
+     * @param callback
+     */
+    public static void  deleteNew(Activity act, DeleteNewDTO dto, CallBack<BaseEntity> callback) {
+        AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
+                act, callback, BaseEntity.class);
+        get(getAbsoluteUrl("Home/Notices/deleteMyNotice?userid="+dto.getUserid()+"&noticeid="+dto.getNoticeid()), dto,
                 asyncCallBack);
     }
 }

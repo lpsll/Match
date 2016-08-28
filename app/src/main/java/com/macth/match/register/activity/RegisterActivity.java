@@ -185,7 +185,7 @@ public class RegisterActivity extends BaseTitleActivity {
                 boolean isValid = PhoneUtils.isPhoneNumberValid(etRegisterUsername.getText().toString());
                 if (!isValid) {
                     TimeButtonRegister.setLenght(0);
-                    new AlertDialog.Builder(this).setTitle("请输入正确的电话号码!").setPositiveButton("确定", null).show();
+                    new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请输入正确的电话号码!").setPositiveButton("确定", null).show();
                 } else {
                     TimeButtonRegister.setLenght(60 * 1000);
                     //获取验证码
@@ -205,19 +205,19 @@ public class RegisterActivity extends BaseTitleActivity {
         //手机号码格式验证
         boolean valid = PhoneUtils.isPhoneNumberValid(phone);
         if (!valid) {
-            new AlertDialog.Builder(this).setTitle("请输入正确的电话号码!").setPositiveButton("确定", null).show();
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请输入正确的电话号码!").setPositiveButton("确定", null).show();
             return;
         }
 
         //密码非空验证
         if (TextUtils.isEmpty(pwd)) {
-            new AlertDialog.Builder(this).setTitle("密码不能为空!").setPositiveButton("确定", null).show();
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("密码不能为空!").setPositiveButton("确定", null).show();
             return;
         }
         //两次密码一致验证
         if (!pwd.equals(pwdAgain)) {
             //进行注册操作
-            new AlertDialog.Builder(this).setTitle("两次密码不一致!").setPositiveButton("确定", null).show();
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("两次密码不一致!").setPositiveButton("确定", null).show();
             return;
         }
         //注册操作

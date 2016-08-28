@@ -64,7 +64,7 @@ public class ForgetPwdActivity extends BaseTitleActivity {
                 boolean isValid = PhoneUtils.isPhoneNumberValid(etForgetPwdPhone.getText().toString());
                 if (!isValid) {
                     TimeButtonForgetPwd.setLenght(0);
-                    new AlertDialog.Builder(this).setTitle("请输入正确的电话号码!").setPositiveButton("确定", null).show();
+                    new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请输入正确的电话号码!").setPositiveButton("确定", null).show();
                 } else {
                     TimeButtonForgetPwd.setLenght(60 * 1000);
                     //获取验证码

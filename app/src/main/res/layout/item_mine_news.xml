@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#ffffff"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="@dimen/ds_60"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_news_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="金融成为重要推手"
+            android:textColor="@color/tv_black"
+            android:textSize="@dimen/fs_50" />
+
+        <TextView
+            android:id="@+id/tv_news_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="2016-09-09"
+            android:textColor="@color/tv_grey"
+            android:textSize="@dimen/fs_50" />
+
+        <TextView
+            android:id="@+id/tv_news_msg"
+            android:textColor="@color/tv_grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_news_title"
+            android:layout_marginTop="@dimen/ds_25"
+            android:lineSpacingExtra="@dimen/ds_10"
+            android:text="海天联创海天联创海天联创海天联创海天联创海天联创海天联创海天联创海天联创"
+            android:textSize="@dimen/fs_50" />
+
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:paddingBottom="@dimen/ds_30"
+        android:paddingLeft="@dimen/ds_60"
+        android:paddingRight="@dimen/ds_60"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <TextView
+            android:id="@+id/tv_news_hours"
+            android:textSize="@dimen/fs_50"
+            android:textColor="@color/tv_grey"
+            android:text="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_toRightOf="@id/tv_news_hours"
+            android:textSize="@dimen/fs_50"
+            android:textColor="@color/tv_grey"
+            android:text="小时前"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/img_news_delete"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/shanchuxdpi_03"
+            android:layout_width="@dimen/ds_70"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/ds_60"
+            android:background="@color/tv_grey"
+            android:layout_width="0.5dp"
+            android:layout_toLeftOf="@id/img_news_delete"
+            android:layout_height="@dimen/ds_80"/>
+        
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ds_30"
+        android:background="@color/linear_gray" />
+
+</LinearLayout>

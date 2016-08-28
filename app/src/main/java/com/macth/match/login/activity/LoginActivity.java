@@ -130,16 +130,16 @@ public class LoginActivity extends BaseTitleActivity {
                 //登录
                 //判断电话，密码格式和是否为空
                 if (TextUtils.isEmpty(etLoginUsername.getText().toString().trim())) {
-                    new AlertDialog.Builder(LoginActivity.this).setMessage("请输入用户名").setPositiveButton("确定", null).show();
+                    new AlertDialog.Builder(LoginActivity.this).setTitle("温馨提示").setMessage("请输入用户名").setPositiveButton("确定", null).show();
                     break;
                 }
                 boolean isValid = PhoneUtils.isPhoneNumberValid(etLoginUsername.getText().toString());
                 if (!isValid) {
-                    new AlertDialog.Builder(this).setTitle("请输入正确的电话号码!").setPositiveButton("确定", null).show();
+                    new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请输入正确的电话号码!").setPositiveButton("确定", null).show();
                     break;
                 }
                 if (TextUtils.isEmpty(etLoginPwd.getText().toString().trim())) {
-                    new AlertDialog.Builder(this).setMessage("请输入密码").setPositiveButton("确定", null).show();
+                    new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请输入密码").setPositiveButton("确定", null).show();
                     break;
                 }
                 login();
