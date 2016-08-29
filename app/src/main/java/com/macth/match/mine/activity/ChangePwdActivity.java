@@ -15,7 +15,7 @@ import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.mine.MineUIGoto;
-import com.macth.match.mine.entity.ChangePwdDTO;
+import com.macth.match.mine.dto.ChangePwdDTO;
 
 import butterknife.Bind;
 import butterknife.OnClick;

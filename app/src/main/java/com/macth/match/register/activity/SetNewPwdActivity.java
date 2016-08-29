@@ -16,7 +16,7 @@ import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.login.activity.LoginActivity;
-import com.macth.match.register.entity.SetNewPwdDTO;
+import com.macth.match.register.dto.SetNewPwdDTO;
 
 import butterknife.Bind;
 import butterknife.OnClick;

@@ -1,4 +1,4 @@
-package com.macth.match.register.entity;
+package com.macth.match.register.dto;
 
 /**
  * Created by Administrator on 2016/8/26.

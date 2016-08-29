@@ -7,12 +7,12 @@ import android.support.v4.app.Fragment;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.find.entity.FindResult;
-import com.macth.match.find.entity.SearchDTO;
-import com.macth.match.login.entity.LoginDTO;
+import com.macth.match.find.dto.SearchDTO;
+import com.macth.match.login.dto.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
-import com.macth.match.mine.entity.AddInfoDTO;
-import com.macth.match.mine.entity.ChangePwdDTO;
-import com.macth.match.mine.entity.DeleteNewDTO;
+import com.macth.match.mine.dto.AddInfoDTO;
+import com.macth.match.mine.dto.ChangePwdDTO;
+import com.macth.match.mine.dto.DeleteNewDTO;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.mine.entity.NewsResult;
 import com.macth.match.notice.entity.NoticeResult;
@@ -23,11 +23,11 @@ import com.macth.match.recommend.entity.AddItemListResult;
 import com.macth.match.recommend.entity.FundsResult;
 import com.macth.match.recommend.entity.ProjectDetailsResult;
 import com.macth.match.recommend.entity.RecommendResult;
-import com.macth.match.register.entity.ForgetPwdDTO;
-import com.macth.match.register.entity.RegisterDTO;
-import com.macth.match.register.entity.SetNewPwdDTO;
+import com.macth.match.register.dto.ForgetPwdDTO;
+import com.macth.match.register.dto.RegisterDTO;
+import com.macth.match.register.dto.SetNewPwdDTO;
 import com.macth.match.register.entity.ShenFenEntity;
-import com.macth.match.register.entity.VerifyDTO;
+import com.macth.match.register.dto.VerifyDTO;
 
 /**
  * Created by John_Libo on 2016/8/15.

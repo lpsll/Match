@@ -1,4 +1,4 @@
-package com.macth.match.mine.entity;
+package com.macth.match.mine.dto;
 
 import com.macth.match.common.utils.SecurityUtils;
 

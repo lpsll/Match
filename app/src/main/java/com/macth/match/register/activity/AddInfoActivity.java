@@ -19,7 +19,7 @@ import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.ToastUtils;
-import com.macth.match.mine.entity.AddInfoDTO;
+import com.macth.match.mine.dto.AddInfoDTO;
 import com.macth.match.register.entity.Data;
 import com.macth.match.register.entity.ShenFenEntity;
 

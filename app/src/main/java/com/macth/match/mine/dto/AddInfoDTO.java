@@ -1,4 +1,4 @@
-package com.macth.match.mine.entity;
+package com.macth.match.mine.dto;
 
 /**
  * Created by Administrator on 2016/8/27.

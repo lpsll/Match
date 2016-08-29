@@ -20,7 +20,7 @@ import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.find.adapter.FindAdapter;
 import com.macth.match.find.entity.FindEntity;
 import com.macth.match.find.entity.FindResult;
-import com.macth.match.find.entity.SearchDTO;
+import com.macth.match.find.dto.SearchDTO;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 
 import java.io.Serializable;

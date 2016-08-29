@@ -18,7 +18,7 @@ import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.ToastUtils;
-import com.macth.match.login.entity.LoginDTO;
+import com.macth.match.login.dto.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
 import com.macth.match.register.activity.AddInfoActivity;
 import com.macth.match.register.activity.ForgetPwdActivity;

@@ -20,8 +20,8 @@ import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.login.activity.LoginActivity;
-import com.macth.match.register.entity.RegisterDTO;
-import com.macth.match.register.entity.VerifyDTO;
+import com.macth.match.register.dto.RegisterDTO;
+import com.macth.match.register.dto.VerifyDTO;
 import com.macth.match.register.view.TimeButton;
 
 import butterknife.Bind;

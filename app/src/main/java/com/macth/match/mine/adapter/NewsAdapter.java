@@ -16,7 +16,7 @@ import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.mine.activity.NewsActivity;
-import com.macth.match.mine.entity.DeleteNewDTO;
+import com.macth.match.mine.dto.DeleteNewDTO;
 import com.macth.match.mine.entity.NewsEntity;
 
 import java.util.List;

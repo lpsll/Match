@@ -15,8 +15,8 @@ import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.ToastUtils;
-import com.macth.match.register.entity.ForgetPwdDTO;
-import com.macth.match.register.entity.VerifyDTO;
+import com.macth.match.register.dto.ForgetPwdDTO;
+import com.macth.match.register.dto.VerifyDTO;
 import com.macth.match.register.view.TimeButton;
 
 import butterknife.Bind;

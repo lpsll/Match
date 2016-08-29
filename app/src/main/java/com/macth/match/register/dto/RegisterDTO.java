@@ -1,4 +1,4 @@
-package com.macth.match.register.entity;
+package com.macth.match.register.dto;
 
 import com.macth.match.common.utils.SecurityUtils;
 
