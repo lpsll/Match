@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
 import com.macth.match.AppContext;
 import com.macth.match.R;
@@ -19,7 +19,6 @@ import com.macth.match.common.utils.TDevice;
 import com.macth.match.common.widget.EmptyLayout;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 import com.qluxstory.ptrrecyclerview.PtrRecyclerView;
-
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
@@ -43,7 +42,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements BaseRe
     private int action;
 
     //头部搜索布局
-    public LinearLayout ll_find_header;
+    public FrameLayout ll_find_header;
 
 
     public RecyclerView.LayoutManager setupLayoutManager() {
@@ -79,7 +78,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements BaseRe
             mCatalog = args.getInt(BUNDLE_KEY_CATALOG, 0);
         }
 
-        ll_find_header = (LinearLayout) view.findViewById(R.id.ll_find_header);
+        ll_find_header = (FrameLayout) view.findViewById(R.id.ll_find_header);
         mPtrRecyclerView = (PtrRecyclerView) view.findViewById(R.id.base_recyclerview);
         mPtrRecyclerView.setLayoutManager(setupLayoutManager());
         mPtrRecyclerView.setPullRefreshHeaderView(setupPullRefreshHeaderView());

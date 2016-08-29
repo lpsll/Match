@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.find.entity.FindResult;
+import com.macth.match.find.entity.SearchDTO;
 import com.macth.match.login.entity.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
 import com.macth.match.mine.entity.AddInfoDTO;
+import com.macth.match.mine.entity.ChangePwdDTO;
 import com.macth.match.mine.entity.DeleteNewDTO;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.mine.entity.NewsResult;
@@ -304,4 +306,33 @@ public class CommonApiClient extends BaseApiClient {
         get(getAbsoluteUrl("Home/Notices/deleteMyNotice?userid="+dto.getUserid()+"&noticeid="+dto.getNoticeid()), dto,
                 asyncCallBack);
     }
+
+    /**
+     * 修改密码
+     *
+     * @param act
+     * @param
+     * @param callback
+     */
+    public static void ChangePwd(Activity act, ChangePwdDTO dto, CallBack<BaseEntity> callback) {
+        AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
+                act, callback, BaseEntity.class);
+        post(getAbsoluteUrl("Home/Login/updateUserPwd?id="+dto.getUserid()+"&useroldpwd="+dto.getUseroldpwd()+"&usernewpwd="+dto.getUsernewpwd()), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 搜索
+     *
+     * @param dto
+     * @param callback
+     */
+    public static void search(Fragment fragment, SearchDTO
+            dto, CallBack<FindResult> callback) {
+        AsyncCallBack<FindResult> asyncCallBack = new AsyncCallBack<>(
+                fragment, callback, FindResult.class);
+        post(getAbsoluteUrl("Home/Projects/searchProject?search="+dto.getSearch()+"&page="+dto.getPage()), dto,
+                asyncCallBack);
+    }
+
 }

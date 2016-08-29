@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ds_90"
         android:layout_marginLeft="@dimen/ds_40"
@@ -29,9 +30,7 @@
             android:textSize="@dimen/fs_45" />
 
     </LinearLayout>
-
-
-        <android.support.v7.widget.RecyclerView
+        <com.qluxstory.ptrrecyclerview.PtrRecyclerView
             android:id="@+id/recyclerview_find"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

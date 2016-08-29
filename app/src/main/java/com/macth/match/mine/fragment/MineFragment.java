@@ -15,7 +15,6 @@ import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.activity.MineProjectsActivity;
-import com.macth.match.register.activity.AddInfoActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -107,13 +106,14 @@ public class MineFragment extends BaseFragment {
                 }
                 break;
             case R.id.rl_mine_setting:
-//                if (!isLogin) {
-//                    //打开登录页面
-//                    startActivity(new Intent(getContext(), LoginActivity.class));
-//                } else {
-////                    startActivity(new Intent(getActivity(), LoginActivity.class));
-//                }
-                startActivity(new Intent(getContext(), AddInfoActivity.class));
+                if (!isLogin) {
+                    //打开登录页面
+                    MineUIGoto.gotoLoginForPwd(getActivity());
+                } else {
+                    //打开设置页面
+                    MineUIGoto.gotoSetting(getActivity());
+                }
+//                startActivity(new Intent(getContext(), AddInfoActivity.class));
 
                 break;
             case R.id.rl_mine_exit:

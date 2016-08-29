@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.macth.match.mine.activity.SettingActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ds_100"
+        android:background="@color/linear_gray" />
+
+    <RelativeLayout
+        android:id="@+id/rl_setting_change_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ds_160"
+        android:background="#ffffff"
+        android:paddingLeft="@dimen/ds_60"
+        android:paddingRight="@dimen/ds_60">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="修改密码"
+            android:textColor="@color/tv_black"
+            android:textSize="@dimen/fs_50" />
+
+
+
+        <ImageView
+            android:layout_width="@dimen/ds_30"
+            android:layout_height="@dimen/ds_40"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_right" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ds_40"
+        android:background="@color/linear_gray"/>
+    <RelativeLayout
+        android:id="@+id/rlsetting_add_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ds_160"
+        android:background="#ffffff"
+        android:paddingLeft="@dimen/ds_60"
+        android:paddingRight="@dimen/ds_60">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="完善信息"
+            android:textColor="@color/tv_black"
+            android:textSize="@dimen/fs_50" />
+
+
+
+        <ImageView
+            android:layout_width="@dimen/ds_30"
+            android:layout_height="@dimen/ds_40"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_right" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ds_40"
+        android:background="@color/linear_gray"/>
+    <RelativeLayout
+        android:id="@+id/rl_setting_clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ds_160"
+        android:background="#ffffff"
+        android:paddingLeft="@dimen/ds_60"
+        android:paddingRight="@dimen/ds_60">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="清除缓存"
+            android:textColor="@color/tv_black"
+            android:textSize="@dimen/fs_50" />
+
+        <TextView
+            android:id="@+id/tv_moresetting_cache"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/ds_65"
+            android:text="12.2KB"
+            android:textColor="@color/tv_hint"
+            android:textSize="@dimen/fs_45" />
+
+        <ImageView
+            android:layout_width="@dimen/ds_30"
+            android:layout_height="@dimen/ds_40"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_right" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

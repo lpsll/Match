@@ -59,7 +59,10 @@
         <activity android:name=".mine.activity.MineProjectsActivity" />
         <activity android:name=".register.activity.AddInfoActivity" />
         <activity android:name=".mine.activity.NewsActivity" />
-        <activity android:name=".mine.activity.NewsDetailsActivity"></activity>
+        <activity android:name=".mine.activity.NewsDetailsActivity" />
+        <activity android:name=".mine.activity.SettingActivity" />
+        <activity android:name=".register.activity.ForgetPwdActivity" />
+        <activity android:name=".mine.activity.ChangePwdActivity"></activity>
     </application>
 
 </manifest>

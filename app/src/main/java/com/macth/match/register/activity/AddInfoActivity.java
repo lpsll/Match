@@ -163,7 +163,7 @@ public class AddInfoActivity extends BaseTitleActivity {
         CommonApiClient.getShenFen(this, new BaseDTO(), new CallBack<ShenFenEntity>() {
             @Override
             public void onSuccess(ShenFenEntity result) {
-                if(result!=null) {
+                if (result != null) {
                     if (AppConfig.SUCCESS.equals(result.getCode())) {
                         LogUtils.e("获取身份信息成功");
                         shenFenData = result.getData();
@@ -365,7 +365,12 @@ public class AddInfoActivity extends BaseTitleActivity {
     @OnClick(R.id.tv_add_info_ok)
     public void onClick(View v) {
         super.onClick(v);
-        phoneVerify();
+        switch (v.getId()) {
+            case R.id.tv_add_info_ok:
+                phoneVerify();
+
+                break;
+        }
 
     }
 

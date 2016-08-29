@@ -1,7 +1,6 @@
 package com.macth.match.find.entity;
 
 import com.macth.match.common.entity.BaseEntity;
-import com.macth.match.find.entity.FindData;
 
 /**
  * Created by Administrator on 2016/8/24.
@@ -9,6 +8,7 @@ import com.macth.match.find.entity.FindData;
 public class FindResult extends BaseEntity {
 
     FindData data;
+
     public FindData getData() {
         return data;
     }
