@@ -44,7 +44,7 @@ public class SecurityUtils {
      *
      * @param st
      *            明文
-     * @return 32位密文,英文全部转大写
+     * @return 32位密文,英文小写
      */
     public static  String md5(String st) {
         String re_md5 = new String();
@@ -70,7 +70,7 @@ public class SecurityUtils {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return re_md5.toUpperCase();
+        return re_md5.trim();
     }
 
 

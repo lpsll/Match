@@ -170,6 +170,7 @@ public class LoginActivity extends BaseTitleActivity {
                 LogUtils.e("result========" + result.getMsg());
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("登录成功");
+
                     ToastUtils.showShort(LoginActivity.this, "登录成功");
 
                     AppContext.set("username",result.getData().getUsername());

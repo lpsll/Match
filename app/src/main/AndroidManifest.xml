@@ -66,6 +66,9 @@
             android:name=".login.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".register.activity.SetNewPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".register.activity.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".mine.activity.MineProjectsActivity" />
