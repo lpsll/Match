@@ -16,6 +16,7 @@ import com.macth.match.recommend.adapter.RecommendAdapter;
 import com.macth.match.recommend.entity.RecommendEntity;
 import com.macth.match.recommend.entity.RecommendResult;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
+import com.qluxstory.ptrrecyclerview.recyclerview.RecyclerAdapterWithHF;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,7 +25,8 @@ import java.util.List;
  * 推荐页
  */
 public class RecommendFragment extends BaseListFragment<RecommendEntity> {
-
+    RecommendAdapter adater;
+    private RecyclerAdapterWithHF mAdapter;
     @Override
     public BaseRecyclerAdapter<RecommendEntity> createAdapter() {
         return new RecommendAdapter();
@@ -53,8 +55,13 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
                     if(null==result.getData()){
                         mErrorLayout.setErrorType(EmptyLayout.NODATA);
                     }else {
-//                        requestDataSuccess(result);
+                        adater = new RecommendAdapter();
+                        mAdapter = new RecyclerAdapterWithHF(adater);
+                        requestDataSuccess(result);
                         setDataResult(result.getData().getList());
+//                        adater = new RecommendAdapter();
+//                        adater.setData(result.getData().getList(), false);
+//                        setDataResult(result.getData().getList());
                     }
                 }
 
@@ -65,7 +72,7 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
 
     @Override
     public void initData() {
-
+        sendRequestData();
     }
     public boolean autoRefreshIn(){
         return true;
@@ -78,6 +85,10 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
         Bundle b = new Bundle();
         b.putString("pid",entity.getPid());
         RecommendUiGoto.gotoProject(getActivity(),b);
+
+//        Bundle b = new Bundle();
+//        b.putString("url",entity.getPid());
+//        RecommendUiGoto.gotoBrowser(getActivity());
 
     }
 }

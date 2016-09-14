@@ -25,7 +25,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="111"
+            android:text="批准发现"
             android:gravity="center"
             android:textColor="@color/color_01"
             android:textSize="@dimen/fs_45"/>
@@ -38,7 +38,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="111"
+            android:text="已完成"
             android:gravity="center"
             android:textColor="@color/color_01"
             android:textSize="@dimen/fs_45"/>
@@ -57,7 +57,7 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="111"
+                android:text="下载"
                 android:gravity="center"
                 android:textColor="@color/color_bf"
                 android:textSize="@dimen/fs_45"/>
@@ -66,7 +66,7 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="111"
+                android:text="查看"
                 android:gravity="center"
                 android:textColor="@color/color_bf"
                 android:textSize="@dimen/fs_45"/>

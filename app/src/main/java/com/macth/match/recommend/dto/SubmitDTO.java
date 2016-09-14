@@ -6,7 +6,6 @@ import com.macth.match.common.dto.BaseDTO;
  * Created by John_Libo on 2016/8/25.
  */
 public class SubmitDTO extends BaseDTO {
-    private String userid;
     private String companyname;
     private String s_province;
     private String s_city;
@@ -27,16 +26,6 @@ public class SubmitDTO extends BaseDTO {
 //    private String true
     private String government;
     private String qtdesc;
-
-    @Override
-    public String getUserid() {
-        return userid;
-    }
-
-    @Override
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
 
     public String getCompanyname() {
         return companyname;

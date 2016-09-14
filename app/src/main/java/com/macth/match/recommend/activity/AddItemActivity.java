@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPopupWindow;
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.http.CallBack;
@@ -38,7 +39,7 @@ public class AddItemActivity extends BaseTitleActivity {
     @Bind(R.id.et01)
     EditText et01;
     @Bind(R.id.et02)
-    EditText et02;
+    TextView et02;
     @Bind(R.id.et03)
     TextView et03;
     @Bind(R.id.et04)
@@ -48,7 +49,7 @@ public class AddItemActivity extends BaseTitleActivity {
     @Bind(R.id.et06)
     EditText et06;
     @Bind(R.id.et07)
-    EditText et07;
+    TextView et07;
     @Bind(R.id.et08)
     TextView et08;
     @Bind(R.id.et09)
@@ -96,6 +97,7 @@ public class AddItemActivity extends BaseTitleActivity {
     private String mProvince,mCity,mArea;
     int type;
     List<AddItemListEntity> mListEntity;
+    private String mType;
 
     @Override
     protected int getContentResId() {
@@ -117,11 +119,10 @@ public class AddItemActivity extends BaseTitleActivity {
 
 
 
-    @OnClick({R.id.et02, R.id.et03, R.id.et04, R.id.et05, R.id.et08, R.id.et10, R.id.et11,R.id.et17, R.id.tv_btn})
+    @OnClick({R.id.et02, R.id.et03, R.id.et04, R.id.et05,R.id.et07, R.id.et08, R.id.et10, R.id.et11,R.id.et17, R.id.tv_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.et02:
-                et02.setInputType(InputType.TYPE_DATETIME_VARIATION_NORMAL);
                 RecommendUiGoto.city(this);
                 break;
             case R.id.et03:
@@ -133,6 +134,10 @@ public class AddItemActivity extends BaseTitleActivity {
                 break;
             case R.id.et05:
                 type =2;
+                reqList();
+                break;
+            case R.id.et07:
+                type =6;
                 reqList();
                 break;
             case R.id.et08:
@@ -160,36 +165,131 @@ public class AddItemActivity extends BaseTitleActivity {
                 if(TextUtils.isEmpty(et01.getText().toString())){
                     DialogUtils.showPrompt(this, "提示","公司名称不能为空", "知道了");
                 }
-                else if(TextUtils.isEmpty(et02.getText().toString())){
+                else if(et02.getText().toString().equals("请选择您所在的省份")){
                     DialogUtils.showPrompt(this, "提示","省份不能为空", "知道了");
                 }
-                else if(TextUtils.isEmpty(et03.getText().toString())){
+                else if(et03.getText().toString().equals("请选择您所在的地市")){
                     DialogUtils.showPrompt(this, "提示","地市不能为空", "知道了");
                 }
-                else if(TextUtils.isEmpty(et04.getText().toString())){
+                else if(et04.getText().toString().equals("请选择项目类型")){
                     DialogUtils.showPrompt(this, "提示","项目类型不能为空", "知道了");
                 }
-                else if(TextUtils.isEmpty(et05.getText().toString())){
+                else if(et05.getText().toString().equals("请选择企业性质")){
                     DialogUtils.showPrompt(this, "提示","企业性质不能为空", "知道了");
                 }
                 else if(TextUtils.isEmpty(et06.getText().toString())){
                     DialogUtils.showPrompt(this, "提示","项目金额不能为空", "知道了");
                 }
-                else if(TextUtils.isEmpty(et07.getText().toString())){
-                    DialogUtils.showPrompt(this, "提示","期限不能为空", "知道了");
-                }
-                else if(TextUtils.isEmpty(et08.getText().toString())){
+//                else if(et07.getText().toString().equals("请选择期限")){
+//                    DialogUtils.showPrompt(this, "提示","期限不能为空", "知道了");
+//                }
+                else if(et08.getText().toString().equals("请选择增信措施")){
                     DialogUtils.showPrompt(this, "提示","增信措施不能为空", "知道了");
                 }
-                else if(TextUtils.isEmpty(et09.getText().toString())){
-                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                else if(et08.getText().toString().equals("担保")){
+                    mType = "1";
+                    if(TextUtils.isEmpty(et09.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","担保公司不能为空", "知道了");
+                    }
+                    else if(et10.getText().toString().equals("请输入项目评级")){
+                        DialogUtils.showPrompt(this, "提示","项目评级不能为空", "知道了");
+                    }
+                    else if(et11.getText().toString().equals("请输入主题评级")){
+                        DialogUtils.showPrompt(this, "提示","主题评级不能为空", "知道了");
+                    }
+                    //                else if(et17.getText().toString().equals("请选择债券评级")){
+//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+//                }
+                    else if(TextUtils.isEmpty(et18.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
+                    }
+                    else {
+                        LogUtils.e("tj---","tj");
+                        reqSubmit();//提交
+                    }
+
                 }
-                else if(TextUtils.isEmpty(et10.getText().toString())){
-                    DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
+                else if(et08.getText().toString().equals("抵押")){
+                    mType = "2";
+                    LogUtils.e("et12----",""+et12.getText().toString());
+                    if(TextUtils.isEmpty(et12.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","评估价值不能为空", "知道了");
+                    }
+                    else if(TextUtils.isEmpty(et13.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","介绍不能为空", "知道了");
+                    }
+                    //                else if(et17.getText().toString().equals("请选择债券评级")){
+//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+//                }
+                    else if(TextUtils.isEmpty(et18.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
+                    }
+                    else {
+                        LogUtils.e("tj---","tj");
+                        reqSubmit();//提交
+                    }
+
                 }
-                else {
-                    reqSubmit();//提交
+                else if(et08.getText().toString().equals("人大决议")){
+                    mType = "3";
+                    if(TextUtils.isEmpty(et14.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","是/否不能为空", "知道了");
+                    }
+                    else if(TextUtils.isEmpty(et15.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","哪一级政府不能为空", "知道了");
+                    }
+                    //                else if(et17.getText().toString().equals("请选择债券评级")){
+//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+//                }
+                    else if(TextUtils.isEmpty(et18.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
+                    }
+                    else {
+                        LogUtils.e("tj---","tj");
+                        reqSubmit();//提交
+                    }
+
                 }
+                else if(et08.getText().toString().equals("财政承诺")){
+                    mType = "4";
+                    if(TextUtils.isEmpty(et14.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","是/否不能为空", "知道了");
+                    }
+                    else if(TextUtils.isEmpty(et15.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","哪一级政府不能为空", "知道了");
+                    }
+                    //                else if(et17.getText().toString().equals("请选择债券评级")){
+//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+//                }
+                    else if(TextUtils.isEmpty(et18.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
+                    }
+                    else {
+                        LogUtils.e("tj---","tj");
+                        reqSubmit();//提交
+                    }
+
+                }
+
+                else if(et08.getText().toString().equals("其它")){
+                    mType = "5";
+                    if(TextUtils.isEmpty(et16.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","其他说明不能为空", "知道了");
+                    }
+                    //                else if(et17.getText().toString().equals("请选择债券评级")){
+//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+//                }
+                    else if(TextUtils.isEmpty(et18.getText().toString())){
+                        DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
+                    }
+                    else {
+                        LogUtils.e("tj---","tj");
+                        reqSubmit();//提交
+                    }
+
+                }
+
+
 
                 break;
         }
@@ -197,7 +297,36 @@ public class AddItemActivity extends BaseTitleActivity {
 
     private void reqSubmit() {
         SubmitDTO dto=new SubmitDTO();
+        dto.setUserid(AppContext.get("usertoken",""));
         dto.setCompanyname(et01.getText().toString());
+        dto.setS_province(et02.getText().toString());
+        dto.setS_city(et03.getText().toString());
+        dto.setProjecttype(et04.getText().toString());
+        dto.setNature(et05.getText().toString());
+        dto.setPrice(et06.getText().toString());
+        dto.setTermunit(et07.getText().toString());
+//        dto.setTermvalue("");
+        dto.setSincerity(et08.getText().toString());
+        dto.setBond(et17.getText().toString());
+        dto.setCost(et18.getText().toString());
+        dto.setPromote("2");
+        if(mType.equals("1")){
+            dto.setDbcompanyname(et09.getText().toString());
+            dto.setDbitemrate(et10.getText().toString());
+            dto.setDbassure_ztrate(et11.getText().toString());
+        }
+        else if(mType.equals("2")){
+            dto.setDyratevalue(et12.getText().toString());
+            dto.setDydesc(et13.getText().toString());
+        }
+        else if(mType.equals("3")||mType.equals("4")){
+//            dto.setPromote(et15.getText().toString());
+            dto.setGovernment(et15.getText().toString());
+        }
+        else if(mType.equals("5")){
+            dto.setQtdesc(et16.getText().toString());
+        }
+
         CommonApiClient.submit(this, dto, new CallBack<AddItemListResult>() {
             @Override
             public void onSuccess(AddItemListResult result) {
@@ -225,6 +354,9 @@ public class AddItemActivity extends BaseTitleActivity {
         }
         if(type==5){
             dto.setConstantType("债券评级");
+        }
+        if(type==6){
+            dto.setConstantType("期限");
         }
 
         CommonApiClient.addList(this, dto, new CallBack<AddItemListResult>() {

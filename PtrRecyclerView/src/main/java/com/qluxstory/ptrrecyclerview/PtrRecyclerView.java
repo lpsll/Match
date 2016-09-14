@@ -5,6 +5,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -18,7 +19,6 @@ import in.srain.cube.views.ptr.PtrUIHandler;
 
 /**
  * 用PtrFrameLayout包裹一层RecyclerView
- * Created by bixinwei on 16/3/9.
  */
 public class PtrRecyclerView extends PtrFrameLayout {
 
@@ -34,7 +34,7 @@ public class PtrRecyclerView extends PtrFrameLayout {
 
     private RecyclerView mRecyclerView;
 
-    private View loadMoreFooterView;
+    private View loadMoreFooterView,loadCompleteFooterView;
 
     private BaseRecyclerAdapter mAdapter;
 
@@ -149,9 +149,11 @@ public class PtrRecyclerView extends PtrFrameLayout {
                 }
             }
             if (isScrolled && loadMoreFooterView == null) {
+                Log.e("onScrolled----1---","loadMoreFooterView");
                 addLoadMoreFooterView();
             }
             if (isScrolled && !noMoreData) {
+                Log.e("onScrolled----2----","noMoreData");
                 mAdapter.showloadMoreFooterView(true);
             }
         }
@@ -199,8 +201,16 @@ public class PtrRecyclerView extends PtrFrameLayout {
     public void noMoreData() {
         Toast.makeText(mContext, "没有更多数据了", Toast.LENGTH_SHORT).show();
         noMoreData = true;
-        mAdapter.showloadMoreFooterView(false);
+        addLoadCompleteFooterView();
 
+    }
+
+    public void addLoadCompleteFooterView() {
+        loadCompleteFooterView = inflater.inflate(R.layout.view_push_load_complete_footer, mRecyclerView, false);
+        loadCompleteFooterView.setTag("loadCompleteFooterView");
+        addFooterView(loadCompleteFooterView);
+//        mAdapter.showloadMoreFooterView(false);
+        mAdapter.notifyItemChanged(mAdapter.getItemCount() - 1);
     }
 
     public void reset() {

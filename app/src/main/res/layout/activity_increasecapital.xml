@@ -3,6 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,6 +67,21 @@
         android:textSize="@dimen/fs_50"
         android:text="@string/position_information"/>
 
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ds_600"
+        android:layout_marginTop="@dimen/ds_40"
+        android:layout_marginRight="@dimen/ds_60"
+        android:layout_marginLeft="@dimen/ds_60"
+        android:clickable="true" />
 
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ds_40"
+        android:src="@drawable/paizhaoxdpi_03"
+        android:layout_marginBottom="@dimen/ds_60"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

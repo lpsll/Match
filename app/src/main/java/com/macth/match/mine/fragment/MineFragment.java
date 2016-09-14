@@ -20,7 +20,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
- * Created by John_Libo on 2016/8/22.
+ * 我的
  */
 public class MineFragment extends BaseFragment {
     @Bind(R.id.tv_username)

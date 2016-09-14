@@ -13,6 +13,7 @@ import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.TextViewUtils;
 import com.macth.match.find.fragment.FindFragment;
+import com.macth.match.group.fragment.GroupFragment;
 import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.fragment.MineFragment;
 import com.macth.match.notice.fragment.NoticeFragment;
@@ -61,6 +62,7 @@ public class MainActivity extends BaseTitleActivity {
 
     private int currentTab = -1; // 当前Tab页面索引
     private TextView mBaseEnsure, mBaseBack;
+    int fg1,fg2,fg3,fg4,fg5;
 
     @Override
     protected int getContentResId() {
@@ -69,6 +71,12 @@ public class MainActivity extends BaseTitleActivity {
 
     @Override
     public void initView() {
+        fg1 = 0;
+        fg2 = 0;
+        fg3 = 0;
+        fg4 = 0;
+        fg5 = 0;
+
         mBaseBack = (TextView) findViewById(R.id.base_titlebar_back);
         mBaseBack.setVisibility(View.GONE);
         mBaseEnsure = (TextView) findViewById(R.id.base_titlebar_ensure);
@@ -126,7 +134,7 @@ public class MainActivity extends BaseTitleActivity {
                 fragment = new NoticeFragment();
                 break;
             case 3:
-                fragment = new RecommendFragment();
+                fragment = new GroupFragment();
                 break;
             case 4:
                 fragment = new MineFragment();
@@ -214,22 +222,48 @@ public class MainActivity extends BaseTitleActivity {
                 setTitleText("推荐");
                 mBaseEnsure.setVisibility(View.VISIBLE);
                 mBaseEnsure.setText("新增项目");
+                if(fg1==0){
+                    fg1=1;
+                }else {
+                    targetFragment.initData();
+                }
                 break;
             case 1:
                 setTitleText("发现");
+                mBaseEnsure.setVisibility(View.VISIBLE);
                 mBaseEnsure.setText("筛选");
+                if(fg1==0){
+                    fg1=1;
+                }else {
+                    targetFragment.initData();
+                }
                 break;
             case 2:
                 setTitleText("公告");
                 mBaseEnsure.setVisibility(View.GONE);
+                if(fg2==0){
+                    fg2=1;
+                }else {
+                    targetFragment.initData();
+                }
                 break;
             case 3:
                 setTitleText("群组");
                 mBaseEnsure.setVisibility(View.GONE);
+                if(fg3==0){
+                    fg3=1;
+                }else {
+                    targetFragment.initData();
+                }
                 break;
             case 4:
                 setTitleText("我的");
                 mBaseEnsure.setVisibility(View.GONE);
+                if(fg4==0){
+                    fg4=1;
+                }else {
+                    targetFragment.initView(null);
+                }
                 break;
 
         }

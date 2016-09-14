@@ -56,7 +56,7 @@ public class NewsActivity extends BaseTitleActivity {
     private void getData() {
         BaseDTO dto = new BaseDTO();
         //此处需要替换用户id
-        dto.setUserid("2");
+        dto.setUserID("2");
         CommonApiClient.newsList(NewsActivity.this, dto, new CallBack<NewsResult>() {
             @Override
             public void onSuccess(NewsResult result) {

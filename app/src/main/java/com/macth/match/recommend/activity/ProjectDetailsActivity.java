@@ -15,11 +15,14 @@ import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
+import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.TextViewUtils;
 import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.recommend.RecommendUiGoto;
+import com.macth.match.recommend.dto.CooperativeDTO;
 import com.macth.match.recommend.dto.ProjectDetailsDTO;
+import com.macth.match.recommend.entity.AddItemListResult;
 import com.macth.match.recommend.entity.ProjectDetailsData;
 import com.macth.match.recommend.entity.ProjectDetailsEntity;
 import com.macth.match.recommend.entity.ProjectDetailsListEntity;
@@ -98,7 +101,7 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
 
         Intent intent = getIntent();
         mPid = intent.getBundleExtra("bundle").getString("pid");
-        bool = AppContext.get("isLogin",false);
+        bool = AppContext.get("IS_LOGIN",false);
     }
 
     @Override
@@ -189,6 +192,11 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
             mEt09.setText(entity.getOther_desc());
         }
 
+        if(null==mEntity){
+            mTvBtn.setVisibility(View.GONE);
+        }else {
+            mTvBtn.setVisibility(View.VISIBLE);
+        }
 
 
     }
@@ -198,6 +206,12 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.pd_tv01:
+                if(bool){
+                    reqCooperative();//申请协同作业
+                }else {
+                    RecommendUiGoto.gotoLogin(this);//登录
+                }
+
                 break;
             case R.id.pd_tv02:
                 if(bool){
@@ -220,5 +234,23 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
                 baseGoBack();
                 break;
         }
+    }
+
+    private void reqCooperative() {
+        CooperativeDTO dto=new CooperativeDTO();
+        dto.setProjectID(mPid);
+        dto.setUserID(AppContext.get("usertoken",""));
+        CommonApiClient.cooperative(this, dto, new CallBack<AddItemListResult>() {
+            @Override
+            public void onSuccess(AddItemListResult result) {
+                if(AppConfig.SUCCESS.equals(result.getCode())){
+                    LogUtils.e("申请协同作业成功");
+                    mPdTv01.setEnabled(false);
+                    DialogUtils.showPrompt(ProjectDetailsActivity.this, "提示","申请成功！", "知道了");
+
+                }
+
+            }
+        });
     }
 }

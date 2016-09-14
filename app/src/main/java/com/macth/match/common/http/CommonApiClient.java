@@ -16,11 +16,14 @@ import com.macth.match.mine.dto.DeleteNewDTO;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.mine.entity.NewsResult;
 import com.macth.match.notice.entity.NoticeResult;
+import com.macth.match.recommend.dto.CooperativeDTO;
+import com.macth.match.recommend.dto.DownloadDTO;
 import com.macth.match.recommend.dto.FundsDTO;
 import com.macth.match.recommend.dto.MinestoneDetailsDTO;
 import com.macth.match.recommend.dto.SubmitDTO;
 import com.macth.match.recommend.entity.AddItemListResult;
 import com.macth.match.recommend.entity.FundsResult;
+import com.macth.match.recommend.entity.MilDetailsResult;
 import com.macth.match.recommend.entity.ProjectDetailsResult;
 import com.macth.match.recommend.entity.RecommendResult;
 import com.macth.match.register.dto.ForgetPwdDTO;
@@ -60,6 +63,21 @@ public class CommonApiClient extends BaseApiClient {
         AsyncCallBack<ProjectDetailsResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, ProjectDetailsResult.class);
         post(getAbsoluteUrl("Home/Projects/getProjectInfo"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 申请协同作业
+     *
+     * @param act
+     * @param dto
+     * @param callback
+     */
+    public static void cooperative(Activity act, CooperativeDTO
+            dto, CallBack<AddItemListResult> callback) {
+        AsyncCallBack<AddItemListResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, AddItemListResult.class);
+        post(getAbsoluteUrl("Home/Cooperatives/applyCooperatives"), dto,
                 asyncCallBack);
     }
 
@@ -116,7 +134,21 @@ public class CommonApiClient extends BaseApiClient {
             dto, CallBack<AddItemListResult> callback) {
         AsyncCallBack<AddItemListResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, AddItemListResult.class);
-        post(getAbsoluteUrl("Home/Projects/publishProject "), dto,
+        post(getAbsoluteUrl("Home/Projects/publishProject"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 获取用户群
+     *
+     * @param dto
+     * @param callback
+     */
+    public static void group(Activity act, BaseDTO
+            dto, CallBack<AddItemListResult> callback) {
+        AsyncCallBack<AddItemListResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, AddItemListResult.class);
+        get(getAbsoluteUrl("Home/Cooperatives/getMyChatGroup"), dto,
                 asyncCallBack);
     }
 
@@ -141,12 +173,40 @@ public class CommonApiClient extends BaseApiClient {
      * @param callback
      */
     public static void milestoneDetails(Activity act, MinestoneDetailsDTO
-            dto, CallBack<FundsResult> callback) {
-        AsyncCallBack<FundsResult> asyncCallBack = new AsyncCallBack<>(
-                act, callback, FundsResult.class);
+            dto, CallBack<MilDetailsResult> callback) {
+        AsyncCallBack<MilDetailsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, MilDetailsResult.class);
         post(getAbsoluteUrl("Home/Cooperatives/getMilePostDetailInfo"), dto,
                 asyncCallBack);
     }
+    /**
+     * 里程碑上传文件
+     *
+     * @param dto
+     * @param callback
+     */
+    public static void download(Activity act, DownloadDTO
+            dto, CallBack<FundsResult> callback) {
+        AsyncCallBack<FundsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, FundsResult.class);
+        post(getAbsoluteUrl("Home/Cooperatives/uploadMilePostFile "), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 查看里程碑
+     *
+     * @param dto
+     * @param callback
+     */
+    public static void see(Activity act, DownloadDTO
+            dto, CallBack<FundsResult> callback) {
+        AsyncCallBack<FundsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, FundsResult.class);
+        post(getAbsoluteUrl("Home/Cooperatives/uploadMilePostFile "), dto,
+                asyncCallBack);
+    }
+
 
     /**
      * 发现列表
@@ -303,7 +363,7 @@ public class CommonApiClient extends BaseApiClient {
     public static void  deleteNew(Activity act, DeleteNewDTO dto, CallBack<BaseEntity> callback) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        get(getAbsoluteUrl("Home/Notices/deleteMyNotice?userid="+dto.getUserid()+"&noticeid="+dto.getNoticeid()), dto,
+        get(getAbsoluteUrl("Home/Notices/deleteMyNotice?userid="+dto.getUserID()+"&noticeid="+dto.getNoticeid()), dto,
                 asyncCallBack);
     }
 

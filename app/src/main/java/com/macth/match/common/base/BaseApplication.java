@@ -10,7 +10,9 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 
 
+import com.baidu.mapapi.SDKInitializer;
 import com.macth.match.common.cache.DiskLruCacheHelper;
+import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.StringUtils;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -19,6 +21,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.io.IOException;
+
+import io.rong.imkit.RongIM;
 
 /**
  * Created by John_Libo on 2016/8/15.
@@ -41,7 +45,11 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         _context = getApplicationContext();
-        initImageLoader(this);
+        initImageLoader(this);//图片初始化
+        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
+        //注意该方法要再setContentView方法之前实现
+        SDKInitializer.initialize(getApplicationContext());
+        RongIM.init(this);//融云初始化
         try {
             helper=new DiskLruCacheHelper(_context);
         } catch (IOException e) {

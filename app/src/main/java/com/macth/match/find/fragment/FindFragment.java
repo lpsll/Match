@@ -1,6 +1,8 @@
 package com.macth.match.find.fragment;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -58,7 +60,7 @@ public class FindFragment extends BaseListFragment<FindEntity> {
 
 
     protected void sendRequestData() {
-
+        LogUtils.e("sendRequestData---","sendRequestData");
         BaseDTO dto = new BaseDTO();
         CommonApiClient.find(this, dto, new CallBack<FindResult>() {
             @Override
@@ -85,18 +87,21 @@ public class FindFragment extends BaseListFragment<FindEntity> {
 
 
     @Override
-    public void initData() {
-
-
-
+    public void initView(View view) {
+        super.initView(view);
         ll_find_header.setVisibility(View.VISIBLE);
         ll_find_search1 = (LinearLayout) ll_find_header.findViewById(R.id.ll_find_search1);
         btn_find = (Button) ll_find_header.findViewById(R.id.btn_find);
         et_find_search = (EditText) ll_find_header.findViewById(R.id.et_find_search);
         img_find_search = (ImageView) ll_find_header.findViewById(R.id.img_find_search);
-
         btn_find.setOnClickListener(this);
         img_find_search.setOnClickListener(this);
+    }
+
+    @Override
+    public void initData() {
+        LogUtils.e("initData---","initData");
+        sendRequestData();
 
     }
 

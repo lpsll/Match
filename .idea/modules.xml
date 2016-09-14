@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Android_IMKit_SDK_v2_7_2/Android_IMKit_SDK_v2_7_2.iml" filepath="$PROJECT_DIR$/Android_IMKit_SDK_v2_7_2/Android_IMKit_SDK_v2_7_2.iml" />
       <module fileurl="file://$PROJECT_DIR$/Match.iml" filepath="$PROJECT_DIR$/Match.iml" />
       <module fileurl="file://$PROJECT_DIR$/PtrRecyclerView/PtrRecyclerView.iml" filepath="$PROJECT_DIR$/PtrRecyclerView/PtrRecyclerView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />

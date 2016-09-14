@@ -3,6 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +40,7 @@
         android:layout_marginRight="@dimen/ds_40"
         android:gravity="clip_horizontal"
         android:textSize="@dimen/fs_45"
-        android:text="111"
+        android:text=""
         android:textColor="@color/color_01"
         android:paddingLeft="@dimen/ds_20"
         android:paddingTop="@dimen/ds_20"
@@ -69,7 +76,7 @@
         android:gravity="clip_horizontal"
         android:textSize="@dimen/fs_45"
         android:textColor="@color/color_01"
-        android:text="1111"
+        android:text=""
       />
     <LinearLayout
         android:layout_width="match_parent"
@@ -96,8 +103,10 @@
         android:id="@+id/img_01"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ds_40"
         android:layout_marginLeft="@dimen/ds_60"
-        android:layout_marginRight="@dimen/ds_60"/>
+        android:layout_marginRight="@dimen/ds_60"
+        android:scaleType="fitXY"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -121,13 +130,22 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/img_02"
+        android:layout_marginTop="@dimen/ds_40"
+        android:layout_marginLeft="@dimen/ds_60"
+        android:layout_marginRight="@dimen/ds_60"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"/>
     <ImageView
         android:id="@+id/img_03"
+        android:layout_marginTop="@dimen/ds_40"
+        android:layout_marginBottom="@dimen/ds_60"
+        android:layout_marginLeft="@dimen/ds_60"
+        android:layout_marginRight="@dimen/ds_60"
+        android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

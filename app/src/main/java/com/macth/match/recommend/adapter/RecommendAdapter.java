@@ -8,6 +8,7 @@ import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.recommend.entity.RecommendEntity;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
 import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
+import com.qluxstory.ptrrecyclerview.recyclerview.RecyclerAdapterWithHF;
 
 /**
  * Created by John_Libo on 2016/8/23.

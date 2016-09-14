@@ -1,1 +1,1 @@
-include ':app',':PtrRecyclerView',':lib_pickerview'
+include ':app',':PtrRecyclerView',':lib_pickerview',':Android_IMKit_SDK_v2_7_2'

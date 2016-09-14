@@ -77,7 +77,16 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
                 mFootViews.remove(loadMoreFooterView);
             }
             mFootViews.add(view);
-        } else {
+        }
+        else if ("loadCompleteFooterView".equals(view.getTag())) {
+            loadMoreFooterView = view;
+            if (mFootViews.contains(loadMoreFooterView)) {
+                mFootViews.remove(loadMoreFooterView);
+            }
+            mFootViews.add(view);
+        }
+
+        else {
             if (mFootViews.contains(loadMoreFooterView)) {
                 mFootViews.add(mFootViews.size() - 2, view);
             } else {

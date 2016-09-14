@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.macth.match.common.base.BrowserActivity;
 import com.macth.match.login.activity.LoginActivity;
 import com.macth.match.recommend.activity.AddItemActivity;
 import com.macth.match.recommend.activity.ChoiceCityActivity;
@@ -26,6 +27,16 @@ public class RecommendUiGoto {
     public static void gotoProject(Context context, Bundle b){
         Intent intent = new Intent(context, ProjectDetailsActivity.class);
         intent.putExtra("bundle",b);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转到项目详情(加载h5页面)
+     * @param context
+     */
+
+    public static void gotoBrowser(Context context){
+        Intent intent = new Intent(context, BrowserActivity.class);
         context.startActivity(intent);
     }
 

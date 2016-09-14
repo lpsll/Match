@@ -74,6 +74,7 @@ public class DetailsFundsActivity extends BaseTitleActivity {
         et02.setText(result.getData().getFunds_companyaddrress());
         ImageLoaderUtils.displayImage(AppConfig.BASE_URL+result.getData().getFunds_images(), img01);
         ImageLoaderUtils.displayImage(result.getData().getImageurl()[0], img02);
+        ImageLoaderUtils.displayImage(result.getData().getImageurl()[0], img03);
     }
 
 

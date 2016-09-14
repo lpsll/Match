@@ -64,6 +64,15 @@
         <item name="android:textSize">@dimen/fs_50</item>
     </style>
 
+    <!-- webview中的进度条 -->
+    <style name="CommonWebViewProgressBarStyle" parent="@android:style/Widget.SeekBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@android:drawable/progress_horizontal</item>
+        <item name="android:indeterminateDrawable">@android:drawable/progress_horizontal</item>
+        <item name="android:minHeight">8dip</item>
+        <item name="android:maxHeight">20dip</item>
+    </style>
+
 =======
     <!--点击按钮的样式-->
     <style name="button_click1">
@@ -80,6 +89,8 @@
     <item name="android:textSize">@dimen/fs_50</item>
 
     </style>
+
+
 
 
     <!--<item name="?android:attr/borderlessButtonStyle"/>-->

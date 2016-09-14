@@ -12,9 +12,11 @@ import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
+import com.macth.match.recommend.dto.DownloadDTO;
 import com.macth.match.recommend.dto.FundsDTO;
 import com.macth.match.recommend.dto.MinestoneDetailsDTO;
 import com.macth.match.recommend.entity.FundsResult;
+import com.macth.match.recommend.entity.MilDetailsResult;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -98,7 +100,6 @@ public class MilestoneDetailsActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-
         reqMilDetails();
     }
 
@@ -106,11 +107,11 @@ public class MilestoneDetailsActivity extends BaseTitleActivity {
         MinestoneDetailsDTO dto = new MinestoneDetailsDTO();
         dto.setCooperativeID(AppContext.get("cooperativeid",""));
         dto.setProjectID(mProjectID);
-        CommonApiClient.milestoneDetails(this, dto, new CallBack<FundsResult>() {
+        CommonApiClient.milestoneDetails(this, dto, new CallBack<MilDetailsResult>() {
             @Override
-            public void onSuccess(FundsResult result) {
+            public void onSuccess(MilDetailsResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
-                    LogUtils.e("获取项目资金用途详情成功");
+                    LogUtils.e("里程碑详情成功");
 
                 }
 
@@ -123,6 +124,9 @@ public class MilestoneDetailsActivity extends BaseTitleActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.md_tv1_03:
+//                reqSee();
+                reqDownload();
+
                 break;
             case R.id.md_tv1_04:
                 break;
@@ -154,5 +158,41 @@ public class MilestoneDetailsActivity extends BaseTitleActivity {
                 baseGoBack();
                 break;
         }
+    }
+
+    private void reqSee() {
+        DownloadDTO dto = new DownloadDTO();
+        dto.setCooperativeID(AppContext.get("cooperativeid",""));
+        dto.setProjectID(mProjectID);
+        dto.setMilepostID("");
+        dto.setUserID(AppContext.get("usertoken",""));
+        CommonApiClient.see(this, dto, new CallBack<FundsResult>() {
+            @Override
+            public void onSuccess(FundsResult result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("查看里程碑成功");
+
+                }
+
+            }
+        });
+    }
+
+    private void reqDownload() {
+        DownloadDTO dto = new DownloadDTO();
+        dto.setCooperativeID(AppContext.get("cooperativeid",""));
+        dto.setProjectID(mProjectID);
+        dto.setMilepostID("");
+        dto.setUserID(AppContext.get("usertoken",""));
+        CommonApiClient.download(this, dto, new CallBack<FundsResult>() {
+            @Override
+            public void onSuccess(FundsResult result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("里程碑上传文件成功");
+
+                }
+
+            }
+        });
     }
 }

@@ -24,8 +24,19 @@ public class ProjectDetailsData extends BaseEntity {
     private String project_ctime;
     private String project_usertype;
     private String project_cost;
+    private String project_userid;
     ProjectDetailsEntity project_signceritynode;
     List<ProjectDetailsListEntity> project_fundslist;
+
+    public String getProject_userid() {
+        return project_userid;
+    }
+
+    public void setProject_userid(String project_userid) {
+        this.project_userid = project_userid;
+    }
+
+
 
 
     public List<ProjectDetailsListEntity> getProject_fundslist() {

@@ -96,7 +96,7 @@ public class NoticeFragment extends BaseListFragment<NoticeEntity> {
 
     @Override
     public void initData() {
-
+        sendRequestData();
     }
 
     public boolean autoRefreshIn() {
