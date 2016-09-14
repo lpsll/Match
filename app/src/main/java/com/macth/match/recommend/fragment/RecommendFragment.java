@@ -16,7 +16,6 @@ import com.macth.match.recommend.adapter.RecommendAdapter;
 import com.macth.match.recommend.entity.RecommendEntity;
 import com.macth.match.recommend.entity.RecommendResult;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
-import com.qluxstory.ptrrecyclerview.recyclerview.RecyclerAdapterWithHF;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.List;
  */
 public class RecommendFragment extends BaseListFragment<RecommendEntity> {
     RecommendAdapter adater;
-    private RecyclerAdapterWithHF mAdapter;
     @Override
     public BaseRecyclerAdapter<RecommendEntity> createAdapter() {
         return new RecommendAdapter();
@@ -55,13 +53,8 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
                     if(null==result.getData()){
                         mErrorLayout.setErrorType(EmptyLayout.NODATA);
                     }else {
-                        adater = new RecommendAdapter();
-                        mAdapter = new RecyclerAdapterWithHF(adater);
                         requestDataSuccess(result);
                         setDataResult(result.getData().getList());
-//                        adater = new RecommendAdapter();
-//                        adater.setData(result.getData().getList(), false);
-//                        setDataResult(result.getData().getList());
                     }
                 }
 
