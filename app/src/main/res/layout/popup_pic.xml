@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_pop"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#55222222"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/ds_30"
+        android:layout_marginRight="@dimen/ds_30"
+        android:layout_marginBottom="@dimen/ds_30"
+        android:orientation="vertical">
+        <LinearLayout
+            android:background="@drawable/prompt_box_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/btn_alter_pic_camera"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ds_150"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:textSize="@dimen/fs_65"
+                android:text="@string/photo_graph"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ds_1"
+                android:background="@color/color_cc"/>
+
+
+            <TextView
+                android:id="@+id/btn_alter_pic_photo"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ds_150"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/ds_30"
+                android:textSize="@dimen/fs_65"
+                android:text="@string/photo_choose"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btn_alter_exit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ds_150"
+            android:background="@drawable/prompt_box_no"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/ds_30"
+            android:textSize="@dimen/fs_65"
+            android:text="@string/photo_cancel"/>
+    </LinearLayout>
+</LinearLayout>

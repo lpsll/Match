@@ -14,7 +14,7 @@ import com.macth.match.common.base.BaseFragment;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.mine.MineUIGoto;
-import com.macth.match.mine.activity.MineProjectsActivity;
+import com.macth.match.mine.activity.MyProjects2Activity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -93,7 +93,8 @@ public class MineFragment extends BaseFragment {
 
                     MineUIGoto.gotoLoginForPwd(getActivity());
                 } else {
-                    startActivity(new Intent(getActivity(), MineProjectsActivity.class));
+//                    startActivity(new Intent(getActivity(), MineProjectsActivity.class));
+                    startActivity(new Intent(getActivity(), MyProjects2Activity.class));
 
                 }
                 break;
