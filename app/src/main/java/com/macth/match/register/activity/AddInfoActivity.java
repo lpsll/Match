@@ -588,7 +588,7 @@ public class AddInfoActivity extends BaseTitleActivity {
         if(userCard == null) {   //用户没有传头像
 
 
-        }else {              //用户上传了头像
+        }else {              //用户上传了头像1
             LogUtils.d("头像的路径========="+userCard);
 
             Bitmap bitmap = BitmapFactory.decodeFile(userCard);
