@@ -15,7 +15,7 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.widget.EmptyLayout;
-import com.macth.match.find.SearchActivity;
+import com.macth.match.find.Search2Activity;
 import com.macth.match.find.adapter.FindAdapter;
 import com.macth.match.find.entity.FindEntity;
 import com.macth.match.find.entity.FindResult;
@@ -129,7 +129,8 @@ public class FindFragment extends BaseListFragment<FindEntity> {
 //                inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
                     //跳转到搜索页面
-                startActivity(new Intent(getContext(), SearchActivity.class));
+//                startActivity(new Intent(getContext(), SearchActivity.class));
+                startActivity(new Intent(getContext(), Search2Activity.class));
 
                 break;
 

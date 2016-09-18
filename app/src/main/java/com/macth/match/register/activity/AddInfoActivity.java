@@ -35,10 +35,10 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.BitmapToByte;
 import com.macth.match.common.utils.BitmapToRound_Util;
+import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.ToastUtils;
-import com.macth.match.common.utils.xUtilsImageUtils;
 import com.macth.match.mine.dto.AddInfoDTO;
 import com.macth.match.register.entity.Data;
 import com.macth.match.register.entity.ShenFenEntity;
@@ -645,7 +645,8 @@ public class AddInfoActivity extends BaseTitleActivity {
 //            imgUserCard.setImageBitmap(BitmapFactory
 //                    .decodeFile(picturePath));
 
-            xUtilsImageUtils.display(imgUserCard,picturePath,true);
+            ImageLoaderUtils.displayAvatarImage(picturePath,imgUserCard);
+//            xUtilsImageUtils.display(imgUserCard,picturePath,true);
             userCard = picturePath;
         }
     }

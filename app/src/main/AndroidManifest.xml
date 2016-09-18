@@ -79,8 +79,8 @@
         <activity android:name=".mine.activity.ChangePwdActivity" />
         <activity android:name=".register.activity.SetNewPwdActivity" />
         <activity android:name=".find.SearchActivity" />
-        <activity android:name=".mine.activity.MyProjects2Activity"/>
-        <activity android:name=".common.base.BaseListActivity"/>
+        <activity android:name=".mine.activity.MyProjects2Activity" />
+        <activity android:name=".common.base.BaseListActivity" />
 
         <!-- 百度地图 -->
         <meta-data
@@ -91,6 +91,7 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="bmdehs6pdb78s" />
 
+        <activity android:name=".find.Search2Activity"></activity>
     </application>
 
 </manifest>

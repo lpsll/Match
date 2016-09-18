@@ -6,7 +6,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.macth.match.AppContext;
 import com.macth.match.R;
@@ -45,6 +48,9 @@ public abstract class BaseListActivity<T> extends BaseTitleActivity implements B
     //头部搜索布局
     public FrameLayout ll_find_header;
     public EmptyLayout mErrorLayout;
+    public RelativeLayout rl_search;
+    public EditText et_find_search; //搜索关键字
+    public TextView tv_search;  //搜索按钮
 
 
     public RecyclerView.LayoutManager setupLayoutManager() {
@@ -81,6 +87,9 @@ public abstract class BaseListActivity<T> extends BaseTitleActivity implements B
         ll_find_header = (FrameLayout) findViewById(R.id.ll_find_header);
         mPtrRecyclerView = (PtrRecyclerView) findViewById(R.id.base_recyclerview);
         mErrorLayout = (EmptyLayout) findViewById(R.id.error_layout);
+        rl_search = (RelativeLayout) findViewById(R.id.rl_search);
+        et_find_search = (EditText) rl_search.findViewById(R.id.et_find_search);
+        tv_search = (TextView) rl_search.findViewById(R.id.tv_search);
 
         mPtrRecyclerView.setLayoutManager(setupLayoutManager());
         mPtrRecyclerView.setPullRefreshHeaderView(setupPullRefreshHeaderView());

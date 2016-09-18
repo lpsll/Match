@@ -80,45 +80,6 @@ public class SearchActivity extends BaseTitleActivity {
 
     }
 
-//    private EditText et_find_search;
-//    private Button btn_search;
-//
-//    @OnClick({R.id.et_find_search, R.id.btn_search})
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.et_find_search:
-//                String searchKeyWords = et_find_search.getText().toString().trim();
-//                if (TextUtils.isEmpty(searchKeyWords)) {
-//                    //获取发现列表的数据
-////                    sendRequestData();
-//                    //把搜索框复原
-//                    //隐藏键盘
-////                    etFindSearch.clearFocus();
-////                    InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-////                    imm.hideSoftInputFromWindow(etFindSearch.getWindowToken(),0);
-//
-//                }
-////                else {
-////                    //搜索操作
-////                    getSearchContent(searchKeyWords);
-////                    et_find_search.clearFocus();
-////                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-////                    imm.hideSoftInputFromWindow(et_find_search.getWindowToken(), 0);
-////
-////                }
-//
-//                break;
-//            case R.id.btn_search:
-//
-//                //执行搜索操作
-//
-//
-//
-//                break;
-//        }
-//    }
-//
-
     /**
      * 搜索操作
      *

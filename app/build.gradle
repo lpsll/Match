@@ -55,6 +55,4 @@ dependencies {
     compile project(':lib_pickerview')
     compile files('libs/BaiduLBS_Android.jar')
     compile project(':Android_IMKit_SDK_v2_7_2')
-    compile files('libs/pinyin4j-2.5.0.jar')
-    compile 'org.xutils:xutils:3.3.16'
 }
