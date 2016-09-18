@@ -54,10 +54,10 @@
             </intent-filter>
             <intent-filter>
                 <data
-                    android:host="io.rong.imkit"
+                    android:host="com.macth.match"
                     android:scheme="http" />
                 <data
-                    android:host="io.rong.imkit"
+                    android:host="com.macth.match"
                     android:scheme="https" />
 
                 <action android:name="android.intent.action.VIEW" />

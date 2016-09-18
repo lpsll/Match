@@ -20,7 +20,6 @@ import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.login.dto.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
-import com.macth.match.register.activity.AddInfoActivity;
 import com.macth.match.register.activity.ForgetPwdActivity;
 import com.macth.match.register.activity.RegisterActivity;
 
@@ -162,8 +161,12 @@ public class LoginActivity extends BaseTitleActivity {
         String pwd = etLoginPwd.getText().toString().trim();
 
         LoginDTO loginDTO = new LoginDTO();
+
+
         loginDTO.setAccount(account);
         loginDTO.setUserpwd(pwd);
+
+
         CommonApiClient.login(this, loginDTO, new CallBack<LoginEntity>() {
             @Override
             public void onSuccess(LoginEntity result) {

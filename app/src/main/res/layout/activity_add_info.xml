@@ -16,10 +16,11 @@
             android:layout_height="@dimen/ds_350">
 
             <ImageView
+                android:id="@+id/img_user_card"
                 android:layout_width="@dimen/ds_270"
                 android:layout_height="@dimen/ds_270"
                 android:layout_gravity="center"
-                android:background="@drawable/touxiang_zhuce" />
+                android:src="@drawable/touxiang_zhuce" />
         </FrameLayout>
 
         <LinearLayout

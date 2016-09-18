@@ -59,6 +59,8 @@
     <string name="plesea_position_information">请输入项目介绍</string>
     <string name="plesea_company_address">请输入公司地址</string>
     <string name="project_picture">项目图片</string>
-
+    <string name="photo_graph">拍照</string>
+    <string name="photo_choose">从手机相册选取</string>
+    <string name="photo_cancel">取消</string>
 
 </resources>

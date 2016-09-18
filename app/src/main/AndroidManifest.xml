@@ -23,6 +23,7 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <users-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".AppContext"
@@ -66,9 +67,6 @@
             android:name=".login.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".register.activity.SetNewPwdActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".register.activity.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".mine.activity.MineProjectsActivity" />
@@ -77,7 +75,9 @@
         <activity android:name=".mine.activity.NewsDetailsActivity" />
         <activity android:name=".mine.activity.SettingActivity" />
         <activity android:name=".register.activity.ForgetPwdActivity" />
-        <activity android:name=".mine.activity.ChangePwdActivity"></activity>
+        <activity android:name=".mine.activity.ChangePwdActivity" />
+        <activity android:name=".register.activity.SetNewPwdActivity" />
+        <activity android:name=".find.SearchActivity"></activity>
 
         <!-- 百度地图 -->
         <meta-data

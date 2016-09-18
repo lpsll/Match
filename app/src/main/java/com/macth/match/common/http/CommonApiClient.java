@@ -387,10 +387,10 @@ public class CommonApiClient extends BaseApiClient {
      * @param dto
      * @param callback
      */
-    public static void search(Fragment fragment, SearchDTO
+    public static void search(Activity act, SearchDTO
             dto, CallBack<FindResult> callback) {
         AsyncCallBack<FindResult> asyncCallBack = new AsyncCallBack<>(
-                fragment, callback, FindResult.class);
+                act, callback, FindResult.class);
         post(getAbsoluteUrl("Home/Projects/searchProject?search="+dto.getSearch()+"&page="+dto.getPage()), dto,
                 asyncCallBack);
     }

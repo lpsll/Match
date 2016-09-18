@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import com.macth.match.common.base.BaseApplication;
 
+import org.xutils.x;
+
 /**
  * Created by John_Libo on 2016/8/15.
  */
@@ -24,6 +26,9 @@ public class AppContext extends BaseApplication {
         instance = this;
         this.sp = this.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
         this.editor = this.sp.edit();
+
+        x.Ext.init(this);
+        x.Ext.setDebug(true);//是否输出Debug日志
     }
 
     /**
