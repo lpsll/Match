@@ -7,13 +7,13 @@ import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
-import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.adapter.NewsAdapter;
+import com.macth.match.mine.dto.NewsDto;
 import com.macth.match.mine.entity.NewsEntity;
 import com.macth.match.mine.entity.NewsResult;
 import com.qluxstory.ptrrecyclerview.PtrRecyclerView;
@@ -55,9 +55,10 @@ public class NewsActivity extends BaseTitleActivity {
      * 获取我的项目数据  拼接uid默认为2
      */
     private void getData() {
-        BaseDTO dto = new BaseDTO();
+        NewsDto dto = new NewsDto();
         //此处需要替换用户id
         dto.setUserid(AppContext.get("usertoken",""));
+        dto.setPage("1");
         CommonApiClient.newsList(NewsActivity.this, dto, new CallBack<NewsResult>() {
             @Override
             public void onSuccess(NewsResult result) {

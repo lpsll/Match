@@ -63,7 +63,7 @@ public class MineProjectsActivity extends BaseTitleActivity {
                 public void onSuccess(MineProjectsResult result) {
                     if(AppConfig.SUCCESS.equals(result.getCode())){
                         LogUtils.e("推荐项目列表成功");
-                        errorLayout.setErrorMessage("暂无推荐记录",errorLayout.FLAG_NODATA);
+                        errorLayout.setErrorMessage("暂无项目记录",errorLayout.FLAG_NODATA);
                         errorLayout.setErrorImag(R.drawable.page_icon_empty,errorLayout.FLAG_NODATA);
                         if(null==result.getData()){
                             errorLayout.setErrorType(EmptyLayout.NODATA);
