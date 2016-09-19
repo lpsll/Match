@@ -23,9 +23,8 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".AppContext"
@@ -92,7 +91,8 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="bmdehs6pdb78s" />
 
-        <activity android:name=".find.Search2Activity"></activity>
+        <activity android:name=".find.Search2Activity" />
+        <activity android:name=".mine.activity.News2Activity"></activity>
     </application>
 
 </manifest>
