@@ -33,7 +33,7 @@ import com.macth.match.register.entity.ShenFenEntity;
 import com.macth.match.register.dto.VerifyDTO;
 
 /**
- * Created by John_Libo on 2016/8/15.
+ * Created by John_Libo on 2016/8/15.12
  */
 public class CommonApiClient extends BaseApiClient {
 
