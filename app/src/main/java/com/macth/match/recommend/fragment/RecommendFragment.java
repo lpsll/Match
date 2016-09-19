@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.macth.match.AppConfig;
 import com.macth.match.R;
+import com.macth.match.common.base.BaseListFragment;
 import com.macth.match.common.base.BasePullScrollViewFragment;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
@@ -20,11 +21,15 @@ import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.common.widget.FullyLinearLayoutManager;
 import com.macth.match.recommend.RecommendUiGoto;
+import com.macth.match.recommend.adapter.RecommendAdapter;
 import com.macth.match.recommend.entity.RecommendEntity;
 import com.macth.match.recommend.entity.RecommendResult;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
 import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
+
+import java.io.Serializable;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,54 +37,26 @@ import butterknife.ButterKnife;
 /**
  * 推荐页
  */
-public class RecommendFragment extends BasePullScrollViewFragment {
-    @Bind(R.id.recommend_list)
-    RecyclerView mRecommendList;
-    BaseSimpleRecyclerAdapter mAdapter;
-    TextView mTv,mTvCompany;
+public class RecommendFragment extends BaseListFragment<RecommendEntity> {
 
     @Override
-    public void initView(View view) {
-        super.initView(view);
+    public BaseRecyclerAdapter<RecommendEntity> createAdapter() {
+        return new RecommendAdapter();
+    }
 
-        mRecommendList.setLayoutManager(new FullyLinearLayoutManager(getActivity()));
-        mAdapter=new BaseSimpleRecyclerAdapter<RecommendEntity>() {
-            @Override
-            public int getItemViewLayoutId() {
-                return R.layout.item_recommend;
-            }
+    @Override
+    protected String getCacheKeyPrefix() {
+        return "RecommendFragment";
+    }
 
-            @Override
-            public void bindData(BaseRecyclerViewHolder holder, RecommendEntity recommendEntity, int position) {
-                mTv = holder.getView(R.id.tv);
-                mTvCompany = holder.getView(R.id.rc_tv_company);
-                mTv.getPaint().setFakeBoldText(true);//加粗
-                mTvCompany.getPaint().setFakeBoldText(true);//加粗
-                mTvCompany.setText(recommendEntity.getCompanyname());
-                holder.setText(R.id.rc_tv_money,recommendEntity.getPrice());
-                holder.setText(R.id.rc_tv_term,recommendEntity.getProject_termunit()+"年 "+recommendEntity.getProject_type());
-                holder.setText(R.id.rc_tv_data,recommendEntity.getCtime());
-                ImageView mImg =holder.getView( R.id.rc_img);
-                ImageLoaderUtils.displayImage(recommendEntity.getImage(), mImg);
-            }
-
-
-        };
-        mRecommendList.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, Object itemBean, int position) {
-                RecommendEntity entity = (RecommendEntity) itemBean;
-                Bundle b = new Bundle();
-                b.putString("pid", entity.getPid());
-                RecommendUiGoto.gotoProject(getActivity(), b);
-            }
-        });
-
+    @Override
+    public List<RecommendEntity> readList(Serializable seri) {
+        return ((RecommendResult)seri).getData().getList();
     }
 
     private void reqRecommend() {
         BaseDTO dto = new BaseDTO();
+        dto.setPage(String.valueOf(mCurrentPage));
         CommonApiClient.recommend(this, dto, new CallBack<RecommendResult>() {
             @Override
             public void onSuccess(RecommendResult result) {
@@ -90,9 +67,8 @@ public class RecommendFragment extends BasePullScrollViewFragment {
                     if (null == result.getData()) {
                         mErrorLayout.setErrorType(EmptyLayout.NODATA);
                     } else {
-                        mAdapter.removeAll();
-                        mAdapter.append(result.getData().getList());
-                        refreshComplete();
+                        requestDataSuccess(result);
+                        setDataResult(result.getData().getList());
                     }
                 }
 
@@ -111,15 +87,17 @@ public class RecommendFragment extends BasePullScrollViewFragment {
         reqRecommend();
     }
 
-    @Override
-    public boolean pulltoRefresh() {
+    public boolean autoRefreshIn(){
         return true;
     }
 
+
     @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_recommend;
+    public void onItemClick(View itemView, Object itemBean, int position) {
+        super.onItemClick(itemView, itemBean, position);
+        RecommendEntity entity = (RecommendEntity) itemBean;
+        Bundle b = new Bundle();
+        b.putString("pid", entity.getPid());
+        RecommendUiGoto.gotoProject(getActivity(), b);
     }
-
-
 }

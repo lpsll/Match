@@ -229,7 +229,7 @@
                     android:gravity="center_vertical"
                     android:layout_marginLeft="@dimen/ds_40"
                     android:background="@drawable/text_gray"
-                    android:hint="@string/add_term"
+                    android:text="@string/add_term"
                     android:textSize="@dimen/fs_45"
                     android:textColor="@color/color_01"
                     android:paddingLeft="@dimen/ds_40"
@@ -609,18 +609,15 @@
 
             <TextView
                 android:id="@+id/tv_btn"
-                android:layout_width="@dimen/ds_500"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/ds_160"
                 android:layout_marginTop="@dimen/ds_120"
-                android:layout_marginLeft="@dimen/ds_340"
-                android:layout_marginRight="@dimen/ds_120"
+                android:layout_marginLeft="@dimen/ds_80"
+                android:layout_marginRight="@dimen/ds_80"
                 android:layout_marginBottom="@dimen/ds_60"
                 style="@style/button_click"
-                android:text="@string/add_money"
+                android:text="@string/submit"
                 />
-
-
-
 
         </LinearLayout>
     </ScrollView>

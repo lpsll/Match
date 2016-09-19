@@ -20,6 +20,16 @@ public class Data {
     private String userwork;
     private String usertoken;
     private String cooperativeid;
+    private String rytoken;
+    public String getRytoken() {
+        return rytoken;
+    }
+
+    public void setRytoken(String rytoken) {
+        this.rytoken = rytoken;
+    }
+
+
 
 
     public String getUsername() {

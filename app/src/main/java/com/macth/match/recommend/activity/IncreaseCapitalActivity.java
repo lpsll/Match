@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,6 +13,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,6 +32,10 @@ import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.utils.LogUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.Bind;
@@ -62,6 +68,7 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     @Override
     public void initView() {
         setTitleText("增加资金用途");
+        setEnsureText("完成");
 
     }
 
@@ -71,7 +78,6 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 
         //普通地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-
         //卫星地图
 //        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
 
@@ -234,7 +240,46 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 
 
     @OnClick(R.id.bmapView)
-    public void onClick() {
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.base_titlebar_ensure:
+                reqFunds();
+                break;
+            default:
+                break;
+        }
+        super.onClick(v);
+    }
+
+    private void reqFunds() {
+        mBaiduMap.snapshot(new BaiduMap.SnapshotReadyCallback() {
+            @Override
+            public void onSnapshotReady(Bitmap snapshot) {
+                File file = new File("/mnt/sdcard/test.png");
+                FileOutputStream out;
+                try {
+                    out = new FileOutputStream(file);
+                    if (snapshot.compress(Bitmap.CompressFormat.PNG, 100,
+                            out)) {
+                        out.flush();
+                        out.close();
+                    }
+                    Toast.makeText(IncreaseCapitalActivity.this, "屏幕截图成功，图片存在: " +
+                                    file.toString(),
+                            Toast.LENGTH_SHORT).show();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+
+        });
+
+
     }
 
     @Override

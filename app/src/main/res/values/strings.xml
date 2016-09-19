@@ -52,6 +52,7 @@
     <string name="add_rating">请选择债券评级</string>
     <string name="add_comprehensive">综合成本</string>
     <string name="pop_ok">完成</string>
+    <string name="submit">提交</string>
     <string name="choise_city">请选择地区</string>
     <string name="project_introduction">项目介绍</string>
     <string name="company_address">公司地址</string>

@@ -183,6 +183,7 @@ public class LoginActivity extends BaseTitleActivity {
                     AppContext.set("userwork",result.getData().getUserwork());
                     AppContext.set("usertoken",result.getData().getUsertoken());
                     AppContext.set("cooperativeid",result.getData().getCooperativeid());
+                    AppContext.set("rytoken",result.getData().getRytoken());
                     AppContext.set("IS_LOGIN",true);
                     LogUtils.d("用户信息==="+result.getData().toString());
                     finish();

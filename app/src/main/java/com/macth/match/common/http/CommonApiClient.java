@@ -8,6 +8,7 @@ import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.find.dto.SearchDTO;
 import com.macth.match.find.entity.FindResult;
+import com.macth.match.group.entity.GroupResult;
 import com.macth.match.login.dto.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
 import com.macth.match.mine.dto.AddInfoDTO;
@@ -147,9 +148,9 @@ public class CommonApiClient extends BaseApiClient {
      * @param callback
      */
     public static void group(Activity act, BaseDTO
-            dto, CallBack<AddItemListResult> callback) {
-        AsyncCallBack<AddItemListResult> asyncCallBack = new AsyncCallBack<>(
-                act, callback, AddItemListResult.class);
+            dto, CallBack<GroupResult> callback) {
+        AsyncCallBack<GroupResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, GroupResult.class);
         get(getAbsoluteUrl("Home/Cooperatives/getMyChatGroup"), dto,
                 asyncCallBack);
     }

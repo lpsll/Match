@@ -1,67 +1,49 @@
 package com.macth.match.group.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
-import com.macth.match.common.base.BaseFragment;
+import com.macth.match.common.base.BaseApplication;
+import com.macth.match.common.base.BasePullScrollViewFragment;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
-import com.macth.match.common.utils.CharacterParser;
+import com.macth.match.common.utils.DialogUtils;
+import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
-import com.macth.match.common.utils.PinyinComparator;
-import com.macth.match.common.utils.PinyinUtils;
-import com.macth.match.common.widget.SideBar;
-import com.macth.match.group.adapter.SortAdapter;
-import com.macth.match.group.entity.PersonBean;
-import com.macth.match.recommend.entity.AddItemListResult;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.macth.match.common.widget.EmptyLayout;
+import com.macth.match.common.widget.FullyLinearLayoutManager;
+import com.macth.match.group.GroupUiGoto;
+import com.macth.match.group.entity.GroupEntity;
+import com.macth.match.group.entity.GroupResult;
+import com.macth.match.recommend.RecommendUiGoto;
+import com.macth.match.recommend.entity.RecommendEntity;
+import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
+import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
+import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.rong.imageloader.utils.L;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 /**
  * 群组
  */
-public class GroupFragment extends BaseFragment {
-    @Bind(R.id.listview)
-    ListView groupList;
-    @Bind(R.id.dialog)
-    TextView dialog;
-    @Bind(R.id.sidebar)
-    SideBar sidebar;
-    @Bind(R.id.et)
-    EditText et;
-    private SortAdapter sortadapter;
-    private List<PersonBean> data;
-    /**
-     * 汉字转换成拼音的类
-     */
-    private CharacterParser characterParser;
-
-
-    @Override
-    protected void retry() {
-
-    }
+public class GroupFragment extends BasePullScrollViewFragment {
+    boolean login;
+    @Bind(R.id.group_list)
+    RecyclerView groupList;
+    BaseSimpleRecyclerAdapter mAdapter;
 
     @Override
     protected int getLayoutResId() {
@@ -70,166 +52,64 @@ public class GroupFragment extends BaseFragment {
 
     @Override
     public void initView(View view) {
-        LogUtils.e("initView---", "initView");
-        characterParser = CharacterParser.getInstance();
-        sidebar.setTextView(dialog);
-        // 设置字母导航触摸监听
-        sidebar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+        super.initView(view);
+        login = AppContext.get("IS_LOGIN", false);
+        LogUtils.e("rytoken----",""+AppContext.get("rytoken",""));
+        groupList.setLayoutManager(new FullyLinearLayoutManager(getActivity()));
+        mAdapter=new BaseSimpleRecyclerAdapter<GroupEntity>() {
+            @Override
+            public int getItemViewLayoutId() {
+                return R.layout.item_group;
+            }
 
             @Override
-            public void onTouchingLetterChanged(String s) {
-                // 该字母首次出现的位置
-                int position = sortadapter.getPositionForSelection(s.charAt(0));
+            public void bindData(BaseRecyclerViewHolder holder, GroupEntity groupEntity, int position) {
+                holder.setText(R.id.group_tv, groupEntity.getGroupname());
+            }
 
-                if (position != -1) {
-//                    groupList.scrollToPosition(position);
-                    groupList.setSelection(position);
-                }
+
+        };
+        groupList.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, Object itemBean, int position) {
+                LogUtils.e("rytoken----",""+AppContext.get("rytoken",""));
+                LogUtils.e("onItemClick----","onItemClick");
+                GroupEntity entity = (GroupEntity) itemBean;
+                connect(entity.getGroupid());
             }
         });
 
-        //根据输入框输入值的改变来过滤搜索
-        et.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
-                filterData(s.toString());
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                //这里要利用adapter.getItem(position)来获取当前position所对应的对象
-//                Toast.makeText(getApplication(), ((SortModel)adapter.getItem(position)).getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        data = getData(getResources().getStringArray(R.array.listpersons));
-        // 数据在放在adapter之前需要排序
-        Collections.sort(data, new PinyinComparator());
-        sortadapter = new SortAdapter(getActivity(), data);
-        groupList.setAdapter(sortadapter);
-
     }
 
-    /**
-     * 为ListView填充数据
-     */
-    private List<PersonBean> getData(String[] data) {
-        List<PersonBean> listarray = new ArrayList<PersonBean>();
-        for (int i = 0; i < data.length; i++) {
-            String pinyin = PinyinUtils.getPingYin(data[i]);
-            String Fpinyin = pinyin.substring(0, 1).toUpperCase();
-
-            PersonBean person = new PersonBean();
-            person.setName(data[i]);
-            person.setPinYin(pinyin);
-            // 正则表达式，判断首字母是否是英文字母
-            if (Fpinyin.matches("[A-Z]")) {
-                person.setFirstPinYin(Fpinyin);
-            } else {
-                person.setFirstPinYin("#");
-            }
-
-            listarray.add(person);
+    @Override
+    protected void sendRequestData() {
+        if(login){
+            reqGroup();
         }
-        return listarray;
-
-    }
-
-
-    /**
-     * 根据输入框中的值来过滤数据并更新ListView
-     * @param filterStr
-     */
-    private void filterData(String filterStr) {
-        List<PersonBean> filterDateList = new ArrayList<PersonBean>();
-
-        if (TextUtils.isEmpty(filterStr)) {
-            filterDateList = data;
-        } else {
-            filterDateList.clear();
-//            String result = "";
-//            for (PersonBean sortModel : data) {
-//                // 先将输入的字符串转换为拼音
-//                characterParser.setResource(filterStr);
-//                result = characterParser.getSpelling();
-//                LogUtils.e("contains----",""+contains(sortModel, result));
-//                if (contains(sortModel, result)) {
-//                    filterDateList.add(sortModel);
-//                } else if (sortModel.getName().contains(filterStr)) {
-////                    sortModel.setGroup(str);
-//                    filterDateList.add(sortModel);
-//                }
-//            }
-
-            for (PersonBean sortModel : data) {
-                String name = sortModel.getName();
-                LogUtils.e("name---",""+name);
-                LogUtils.e("name---getSelling---",""+characterParser.getSelling(name).toUpperCase());
-                LogUtils.e("filterStr---getSelling---",""+characterParser.getSelling(filterStr.toString()));
-
-
-                if (characterParser.getSelling(name).toUpperCase()
-                        .startsWith(characterParser.getSelling(filterStr.toString()).toUpperCase())) {
-                    filterDateList.add(sortModel);
-                }
-            }
+        else {
+            DialogUtils.confirm(getActivity(), "您尚未登录，是否去登录？", listener);
         }
 
-        // 根据a-z进行排序
-        Collections.sort(filterDateList, new PinyinComparator());
-        sortadapter.updateListView(filterDateList);
-    }
-
-
-    /**
-     * 根据拼音搜索
-     *
-     * @return
-     */
-    public  boolean contains(PersonBean contact, String search) {
-        if (TextUtils.isEmpty(contact.getName())) {
-            return false;
-        }
-
-        boolean flag = false;
-
-        if (!flag) { // 如果简拼已经找到了，就不使用全拼了
-            // 全拼匹配
-            characterParser.setResource(contact.getName());
-            // 不区分大小写
-            Pattern pattern2 = Pattern
-                    .compile(search, Pattern.CASE_INSENSITIVE);
-            Matcher matcher2 = pattern2.matcher(characterParser.getSpelling());
-            flag = matcher2.find();
-        }
-
-        return flag;
     }
 
     private void reqGroup() {
         BaseDTO dto = new BaseDTO();
         dto.setUserid(AppContext.get("usertoken", ""));
-        CommonApiClient.group(getActivity(), dto, new CallBack<AddItemListResult>() {
+        CommonApiClient.group(getActivity(), dto, new CallBack<GroupResult>() {
             @Override
-            public void onSuccess(AddItemListResult result) {
+            public void onSuccess(GroupResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("获取用户群成功");
+                    mErrorLayout.setErrorMessage("暂无用户群记录", mErrorLayout.FLAG_NODATA);
+                    mErrorLayout.setErrorImag(R.drawable.page_icon_empty, mErrorLayout.FLAG_NODATA);
+                    if (null == result.getData()) {
+                        mErrorLayout.setErrorType(EmptyLayout.NODATA);
+                    } else {
+                        mAdapter.removeAll();
+                        mAdapter.append(result.getData());
+                        refreshComplete();
+                    }
                 }
             }
         });
@@ -237,10 +117,78 @@ public class GroupFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        LogUtils.e("initData---", "initData");
-        reqGroup();
+        sendRequestData();
     }
 
+
+    DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            GroupUiGoto.gotoLogin(getActivity());
+        }
+    };
+
+    @Override
+    public boolean pulltoRefresh() {
+        return true;
+    }
+
+
+
+    /**
+     * 建立与融云服务器的连接
+     *
+     * @param id
+     */
+    private void connect(final String id) {
+
+
+        if (getActivity().getApplicationInfo().packageName.equals(BaseApplication.getCurProcessName(getActivity().getApplicationContext()))) {
+
+            /**
+             * IMKit SDK调用第二步,建立与服务器的连接
+             */
+            RongIM.connect(AppContext.get("rytoken",""), new RongIMClient.ConnectCallback() {
+
+                /**
+                 * Token 错误，在线上环境下主要是因为 Token 已经过期，您需要向 App Server 重新请求一个新的 Token
+                 */
+                @Override
+                public void onTokenIncorrect() {
+                    LogUtils.e("onTokenIncorrect", "------onTokenIncorrect");
+                }
+
+                /**
+                 * 连接融云成功
+                 * @param userid 当前 token
+                 */
+                @Override
+                public void onSuccess(String userid) {
+                    LogUtils.e("--onSuccess\"", "" + userid);
+                    /**
+                     *启动群组聊天界面。
+                     *@param context 应用上下文。
+                     *@param targetId Id。
+                     *@param title 标题。
+                     * */
+
+                    RongIM.getInstance().startGroupChat(getActivity(),
+                            id, "群组聊天");//生产环境
+
+
+                }
+
+                /**
+                 * 连接融云失败
+                 * @param errorCode 错误码，可到官网 查看错误码对应的注释
+                 */
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LogUtils.e("--onError", "" + errorCode);
+                }
+            });
+        }
+    }
 
 
 }

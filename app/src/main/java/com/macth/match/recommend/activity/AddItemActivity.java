@@ -95,7 +95,7 @@ public class AddItemActivity extends BaseTitleActivity {
     @Bind(R.id.lin18)
     LinearLayout lin18;
     private String mProvince,mCity,mArea;
-    int type;
+    int type,mTimeType;
     List<AddItemListEntity> mListEntity;
     private String mType;
 
@@ -107,7 +107,6 @@ public class AddItemActivity extends BaseTitleActivity {
     @Override
     public void initView() {
         setTitleText("新增项目");
-        setEnsureText("提交");
 
     }
 
@@ -137,8 +136,8 @@ public class AddItemActivity extends BaseTitleActivity {
                 reqList();
                 break;
             case R.id.et07:
-                type =6;
-                reqList();
+                mTimeType =1;
+                showTimePop();
                 break;
             case R.id.et08:
                 showTrustPop();
@@ -155,13 +154,10 @@ public class AddItemActivity extends BaseTitleActivity {
                 type =5;
                 reqList();
                 break;
-            case R.id.tv_btn:
-                RecommendUiGoto.increase(this);//增加资金用途
-                break;
             case R.id.base_titlebar_back:
                 baseGoBack();
                 break;
-            case R.id.base_titlebar_ensure:
+            case R.id.tv_btn:
                 if(TextUtils.isEmpty(et01.getText().toString())){
                     DialogUtils.showPrompt(this, "提示","公司名称不能为空", "知道了");
                 }
@@ -180,9 +176,9 @@ public class AddItemActivity extends BaseTitleActivity {
                 else if(TextUtils.isEmpty(et06.getText().toString())){
                     DialogUtils.showPrompt(this, "提示","项目金额不能为空", "知道了");
                 }
-//                else if(et07.getText().toString().equals("请选择期限")){
-//                    DialogUtils.showPrompt(this, "提示","期限不能为空", "知道了");
-//                }
+                else if(et07.getText().toString().equals("请选择期限")){
+                    DialogUtils.showPrompt(this, "提示","期限不能为空", "知道了");
+                }
                 else if(et08.getText().toString().equals("请选择增信措施")){
                     DialogUtils.showPrompt(this, "提示","增信措施不能为空", "知道了");
                 }
@@ -296,46 +292,46 @@ public class AddItemActivity extends BaseTitleActivity {
     }
 
     private void reqSubmit() {
-        SubmitDTO dto=new SubmitDTO();
-        dto.setUserid(AppContext.get("usertoken",""));
-        dto.setCompanyname(et01.getText().toString());
-        dto.setS_province(et02.getText().toString());
-        dto.setS_city(et03.getText().toString());
-        dto.setProjecttype(et04.getText().toString());
-        dto.setNature(et05.getText().toString());
-        dto.setPrice(et06.getText().toString());
-        dto.setTermunit(et07.getText().toString());
-//        dto.setTermvalue("");
-        dto.setSincerity(et08.getText().toString());
-        dto.setBond(et17.getText().toString());
-        dto.setCost(et18.getText().toString());
-        dto.setPromote("2");
-        if(mType.equals("1")){
-            dto.setDbcompanyname(et09.getText().toString());
-            dto.setDbitemrate(et10.getText().toString());
-            dto.setDbassure_ztrate(et11.getText().toString());
-        }
-        else if(mType.equals("2")){
-            dto.setDyratevalue(et12.getText().toString());
-            dto.setDydesc(et13.getText().toString());
-        }
-        else if(mType.equals("3")||mType.equals("4")){
-//            dto.setPromote(et15.getText().toString());
-            dto.setGovernment(et15.getText().toString());
-        }
-        else if(mType.equals("5")){
-            dto.setQtdesc(et16.getText().toString());
-        }
-
-        CommonApiClient.submit(this, dto, new CallBack<AddItemListResult>() {
-            @Override
-            public void onSuccess(AddItemListResult result) {
-                if(AppConfig.SUCCESS.equals(result.getCode())){
-                    LogUtils.e("提交项目成功");
-                    finish();
-                }
-            }
-        });
+        RecommendUiGoto.increase(AddItemActivity.this);//增加资金用途
+//        SubmitDTO dto=new SubmitDTO();
+//        dto.setUserid(AppContext.get("usertoken",""));
+//        dto.setCompanyname(et01.getText().toString());
+//        dto.setS_province(et02.getText().toString());
+//        dto.setS_city(et03.getText().toString());
+//        dto.setProjecttype(et04.getText().toString());
+//        dto.setNature(et05.getText().toString());
+//        dto.setPrice(et06.getText().toString());
+//        dto.setTermunit(mTerm);
+//        dto.setTermvalue(time);
+//        dto.setSincerity(et08.getText().toString());
+//        dto.setBond(et17.getText().toString());
+//        dto.setCost(et18.getText().toString());
+//        dto.setPromote("2");
+//        if(mType.equals("1")){
+//            dto.setDbcompanyname(et09.getText().toString());
+//            dto.setDbitemrate(et10.getText().toString());
+//            dto.setDbassure_ztrate(et11.getText().toString());
+//        }
+//        else if(mType.equals("2")){
+//            dto.setDyratevalue(et12.getText().toString());
+//            dto.setDydesc(et13.getText().toString());
+//        }
+//        else if(mType.equals("3")||mType.equals("4")){
+//            dto.setGovernment(et15.getText().toString());
+//        }
+//        else if(mType.equals("5")){
+//            dto.setQtdesc(et16.getText().toString());
+//        }
+//
+//        CommonApiClient.submit(this, dto, new CallBack<AddItemListResult>() {
+//            @Override
+//            public void onSuccess(AddItemListResult result) {
+//                if(AppConfig.SUCCESS.equals(result.getCode())){
+//                    LogUtils.e("提交项目成功");
+//                    RecommendUiGoto.increase(AddItemActivity.this);//增加资金用途
+//                }
+//            }
+//        });
     }
 
     private void reqList() {
@@ -355,9 +351,9 @@ public class AddItemActivity extends BaseTitleActivity {
         if(type==5){
             dto.setConstantType("债券评级");
         }
-        if(type==6){
-            dto.setConstantType("期限");
-        }
+//        if(type==6){
+//            dto.setConstantType("期限");
+//        }
 
         CommonApiClient.addList(this, dto, new CallBack<AddItemListResult>() {
             @Override
@@ -370,6 +366,67 @@ public class AddItemActivity extends BaseTitleActivity {
 
             }
         });
+    }
+    ArrayList<String>  mTimeList ;
+    String[] data;
+    private String time,mTerm;
+    private void showTimePop() {
+        mTimeList = new ArrayList<>();
+        if(mTimeType==1){
+             data = getResources().getStringArray(R.array.term);
+        }
+        else if(mTimeType==2){
+            data = getResources().getStringArray(R.array.year);
+        }
+        else if(mTimeType==3){
+            data = getResources().getStringArray(R.array.month);
+        }
+
+        for(int i = 0;i<data.length;i++){
+            mTimeList.add(data[i]);
+        }
+        OptionsPopupWindow tipPopup = new OptionsPopupWindow(this);
+        tipPopup.setPicker(mTimeList);//设置里面list
+        tipPopup.setOnoptionsSelectListener(new OptionsPopupWindow.OnOptionsSelectListener() {//确定的点击监听
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3) {
+                if(mTimeType==1){
+                    if(mTimeList.get(options1).equals("年")){
+                        mTimeType =2;
+                    }else if(mTimeList.get(options1).equals("月")){
+                        mTimeType =3;
+                    }
+                    showTimePop();
+                }
+                else {
+                    et07.setText(mTimeList.get(options1));
+                    if(mTimeList.get(options1).contains("年")){
+                        mTerm="1";
+                        time =mTimeList.get(options1).replace("年","");
+                        LogUtils.e("time---",""+time);
+                    }
+                    else if(mTimeList.get(options1).contains("月")){
+                        mTerm="2";
+                        time =mTimeList.get(options1).replace("个月","");
+                        LogUtils.e("time---",""+time);
+                    }
+
+                }
+
+
+
+            }
+        });
+        tipPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {//设置窗体消失后，屏幕恢复亮度
+            @Override
+            public void onDismiss() {
+                closePopupWindow();
+            }
+        });
+        tipPopup.showAtLocation(et07, Gravity.BOTTOM, 0, 0);//显示的位置
+        //弹窗后背景变暗
+        openPopupWindow();
+
     }
 
     String[] str = new String[]{"担保","抵押","人大决议","财政承诺","其它"};

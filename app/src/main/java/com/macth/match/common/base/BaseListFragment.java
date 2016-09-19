@@ -32,7 +32,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements BaseRe
     protected PtrRecyclerView mPtrRecyclerView;
     protected BaseRecyclerAdapter<T> mAdapter;
     protected int mCurrentPage = 1;
-    protected final static int PAGE_SIZE = 20;
+    protected final static int PAGE_SIZE = 10;
     private final static int ACTION_PULL_REFRESH = 1;
     private final static int ACTION_LOAD_MORE = 2;
     private AsyncTask<String, Void, List<T>> mCacheTask;

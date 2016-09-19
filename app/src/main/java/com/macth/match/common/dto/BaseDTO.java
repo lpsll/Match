@@ -8,7 +8,14 @@ import java.io.Serializable;
 public class BaseDTO implements Serializable {
     private String userID;
     private String userid;
+    private String page;
+    public String getPage() {
+        return page;
+    }
 
+    public void setPage(String page) {
+        this.page = page;
+    }
     public String getUserid() {
         return userid;
     }
