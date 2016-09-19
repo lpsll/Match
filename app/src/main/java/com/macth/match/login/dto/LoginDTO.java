@@ -1,5 +1,7 @@
 package com.macth.match.login.dto;
 
+import com.macth.match.common.utils.SecurityUtils;
+
 /**
  * Created by Administrator on 2016/8/25.
  * 参数：account---用户账号
@@ -23,6 +25,6 @@ public class LoginDTO {
     }
 
     public void setUserpwd(String userpwd) {
-//        this.userpwd = SecurityUtils.md5(userpwd);
+        this.userpwd = SecurityUtils.md5(userpwd);
     }
 }

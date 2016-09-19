@@ -57,6 +57,7 @@ public class MineProjectsActivity extends BaseTitleActivity {
      */
     private void getData() {
             BaseDTO dto=new BaseDTO();
+
             CommonApiClient.mineProjects(MineProjectsActivity.this, dto, new CallBack<MineProjectsResult>() {
                 @Override
                 public void onSuccess(MineProjectsResult result) {
@@ -78,7 +79,7 @@ public class MineProjectsActivity extends BaseTitleActivity {
                         }
                     }
                 }
-            },"2");
+            });
 
 
     }
