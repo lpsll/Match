@@ -42,6 +42,7 @@ public class News2Activity extends BaseListActivity<NewsEntity> {
         super.initView();
         setTitleText("消息");
         sendRequestData();
+        LogUtils.e("","");
     }
 
     public boolean autoRefreshIn() {
@@ -61,6 +62,7 @@ public class News2Activity extends BaseListActivity<NewsEntity> {
         //此处需要替换用户id
         dto.setUserid(AppContext.get("usertoken", ""));
         dto.setPage("1");
+
         CommonApiClient.newsList(News2Activity.this, dto, new CallBack<NewsResult>() {
             @Override
             public void onSuccess(NewsResult result) {
