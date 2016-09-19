@@ -13,6 +13,7 @@ import com.macth.match.login.entity.LoginEntity;
 import com.macth.match.mine.dto.AddInfoDTO;
 import com.macth.match.mine.dto.ChangePwdDTO;
 import com.macth.match.mine.dto.DeleteNewDTO;
+import com.macth.match.mine.dto.MyProjectsDto;
 import com.macth.match.mine.dto.NewsDto;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.mine.entity.NewsResult;
@@ -215,7 +216,7 @@ public class CommonApiClient extends BaseApiClient {
      * @param dto
      * @param callback
      */
-    public static void mineProjects(Activity act, BaseDTO
+    public static void mineProjects(Activity act, MyProjectsDto
             dto, CallBack<MineProjectsResult> callback) {
         AsyncCallBack<MineProjectsResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, MineProjectsResult.class);
