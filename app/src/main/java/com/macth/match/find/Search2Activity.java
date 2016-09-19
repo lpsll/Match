@@ -84,7 +84,8 @@ public class Search2Activity extends BaseListActivity<FindEntity> {
         SearchDTO searchDTO = new SearchDTO();
 
         searchDTO.setSearch(searchKeyWords);
-        searchDTO.setSearch("1");
+        searchDTO.setSearch("1");  //page
+
         CommonApiClient.search(this, searchDTO, new CallBack<FindResult>() {
             @Override
             public void onSuccess(FindResult result) {

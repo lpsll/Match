@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.dto.BaseDTO;
@@ -56,7 +57,7 @@ public class NewsActivity extends BaseTitleActivity {
     private void getData() {
         BaseDTO dto = new BaseDTO();
         //此处需要替换用户id
-        dto.setUserID("2");
+        dto.setUserid(AppContext.get("usertoken",""));
         CommonApiClient.newsList(NewsActivity.this, dto, new CallBack<NewsResult>() {
             @Override
             public void onSuccess(NewsResult result) {

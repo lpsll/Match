@@ -105,7 +105,7 @@ public class ForgetPwdActivity extends BaseTitleActivity {
 
                 }
             }
-        }, etForgetPwdPhone.getText().toString().trim(),etForgetPwdCode.getText().toString());
+        });
     }
 
     /**
@@ -121,10 +121,9 @@ public class ForgetPwdActivity extends BaseTitleActivity {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("获取验证码成功，");
                     ToastUtils.showShort(ForgetPwdActivity.this,"获取验证码成功");
-
                 }
             }
-        }, etForgetPwdPhone.getText().toString().trim());
+        });
     }
 
 }

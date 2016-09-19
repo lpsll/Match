@@ -2,6 +2,10 @@ package com.macth.match.common.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.Base64;
 import android.widget.ImageView;
 
@@ -13,6 +17,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,8 +62,8 @@ public class ImageLoaderUtils {
      * @param imageView 显示图片控件View
      */
     public static void displayAvatarImage(String imageUrl, ImageView imageView) {
-        if(imageUrl!=null&&!imageUrl.contains("http://")){
-            imageUrl= ((AppConfig.BASE_URL).trim()+imageUrl.trim()).trim();
+        if (imageUrl != null && !imageUrl.contains("http://")) {
+            imageUrl = ((AppConfig.BASE_URL).trim() + imageUrl.trim()).trim();
         }
         ImageLoader.getInstance().displayImage(imageUrl,
                 imageView, getAvatarOptions());
@@ -86,7 +91,7 @@ public class ImageLoaderUtils {
 
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
 
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
 
         byte[] bytes = bStream.toByteArray();
 
@@ -96,43 +101,9 @@ public class ImageLoaderUtils {
 
     }
 
-    /**
-     * 把图片转换成Base64字符串
-     * @param imgPath
-     * @param bitmap
-     * @param imgFormat 图片格式
-     * @return
-     */
-    public static String imgToBase64(String imgPath, Bitmap bitmap,String imgFormat) {
-        if (imgPath !=null && imgPath.length() > 0) {
-            bitmap = readBitmap(imgPath);
-        }
-        if(bitmap == null){
-            //bitmap not found!!
-        }
-        ByteArrayOutputStream out = null;
-        try {
-            out = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 
-            out.flush();
-            out.close();
 
-            byte[] imgBytes = out.toByteArray();
-            return Base64.encodeToString(imgBytes, Base64.DEFAULT);
-        } catch (Exception e) {
-            return null;
-        } finally {
-            try {
-                out.flush();
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static Bitmap readBitmap(String imgPath) {
+    public static Bitmap readBitmap(String imgPath) {
         try {
             return BitmapFactory.decodeFile(imgPath);
         } catch (Exception e) {
@@ -144,7 +115,7 @@ public class ImageLoaderUtils {
     public static Bitmap getPicFromBytes(byte[] bytes, BitmapFactory.Options opts) {
         if (bytes != null)
             if (opts != null)
-                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length,opts);
+                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opts);
             else
                 return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         return null;
@@ -167,35 +138,31 @@ public class ImageLoaderUtils {
 
     /**
      * 得到本地或者网络上的bitmap url - 网络或者本地图片的绝对路径,比如:
-     *
+     * <p/>
      * A.网络路径: url="http://blog.foreverlove.us/girl2.png" ;
-     *
+     * <p/>
      * B.本地路径:url="file://mnt/sdcard/photo/image.png";
-     *
+     * <p/>
      * C.支持的图片格式 ,png, jpg,bmp,gif等等
      *
      * @param url
      * @return
      */
-    public static Bitmap GetLocalOrNetBitmap(String url)
-    {
+    public static Bitmap GetLocalOrNetBitmap(String url) {
         Bitmap bitmap = null;
         InputStream in = null;
         BufferedOutputStream out = null;
-        try
-        {
-            in = new BufferedInputStream(new URL(url).openStream(), 2*1024);
+        try {
+            in = new BufferedInputStream(new URL(url).openStream(), 2 * 1024);
             final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-            out = new BufferedOutputStream(dataStream, 2*1024);
+            out = new BufferedOutputStream(dataStream, 2 * 1024);
             copy(in, out);
             out.flush();
             byte[] data = dataStream.toByteArray();
             bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
             data = null;
             return bitmap;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
@@ -203,12 +170,63 @@ public class ImageLoaderUtils {
 
     private static void copy(InputStream in, OutputStream out)
             throws IOException {
-        byte[] b = new byte[2*1024];
+        byte[] b = new byte[2 * 1024];
         int read;
         while ((read = in.read(b)) != -1) {
             out.write(b, 0, read);
         }
     }
 
+    /**
+     * 根据原图和变长绘制圆形图片
+     *
+     * @param source
+     * @param min
+     * @return
+     */
+    public static Bitmap createCircleImage(Bitmap source, int min)
+    {
+        final Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        Bitmap target = Bitmap.createBitmap(min, min, Bitmap.Config.ARGB_8888);
+        /**
+         * 产生一个同样大小的画布
+         */
+        Canvas canvas = new Canvas(target);
+        /**
+         * 首先绘制圆形
+         */
+        canvas.drawCircle(min / 2, min / 2, min / 2, paint);
+        /**
+         * 使用SRC_IN
+         */
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        /**
+         * 绘制图片
+         */
+        canvas.drawBitmap(source, 0, 0, paint);
+        return target;
+    }
+
+
+    /**
+     * 按质量压缩图片
+     * @param image
+     * @return
+     */
+    public static Bitmap compressImage(Bitmap image) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while ( baos.toByteArray().length / 1024>100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            options -= 10;//每次都减少10
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+        return bitmap;
+    }
 
 }

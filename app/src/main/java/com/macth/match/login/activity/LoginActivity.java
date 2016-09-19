@@ -187,7 +187,6 @@ public class LoginActivity extends BaseTitleActivity {
                     LogUtils.d("用户信息==="+result.getData().toString());
                     finish();
 
-
 //                    setResult(1001);
 //                    //页面跳转
 //                    startActivity(new Intent(LoginActivity.this, AddInfoActivity.class));
@@ -195,6 +194,6 @@ public class LoginActivity extends BaseTitleActivity {
 
                 }
             }
-        }, account, pwd);
+        });
     }
 }

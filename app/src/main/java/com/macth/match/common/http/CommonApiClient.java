@@ -215,10 +215,10 @@ public class CommonApiClient extends BaseApiClient {
      * @param callback
      */
     public static void mineProjects(Activity act, BaseDTO
-            dto, CallBack<MineProjectsResult> callback, String uid) {
+            dto, CallBack<MineProjectsResult> callback) {
         AsyncCallBack<MineProjectsResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, MineProjectsResult.class);
-        post(getAbsoluteUrl("Home/Projects/getMyProjectsList?userid=" + uid), dto,
+        post(getAbsoluteUrl("Home/Projects/getMyProjectsList?"), dto,
                 asyncCallBack);
     }
 
@@ -230,10 +230,10 @@ public class CommonApiClient extends BaseApiClient {
      * @param callback
      */
     public static void register(Activity act, RegisterDTO
-            dto, CallBack<BaseEntity> callback, String account, String pwd, String yzm) {
+            dto, CallBack<BaseEntity> callback) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        post(getAbsoluteUrl("Home/Login/register?account=" + account + "&userpwd=" + pwd + "&yzm=" + yzm), dto,
+        post(getAbsoluteUrl("Home/Login/register?"), dto,
                 asyncCallBack);
     }
 
@@ -245,10 +245,10 @@ public class CommonApiClient extends BaseApiClient {
      * @param callback
      */
     public static void verifyCode(Activity act, VerifyDTO
-            dto, CallBack<BaseEntity> callback, String account) {
+            dto, CallBack<BaseEntity> callback) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        post(getAbsoluteUrl("Home/Login/getMobileCode?user_mobile=" + account), dto,
+        post(getAbsoluteUrl("Home/Login/getMobileCode?"), dto,
                 asyncCallBack);
     }
 
@@ -260,10 +260,10 @@ public class CommonApiClient extends BaseApiClient {
      * @param callback
      */
     public static void login(Activity act, LoginDTO
-            dto, CallBack<LoginEntity> callback, String account, String pwd) {
+            dto, CallBack<LoginEntity> callback) {
         AsyncCallBack<LoginEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, LoginEntity.class);
-        post(getAbsoluteUrl("Home/Login/login?account=" + account + "&userpwd=" + pwd), dto,
+        post(getAbsoluteUrl("Home/Login/login?"), dto,
                 asyncCallBack);
     }
 
@@ -275,10 +275,10 @@ public class CommonApiClient extends BaseApiClient {
      * @param callback
      */
     public static void forgetPwd(Activity act, ForgetPwdDTO
-            dto, CallBack<BaseEntity> callback, String account, String useryzm) {
+            dto, CallBack<BaseEntity> callback) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        post(getAbsoluteUrl("Home/Login/forgetUserPwdOne?usermobile=" + account + "&useryzm=" + useryzm), dto,
+        post(getAbsoluteUrl("Home/Login/forgetUserPwdOne?"), dto,
                 asyncCallBack);
     }
 
@@ -290,10 +290,10 @@ public class CommonApiClient extends BaseApiClient {
      * @param callback
      */
     public static void setNewPwd(Activity act, SetNewPwdDTO
-            dto, CallBack<BaseEntity> callback, String account, String pwd) {
+            dto, CallBack<BaseEntity> callback) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        post(getAbsoluteUrl("Home/Login/forgetUserPwdTwo?usermobile=" + account + "&userpwd=" + pwd), dto,
+        post(getAbsoluteUrl("Home/Login/forgetUserPwdTwo?"), dto,
                 asyncCallBack);
     }
 
@@ -349,7 +349,7 @@ public class CommonApiClient extends BaseApiClient {
     public static void  newsList(Activity act, BaseDTO dto, CallBack<NewsResult> callback) {
         AsyncCallBack<NewsResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, NewsResult.class);
-        get(getAbsoluteUrl("Home/Notices/getNoticeList?userid="+dto.getUserid()), dto,
+        get(getAbsoluteUrl("Home/Notices/getNoticeList?"), dto,
                 asyncCallBack);
     }
 
@@ -363,7 +363,7 @@ public class CommonApiClient extends BaseApiClient {
     public static void  deleteNew(Activity act, DeleteNewDTO dto, CallBack<BaseEntity> callback) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        get(getAbsoluteUrl("Home/Notices/deleteMyNotice?userid="+dto.getUserID()+"&noticeid="+dto.getNoticeid()), dto,
+        get(getAbsoluteUrl("Home/Notices/deleteMyNotice?"), dto,
                 asyncCallBack);
     }
 
@@ -377,7 +377,7 @@ public class CommonApiClient extends BaseApiClient {
     public static void ChangePwd(Activity act, ChangePwdDTO dto, CallBack<BaseEntity> callback) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        post(getAbsoluteUrl("Home/Login/updateUserPwd?id="+dto.getUserid()+"&useroldpwd="+dto.getUseroldpwd()+"&usernewpwd="+dto.getUsernewpwd()), dto,
+        post(getAbsoluteUrl("Home/Login/updateUserPwd?"), dto,
                 asyncCallBack);
     }
 
@@ -391,7 +391,7 @@ public class CommonApiClient extends BaseApiClient {
             dto, CallBack<FindResult> callback) {
         AsyncCallBack<FindResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, FindResult.class);
-        post(getAbsoluteUrl("Home/Projects/searchProject?search="+dto.getSearch()+"&page="+dto.getPage()), dto,
+        post(getAbsoluteUrl("Home/Projects/searchProject?"), dto,
                 asyncCallBack);
     }
 

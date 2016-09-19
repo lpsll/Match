@@ -33,12 +33,10 @@ import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
-import com.macth.match.common.utils.BitmapToByte;
 import com.macth.match.common.utils.BitmapToRound_Util;
 import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
-import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.mine.dto.AddInfoDTO;
 import com.macth.match.register.entity.Data;
 import com.macth.match.register.entity.ShenFenEntity;
@@ -573,7 +571,7 @@ public class AddInfoActivity extends BaseTitleActivity {
      */
     private void addInfo() {
 
-        String usermobile = etAddInfoUsername.getText().toString().trim();
+        String usermobile = etAddInfoPhone.getText().toString().trim();
         String username = etAddInfoUsername.getText().toString().trim();
         String company = etAddInfoCompany.getText().toString().trim();
         String work = etAddInfoWork.getText().toString().trim();
@@ -592,18 +590,25 @@ public class AddInfoActivity extends BaseTitleActivity {
             LogUtils.d("头像的路径========="+userCard);
 
             Bitmap bitmap = BitmapFactory.decodeFile(userCard);
-            byte[] bitmapByte = BitmapToByte.getBitmapByte(bitmap);
+            Bitmap bitmapCompressed = ImageLoaderUtils.compressImage(bitmap);  //压缩
+            String img = ImageLoaderUtils.bitmaptoString(bitmapCompressed);    //转为base64
 
-            addInfoDto.setUserimg(bitmapByte);
+            addInfoDto.setUserimg(img);
         }
-
         CommonApiClient.addInfo(this, addInfoDto, new CallBack<BaseEntity>() {
             @Override
             public void onSuccess(BaseEntity result) {
                 LogUtils.e("result========" + result.getMsg());
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("完善用户信息成功");
-                    ToastUtils.showShort(AddInfoActivity.this, "信息补充成功");
+
+                    new AlertDialog.Builder(AddInfoActivity.this).setTitle("提示").setMessage("信息补充成功").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).show();
+
                 }
             }
         });
@@ -645,8 +650,12 @@ public class AddInfoActivity extends BaseTitleActivity {
 //            imgUserCard.setImageBitmap(BitmapFactory
 //                    .decodeFile(picturePath));
 
-            ImageLoaderUtils.displayAvatarImage(picturePath,imgUserCard);
+//            ImageLoaderUtils.displayAvatarImage(picturePath,imgUserCard);
 //            xUtilsImageUtils.display(imgUserCard,picturePath,true);
+            Bitmap bitmap = ImageLoaderUtils.readBitmap(picturePath);
+            Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bitmap, 200);
+            imgUserCard.setImageBitmap(roundedCornerBitmap);
+
             userCard = picturePath;
         }
     }

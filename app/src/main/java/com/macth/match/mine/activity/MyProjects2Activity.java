@@ -1,6 +1,7 @@
 package com.macth.match.mine.activity;
 
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseListActivity;
 import com.macth.match.common.dto.BaseDTO;
@@ -59,6 +60,7 @@ public class MyProjects2Activity extends BaseListActivity<MineProjectsEntity> {
     protected void sendRequestData() {
 
         BaseDTO dto=new BaseDTO();
+        dto.setUserid(AppContext.get("usertoken",""));
         CommonApiClient.mineProjects(MyProjects2Activity.this, dto, new CallBack<MineProjectsResult>() {
             @Override
             public void onSuccess(MineProjectsResult result) {
@@ -73,7 +75,7 @@ public class MyProjects2Activity extends BaseListActivity<MineProjectsEntity> {
                     }
                 }
             }
-        },"2");
+        });
 
     }
 }

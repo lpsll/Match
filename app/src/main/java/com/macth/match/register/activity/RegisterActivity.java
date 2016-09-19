@@ -248,7 +248,7 @@ public class RegisterActivity extends BaseTitleActivity {
                     finish();
                 }
             }
-        }, etRegisterUsername.getText().toString().trim(), etRegisterPwd.getText().toString().trim(), etRegisterCode.getText().toString().trim());
+        });
 
     }
 
@@ -267,7 +267,7 @@ public class RegisterActivity extends BaseTitleActivity {
                     LogUtils.e("result---------", "");
                 }
             }
-        }, etRegisterUsername.getText().toString().trim());
+        });
     }
 
 

@@ -18,7 +18,15 @@ public class AddInfoDTO {
     private String company;
     private String work;
     private String cooperative;
-    private byte[] userimg;
+    private String userimg;
+
+    public String getUserimg() {
+        return userimg;
+    }
+
+    public void setUserimg(String userimg) {
+        this.userimg = userimg;
+    }
 
     public String getUsermobile() {
         return usermobile;
@@ -68,11 +76,4 @@ public class AddInfoDTO {
         this.cooperative = cooperative;
     }
 
-    public byte[] getUserimg() {
-        return userimg;
-    }
-
-    public void setUserimg(byte[] userimg) {
-        this.userimg = userimg;
-    }
 }

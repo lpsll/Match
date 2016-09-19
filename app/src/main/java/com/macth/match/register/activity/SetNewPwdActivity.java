@@ -94,6 +94,6 @@ public class SetNewPwdActivity extends BaseTitleActivity {
                     finish();
                 }
             }
-        }, userMobile, etSetNewPwd.getText().toString().trim());
+        });
     }
 }

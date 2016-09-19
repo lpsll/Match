@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.common.http.CallBack;
@@ -118,7 +119,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         DeleteNewDTO deleteNewDTO = new DeleteNewDTO();
 
         //修改userid
-        deleteNewDTO.setUserid("2");
+        deleteNewDTO.setUserid(AppContext.get("usertoken",""));
         deleteNewDTO.setNoticeid(list.get(position).getId());
 
         CommonApiClient.deleteNew((NewsActivity)context, deleteNewDTO, new CallBack<BaseEntity>() {
