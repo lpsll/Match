@@ -42,6 +42,7 @@ public class News2Activity extends BaseListActivity<NewsEntity> {
         super.initView();
         setTitleText("消息");
         sendRequestData();
+        LogUtils.e("","");
     }
 
     public boolean autoRefreshIn() {
