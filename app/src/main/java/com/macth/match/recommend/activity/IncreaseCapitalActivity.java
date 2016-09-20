@@ -267,6 +267,9 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
                     Toast.makeText(IncreaseCapitalActivity.this, "屏幕截图成功，图片存在: " +
                                     file.toString(),
                             Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IncreaseCapitalActivity.this, "屏幕截图成功，图片存在: " +
+                                    file.toString(),
+                            Toast.LENGTH_SHORT).show();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
