@@ -4,6 +4,7 @@ import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseListActivity;
+import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
@@ -59,7 +60,7 @@ public class MyProjects2Activity extends BaseListActivity<MineProjectsEntity> {
     @Override
     protected void sendRequestData() {
 
-        MyProjectsDto dto = new MyProjectsDto();
+        BaseDTO dto = new BaseDTO();
         dto.setUserid(AppContext.get("usertoken", ""));
         dto.setPage("1");
         CommonApiClient.mineProjects(MyProjects2Activity.this, dto, new CallBack<MineProjectsResult>() {

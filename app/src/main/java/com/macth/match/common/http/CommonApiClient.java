@@ -217,7 +217,7 @@ public class CommonApiClient extends BaseApiClient {
      * @param dto
      * @param callback
      */
-    public static void mineProjects(Activity act, MyProjectsDto
+    public static void mineProjects(Activity act, BaseDTO
             dto, CallBack<MineProjectsResult> callback) {
         AsyncCallBack<MineProjectsResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, MineProjectsResult.class);
