@@ -14,8 +14,6 @@ import com.macth.match.login.entity.LoginEntity;
 import com.macth.match.mine.dto.AddInfoDTO;
 import com.macth.match.mine.dto.ChangePwdDTO;
 import com.macth.match.mine.dto.DeleteNewDTO;
-import com.macth.match.mine.dto.MyProjectsDto;
-import com.macth.match.mine.dto.NewsDto;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.mine.entity.NewsResult;
 import com.macth.match.notice.entity.NoticeResult;
@@ -349,7 +347,7 @@ public class CommonApiClient extends BaseApiClient {
      * @param
      * @param callback
      */
-    public static void  newsList(Activity act, NewsDto dto, CallBack<NewsResult> callback) {
+    public static void  newsList(Activity act, BaseDTO dto, CallBack<NewsResult> callback) {
         AsyncCallBack<NewsResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, NewsResult.class);
         get(getAbsoluteUrl("Home/Notices/getNoticeList"), dto,
@@ -366,7 +364,7 @@ public class CommonApiClient extends BaseApiClient {
     public static void  deleteNew(Activity act, DeleteNewDTO dto, CallBack<BaseEntity> callback) {
         AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
                 act, callback, BaseEntity.class);
-        get(getAbsoluteUrl("Home/Notices/deleteMyNotice?"), dto,
+        get(getAbsoluteUrl("Home/Notices/deleteMyNotice"), dto,
                 asyncCallBack);
     }
 

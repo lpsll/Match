@@ -7,7 +7,6 @@ package com.macth.match.find.dto;
  */
 public class SearchDTO {
     private String search;
-    private String page;
 
     public String getSearch() {
         return search;
@@ -17,11 +16,4 @@ public class SearchDTO {
         this.search = search;
     }
 
-    public String getPage() {
-        return page;
-    }
-
-    public void setPage(String page) {
-        this.page = page;
-    }
 }

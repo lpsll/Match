@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.macth.match.login.activity.LoginActivity;
 import com.macth.match.mine.activity.ChangePwdActivity;
-import com.macth.match.mine.activity.News2Activity;
+import com.macth.match.mine.activity.NewsActivity;
 import com.macth.match.mine.activity.NewsDetailsActivity;
 import com.macth.match.mine.activity.SettingActivity;
 import com.macth.match.register.activity.AddInfoActivity;
@@ -32,7 +32,7 @@ public class MineUIGoto {
      */
     public static void gotoNews(Activity act){
 //        Intent intent = new Intent(act, NewsActivity.class);
-        Intent intent = new Intent(act, News2Activity.class);
+        Intent intent = new Intent(act, NewsActivity.class);
         act.startActivity(intent);
     }
 

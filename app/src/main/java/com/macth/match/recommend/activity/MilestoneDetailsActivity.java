@@ -1,7 +1,6 @@
 package com.macth.match.recommend.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,13 +12,11 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.recommend.dto.DownloadDTO;
-import com.macth.match.recommend.dto.FundsDTO;
 import com.macth.match.recommend.dto.MinestoneDetailsDTO;
 import com.macth.match.recommend.entity.FundsResult;
 import com.macth.match.recommend.entity.MilDetailsResult;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -191,7 +188,6 @@ public class MilestoneDetailsActivity extends BaseTitleActivity {
                     LogUtils.e("里程碑上传文件成功");
 
                 }
-
             }
         });
     }

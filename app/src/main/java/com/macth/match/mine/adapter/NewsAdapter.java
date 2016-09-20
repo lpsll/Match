@@ -1,12 +1,8 @@
 package com.macth.match.mine.adapter;
 
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.app.Activity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
@@ -16,134 +12,77 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.ToastUtils;
-import com.macth.match.mine.activity.NewsActivity;
 import com.macth.match.mine.dto.DeleteNewDTO;
 import com.macth.match.mine.entity.NewsEntity;
-
-import java.util.List;
+import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
+import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
 
 /**
- * Created by Administrator on 2016/8/28.
+ * Created by Administrator on 2016/9/19.
  */
-public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class NewsAdapter extends BaseSimpleRecyclerAdapter<NewsEntity> {
 
 
-    private Context context;
-    private List<NewsEntity> list;
+    private Activity act;
 
-
-    public NewsAdapter(Context context, List<NewsEntity> list) {
-        this.context = context;
-        this.list = list;
+    public NewsAdapter(Activity act) {
+        this.act = act;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-
-        View view = LayoutInflater.from(context).inflate(R.layout.item_mine_news, parent, false);
-
-        return new MineNewsHolder(view);
-
+    public int getItemViewLayoutId() {
+        return R.layout.item_mine_news;
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if(holder instanceof MineNewsHolder) {
+    public void bindData(final BaseRecyclerViewHolder holder, final NewsEntity newsEntity, int position) {
 
-            final MineNewsHolder mineNewsHolder = (MineNewsHolder) holder;
+        holder.setText(R.id.tv_news_title, newsEntity.getNotice_title());
+        holder.setText(R.id.tv_news_msg, newsEntity.getNotice_content());
+        holder.setText(R.id.tv_news_date, newsEntity.getNotice_ctime());
+        holder.setText(R.id.tv_news_hours, "2");
 
-            final NewsEntity newsEntity = list.get(position);
-            mineNewsHolder.tv_news_title.setText(newsEntity.getNotice_title());
-            mineNewsHolder.tv_news_msg.setText(newsEntity.getNotice_content());
-            mineNewsHolder.tv_news_date.setText(newsEntity.getNotice_ctime());
-            mineNewsHolder.tv_news_hours.setText("2");
+        //点击垃圾桶调删除消息接口，并刷新adapter
+        ImageView delete = (ImageView) holder.itemView.findViewById(R.id.img_news_delete);
 
+        final String id = newsEntity.getId();
 
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            //点击垃圾桶调删除消息接口，并刷新adapter
-            mineNewsHolder.img_news_delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                deleteNew(id);
 
-                    deleteNew(position);
-
-                }
-            });
-
-            if (onItemClickListener != null) {
-                mineNewsHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int layoutPosition = mineNewsHolder.getLayoutPosition();
-                        onItemClickListener.onClick(v, layoutPosition, newsEntity.getNotice_url());
-                    }
-                });
             }
-        }
-    }
+        });
 
 
-
-    @Override
-    public int getItemCount() {
-        return list.size();
-    }
-
-    class MineNewsHolder extends RecyclerView.ViewHolder {
-
-        private TextView tv_news_title;
-        private TextView tv_news_date;
-        private TextView tv_news_msg;
-        private TextView tv_news_hours;
-        private ImageView img_news_delete;
-
-        public MineNewsHolder(View itemView) {
-            super(itemView);
-
-            tv_news_title = (TextView) itemView.findViewById(R.id.tv_news_title);
-            tv_news_date = (TextView) itemView.findViewById(R.id.tv_news_date);
-            tv_news_msg = (TextView) itemView.findViewById(R.id.tv_news_msg);
-            tv_news_hours = (TextView) itemView.findViewById(R.id.tv_news_hours);
-            img_news_delete = (ImageView) itemView.findViewById(R.id.img_news_delete);
-
-
-        }
     }
 
     /**
-     *调接口删除数据
+     * 调接口删除数据
      */
-    private void deleteNew(final int position) {
+    private void deleteNew(final String id) {
 
         DeleteNewDTO deleteNewDTO = new DeleteNewDTO();
 
         //修改userid
-        deleteNewDTO.setUserid(AppContext.get("usertoken",""));
-        deleteNewDTO.setNoticeid(list.get(position).getId());
+        deleteNewDTO.setUserid(AppContext.get("usertoken", ""));
+        deleteNewDTO.setNoticeid(id);
 
-        CommonApiClient.deleteNew((NewsActivity)context, deleteNewDTO, new CallBack<BaseEntity>() {
+        CommonApiClient.deleteNew(act, deleteNewDTO, new CallBack<BaseEntity>() {
             @Override
             public void onSuccess(BaseEntity result) {
                 LogUtils.e("result========" + result.getMsg());
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("删除成功");
-                    ToastUtils.showShort(context, "删除成功");
+                    ToastUtils.showShort(act, "删除成功");
 
-                    list.remove(position);
-                    notifyItemRemoved(position);
+                    notifyItemRemoved(Integer.parseInt(id));
+
                 }
             }
         });
     }
 
-    public interface OnItemClickListener {
-        void onClick(View v, int position, String url);
-    }
-
-    private OnItemClickListener onItemClickListener;
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
 }

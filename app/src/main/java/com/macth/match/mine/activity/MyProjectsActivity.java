@@ -1,5 +1,7 @@
 package com.macth.match.mine.activity;
 
+import android.view.View;
+
 import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
@@ -9,8 +11,7 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.widget.EmptyLayout;
-import com.macth.match.mine.adapter.MineProjects2Adapter;
-import com.macth.match.mine.dto.MyProjectsDto;
+import com.macth.match.mine.adapter.MineProjectsAdapter;
 import com.macth.match.mine.entity.MineProjectsEntity;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
@@ -18,20 +19,20 @@ import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 import java.io.Serializable;
 import java.util.List;
 
-public class MyProjects2Activity extends BaseListActivity<MineProjectsEntity> {
+public class MyProjectsActivity extends BaseListActivity<MineProjectsEntity> {
 
-    private MineProjects2Adapter mineProjects2Adapter;
+    private MineProjectsAdapter mineProjects2Adapter;
 
     @Override
     public BaseRecyclerAdapter createAdapter() {
-        mineProjects2Adapter = new MineProjects2Adapter();
+        mineProjects2Adapter = new MineProjectsAdapter();
         return mineProjects2Adapter;
     }
 
     @Override
     protected String getCacheKeyPrefix() {
 
-        return "MyProjects2Activity";
+        return "MyProjectsActivity";
     }
 
 
@@ -62,8 +63,8 @@ public class MyProjects2Activity extends BaseListActivity<MineProjectsEntity> {
 
         BaseDTO dto = new BaseDTO();
         dto.setUserid(AppContext.get("usertoken", ""));
-        dto.setPage("1");
-        CommonApiClient.mineProjects(MyProjects2Activity.this, dto, new CallBack<MineProjectsResult>() {
+        dto.setPage(String.valueOf(mCurrentPage));
+        CommonApiClient.mineProjects(MyProjectsActivity.this, dto, new CallBack<MineProjectsResult>() {
             @Override
             public void onSuccess(MineProjectsResult result) {
                 if(AppConfig.SUCCESS.equals(result.getCode())){
@@ -73,11 +74,21 @@ public class MyProjects2Activity extends BaseListActivity<MineProjectsEntity> {
                     if(null==result.getData()){
                         mErrorLayout.setErrorType(EmptyLayout.NODATA);
                     }else {
+                        requestDataSuccess(result);
                         setDataResult(result.getData().getList());
                     }
                 }
             }
         });
 
+    }
+
+    @Override
+    public void onItemClick(View itemView, Object itemBean, int position) {
+        super.onItemClick(itemView, itemBean, position);
+//        RecommendEntity entity = (RecommendEntity) itemBean;
+//        Bundle b = new Bundle();
+//        b.putString("pid", entity.getPid());
+//        RecommendUiGoto.gotoProject(getActivity(), b);
     }
 }

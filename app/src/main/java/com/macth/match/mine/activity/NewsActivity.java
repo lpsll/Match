@@ -1,95 +1,141 @@
 package com.macth.match.mine.activity;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
-import com.macth.match.common.base.BaseTitleActivity;
+import com.macth.match.common.base.BaseListActivity;
+import com.macth.match.common.dto.BaseDTO;
+import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
+import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.adapter.NewsAdapter;
-import com.macth.match.mine.dto.NewsDto;
+import com.macth.match.mine.dto.DeleteNewDTO;
 import com.macth.match.mine.entity.NewsEntity;
 import com.macth.match.mine.entity.NewsResult;
-import com.qluxstory.ptrrecyclerview.PtrRecyclerView;
+import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-
-public class NewsActivity extends BaseTitleActivity {
-
-
-    @Bind(R.id.recyclerview_news)
-    PtrRecyclerView recyclerviewNews;
-    @Bind(R.id.error_layout)
-    EmptyLayout errorLayout;
+public class NewsActivity extends BaseListActivity<NewsEntity> {
 
     private NewsAdapter newsAdapter;
-    private List<NewsEntity> newsData;
 
     @Override
-    protected int getContentResId() {
-        return R.layout.activity_news;
+    public BaseRecyclerAdapter<NewsEntity> createAdapter() {
+        newsAdapter = new NewsAdapter(this);
+        return newsAdapter;
+    }
+
+    @Override
+    protected String getCacheKeyPrefix() {
+        return "NewsActivity";
+    }
+
+    @Override
+    public List<NewsEntity> readList(Serializable seri) {
+        return ((NewsResult) seri).getData().getList();
     }
 
     @Override
     public void initView() {
+        super.initView();
         setTitleText("消息");
-        showDialogLoading();
+    }
 
+    public boolean autoRefreshIn() {
+        return true;
     }
 
     @Override
     public void initData() {
-        getData();
-
+        mCurrentPage = 1;
+        sendRequestData();
     }
 
-    /**
-     * 获取我的项目数据  拼接uid默认为2
-     */
-    private void getData() {
-        NewsDto dto = new NewsDto();
-        //此处需要替换用户id
-        dto.setUserid(AppContext.get("usertoken",""));
-        dto.setPage("1");
+    @Override
+    protected void sendRequestData() {
+
+        BaseDTO dto = new BaseDTO();
+        dto.setUserid(AppContext.get("usertoken", ""));
+        dto.setPage(String.valueOf(mCurrentPage));
+
         CommonApiClient.newsList(NewsActivity.this, dto, new CallBack<NewsResult>() {
             @Override
             public void onSuccess(NewsResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("消息列表获取成功");
-                    errorLayout.setErrorMessage("暂无消息记录", errorLayout.FLAG_NODATA);
-                    errorLayout.setErrorImag(R.drawable.page_icon_empty, errorLayout.FLAG_NODATA);
+                    mErrorLayout.setErrorMessage("暂无消息记录", mErrorLayout.FLAG_NODATA);
+                    mErrorLayout.setErrorImag(R.drawable.page_icon_empty, mErrorLayout.FLAG_NODATA);
                     if (null == result.getData()) {
-                        errorLayout.setErrorType(EmptyLayout.NODATA);
+                        mErrorLayout.setErrorType(EmptyLayout.NODATA);
                     } else {
-                        if(result.getData().getList() == null) {
-                            errorLayout.setErrorType(EmptyLayout.NODATA);
-                        }else {
+                        if (result.getData().getList() == null) {
+                            mErrorLayout.setErrorType(EmptyLayout.NODATA);
+                        } else {
 
-                            newsData = result.getData().getList();
-
-                            recyclerviewNews.setLayoutManager(new LinearLayoutManager(NewsActivity.this));
-                            newsAdapter = new NewsAdapter(NewsActivity.this,newsData);
-                            recyclerviewNews.setAdapter(newsAdapter);
-
-                            newsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
-                                @Override
-                                public void onClick(View v, int position, String url) {
-                                    //跳转到消息详情页面
-                                    MineUIGoto.gotoNewsDetails(NewsActivity.this,url);
-                                }
-                            });
+                            requestDataSuccess(result);
+                            setDataResult(result.getData().getList());
 
                         }
-                            hideDialogLoading();
+                        hideDialogLoading();
                     }
+                }
+            }
+        });
+    }
+
+    List<NewsEntity> list = new ArrayList<>();
+    @Override
+    public void onItemClick(View itemView, Object itemBean, final int position) {
+        super.onItemClick(itemView, itemBean, position);
+        final NewsEntity entity = (NewsEntity) itemBean;
+        String notice_url = entity.getNotice_url();
+        list.add(position,entity);
+        //跳转到消息详情页面
+        MineUIGoto.gotoNewsDetails(NewsActivity.this, notice_url);
+
+        ImageView delete = (ImageView) itemView.findViewById(R.id.img_news_delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteNew(list.get(position).getId());
+                ToastUtils.showShort(NewsActivity.this,"shangchuu");
+            }
+        });
+    }
+
+    /**
+     * 调接口删除数据
+     */
+    private void deleteNew(final String id) {
+
+        DeleteNewDTO deleteNewDTO = new DeleteNewDTO();
+
+        //修改userid
+        deleteNewDTO.setUserid(AppContext.get("usertoken", ""));
+        deleteNewDTO.setNoticeid(id);
+
+        CommonApiClient.deleteNew(this, deleteNewDTO, new CallBack<BaseEntity>() {
+            @Override
+            public void onSuccess(BaseEntity result) {
+                LogUtils.e("result========" + result.getMsg());
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("删除成功");
+                    ToastUtils.showShort(NewsActivity.this, "删除成功");
+
+                    mCurrentPage = 1;
+                    sendRequestData();
+                    newsAdapter.notifyItemRemoved(Integer.parseInt(id));
+
                 }
             }
         });

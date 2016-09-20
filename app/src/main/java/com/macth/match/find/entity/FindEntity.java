@@ -21,7 +21,7 @@ public class FindEntity extends BaseEntity {
  ],
  */
 
-    private int pid;
+    private String pid;
     private String companyname;
     private String  price;
     private String project_termunit;
@@ -31,11 +31,11 @@ public class FindEntity extends BaseEntity {
     private String project_type;
     private int project_status;
 
-    public int getPid() {
+    public String getPid() {
         return pid;
     }
 
-    public void setPid(int pid) {
+    public void setPid(String pid) {
         this.pid = pid;
     }
 

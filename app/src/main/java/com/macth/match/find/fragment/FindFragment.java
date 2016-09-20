@@ -1,6 +1,7 @@
 package com.macth.match.find.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.macth.match.find.Search2Activity;
 import com.macth.match.find.adapter.FindAdapter;
 import com.macth.match.find.entity.FindEntity;
 import com.macth.match.find.entity.FindResult;
+import com.macth.match.recommend.RecommendUiGoto;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 
 import java.io.Serializable;
@@ -58,6 +60,7 @@ public class FindFragment extends BaseListFragment<FindEntity> {
     protected void sendRequestData() {
         LogUtils.e("sendRequestData---","sendRequestData");
         BaseDTO dto = new BaseDTO();
+        dto.setPage(String.valueOf(mCurrentPage));
         CommonApiClient.find(this, dto, new CallBack<FindResult>() {
             @Override
             public void onSuccess(FindResult result) {
@@ -70,6 +73,7 @@ public class FindFragment extends BaseListFragment<FindEntity> {
                     } else {
                         //获取数据
                         if (result.getData().getList() != null && result.getData().getList().size() != 0) {
+                            requestDataSuccess(result);
                             setDataResult(result.getData().getList());
                         } else {
                             mErrorLayout.setErrorType(EmptyLayout.NODATA);
@@ -78,7 +82,6 @@ public class FindFragment extends BaseListFragment<FindEntity> {
                 }
             }
         });
-
     }
 
 
@@ -97,8 +100,8 @@ public class FindFragment extends BaseListFragment<FindEntity> {
     @Override
     public void initData() {
         LogUtils.e("initData---","initData");
+        mCurrentPage = 1;
         sendRequestData();
-
     }
 
     public boolean autoRefreshIn() {
@@ -159,6 +162,15 @@ public class FindFragment extends BaseListFragment<FindEntity> {
 //
 //                break;
         }
+    }
+
+    @Override
+    public void onItemClick(View itemView, Object itemBean, int position) {
+        super.onItemClick(itemView, itemBean, position);
+        FindEntity entity = (FindEntity) itemBean;
+        Bundle b = new Bundle();
+        b.putString("pid", entity.getPid());
+        RecommendUiGoto.gotoProject(getActivity(), b);
     }
 
 

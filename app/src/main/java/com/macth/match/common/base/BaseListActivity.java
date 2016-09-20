@@ -137,12 +137,6 @@ public abstract class BaseListActivity<T> extends BaseTitleActivity implements B
 
     }
 
-    @Override
-    public void initData() {
-
-    }
-
-
 
     public void reset(){
         if (action == ACTION_PULL_REFRESH) {

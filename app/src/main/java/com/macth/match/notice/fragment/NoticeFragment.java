@@ -58,7 +58,7 @@ public class NoticeFragment extends BaseListFragment<NoticeEntity> {
                     if (null == result.getData()) {
                         mErrorLayout.setErrorType(EmptyLayout.NODATA);
                     } else {
-//                        requestDataSuccess(result);
+                        requestDataSuccess(result);
                         setDataResult(result.getData().getList());
 
                         //点击每一项的监听
@@ -96,6 +96,7 @@ public class NoticeFragment extends BaseListFragment<NoticeEntity> {
 
     @Override
     public void initData() {
+        mCurrentPage = 1;
         sendRequestData();
     }
 
