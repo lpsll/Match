@@ -15,7 +15,26 @@ public class MineProjectsEntity extends BaseEntity {
     private String ctime;
     private String image;
     private String project_type;
-    private int project_status;
+    private String project_status;
+    private String own;//为1时三个按钮都显示，为其他时只显示申请关闭按钮
+
+    public String getProject_status() {
+        return project_status;
+    }
+
+    public void setProject_status(String project_status) {
+        this.project_status = project_status;
+    }
+
+    public String getOwn() {
+        return own;
+    }
+
+    public void setOwn(String own) {
+        this.own = own;
+    }
+
+
 
 
     public String getPid() {
@@ -82,13 +101,6 @@ public class MineProjectsEntity extends BaseEntity {
         this.project_type = project_type;
     }
 
-    public int getProject_status() {
-        return project_status;
-    }
 
-
-    public void setProject_status(int project_status) {
-        this.project_status = project_status;
-    }
 
 }

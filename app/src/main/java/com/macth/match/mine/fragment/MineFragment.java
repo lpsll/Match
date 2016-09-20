@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,8 @@ public class MineFragment extends BaseFragment {
     RelativeLayout rlMineExit;
     @Bind(R.id.img_login_touxiang)
     ImageView imgLoginTouxiang;
+    @Bind(R.id.lin_user)
+    LinearLayout mLinUser;
 
     private boolean isLogin;
 
@@ -83,7 +86,7 @@ public class MineFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.rl_mine_projects, R.id.rl_mine_news, R.id.rl_mine_setting, R.id.rl_mine_exit, R.id.img_login_touxiang})
+    @OnClick({R.id.rl_mine_projects, R.id.rl_mine_news, R.id.rl_mine_setting, R.id.rl_mine_exit,R.id.lin_user})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_mine_projects:
@@ -130,12 +133,17 @@ public class MineFragment extends BaseFragment {
 
                 break;
 
-            case R.id.img_login_touxiang:
+            case R.id.lin_user:
                 if (!isLogin) {
                     //打开登录页面
                     MineUIGoto.gotoLoginForPwd(getActivity());
+                } else {
+                    MineUIGoto.gotoPersonal(getActivity()); //个人信息
                 }
+
                 break;
+
+
         }
     }
 

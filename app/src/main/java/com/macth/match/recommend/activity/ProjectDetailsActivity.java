@@ -12,12 +12,14 @@ import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
+import com.macth.match.common.base.SimplePage;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.TextViewUtils;
+import com.macth.match.common.utils.UIHelper;
 import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.dto.CooperativeDTO;
@@ -217,7 +219,7 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
                 if(bool){
                     Bundle bundle = new Bundle();
                     bundle.putString("projectID",mPid);
-                    RecommendUiGoto.gotoMilestoneDetails(this,bundle);//里程碑详情
+                    UIHelper.showBundleFragment(this, SimplePage.MILESTONE_DETAILS,bundle);//里程碑详情
                 }else {
                     RecommendUiGoto.gotoLogin(this);//登录
                 }

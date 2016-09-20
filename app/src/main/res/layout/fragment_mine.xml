@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/lin_user"
             android:layout_width="match_parent"
             android:layout_height="@dimen/ds_530"
             android:background="@color/navi"

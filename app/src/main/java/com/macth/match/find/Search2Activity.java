@@ -51,10 +51,9 @@ public class Search2Activity extends BaseListActivity<FindEntity> {
 
     }
 
-
     @Override
     public void initData() {
-        super.initData();
+
     }
 
 

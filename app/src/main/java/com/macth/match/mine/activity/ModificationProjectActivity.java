@@ -1,7 +1,6 @@
-package com.macth.match.recommend.activity;
+package com.macth.match.mine.activity;
 
 import android.content.Intent;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -33,9 +32,9 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
- * 新增项目页
+ * 修改项目
  */
-public class AddItemActivity extends BaseTitleActivity {
+public class ModificationProjectActivity extends BaseTitleActivity {
     @Bind(R.id.et01)
     EditText et01;
     @Bind(R.id.et02)
@@ -98,15 +97,27 @@ public class AddItemActivity extends BaseTitleActivity {
     int type,mTimeType;
     List<AddItemListEntity> mListEntity;
     private String mType;
+    private String mPrice,mName,mValue,mUnit;
 
     @Override
     protected int getContentResId() {
-        return R.layout.activity_additem;
+        return R.layout.activity_modification;
     }
 
     @Override
     public void initView() {
-        setTitleText("新增项目");
+        setTitleText("修改项目");
+        mName = getIntent().getBundleExtra("bundle").getString("name");
+        mPrice = getIntent().getBundleExtra("bundle").getString("price");
+        mValue = getIntent().getBundleExtra("bundle").getString("value");
+        mUnit = getIntent().getBundleExtra("bundle").getString("unit");
+        et01.setText(mName);
+        et06.setText(mPrice);
+        if(mUnit.equals("1")){
+            et07.setText(mValue+"年");
+        }else {
+            et07.setText(mValue+"月");
+        }
 
     }
 
@@ -329,7 +340,7 @@ public class AddItemActivity extends BaseTitleActivity {
             public void onSuccess(AddItemListResult result) {
                 if(AppConfig.SUCCESS.equals(result.getCode())){
                     LogUtils.e("提交项目成功");
-                    RecommendUiGoto.adduse(AddItemActivity.this);//增加资金用途
+                    RecommendUiGoto.increase(ModificationProjectActivity.this);//增加资金用途
                 }
             }
         });
@@ -368,13 +379,13 @@ public class AddItemActivity extends BaseTitleActivity {
             }
         });
     }
-    ArrayList<String>  mTimeList ;
+    ArrayList<String> mTimeList ;
     String[] data;
     private String time,mTerm;
     private void showTimePop() {
         mTimeList = new ArrayList<>();
         if(mTimeType==1){
-             data = getResources().getStringArray(R.array.term);
+            data = getResources().getStringArray(R.array.term);
         }
         else if(mTimeType==2){
             data = getResources().getStringArray(R.array.year);
@@ -594,7 +605,4 @@ public class AddItemActivity extends BaseTitleActivity {
 
         }
     }
-
-
-
 }

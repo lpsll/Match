@@ -1,12 +1,21 @@
 package com.macth.match.common.base;
 
 
+import com.macth.match.R;
+import com.macth.match.mine.fragment.UpdateMilestoneFragment;
+import com.macth.match.recommend.fragment.AttachmentsFragment;
+import com.macth.match.recommend.fragment.MilestoneDetailsFragment;
+
 /**
  * Created by John_Libo on 2016/8/18.
  */
 public enum SimplePage {
 
 //        SELECT_ADDRESS(1, R.string.common, SelectAddressFragment.class),
+
+          MILESTONE_DETAILS(1, R.string.milepost_details, MilestoneDetailsFragment.class),
+          ATTACHMENTS(2, R.string.look, AttachmentsFragment.class),
+          UPDATA_MILESTONE(3, R.string.updata, UpdateMilestoneFragment.class),
     ;
 
     private int title;

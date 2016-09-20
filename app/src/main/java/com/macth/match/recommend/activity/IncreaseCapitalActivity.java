@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 增加资金用途页
+ * 添加资金用途页
  */
 public class IncreaseCapitalActivity extends BaseTitleActivity {
     @Bind(R.id.et_01)

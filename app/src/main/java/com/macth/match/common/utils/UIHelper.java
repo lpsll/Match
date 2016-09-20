@@ -19,7 +19,7 @@ public class UIHelper {
         context.startActivity(intent);
     }
 
-    public static void showFragment(Context context, SimplePage page,
+    public static void showBundleFragment(Context context, SimplePage page,
                                     Bundle args) {
         Intent intent = new Intent(context, SimpleActivity.class);
         intent.putExtra(SimpleActivity.BUNDLE_KEY_PAGE, page.getValue());

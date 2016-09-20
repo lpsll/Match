@@ -31,7 +31,7 @@ public class NewsActivity extends BaseListActivity<NewsEntity> {
 
     @Override
     public BaseRecyclerAdapter<NewsEntity> createAdapter() {
-        newsAdapter = new NewsAdapter(this);
+        newsAdapter = new NewsAdapter();
         return newsAdapter;
     }
 
@@ -57,8 +57,6 @@ public class NewsActivity extends BaseListActivity<NewsEntity> {
 
     @Override
     public void initData() {
-        mCurrentPage = 1;
-        sendRequestData();
     }
 
     @Override
@@ -97,7 +95,7 @@ public class NewsActivity extends BaseListActivity<NewsEntity> {
     @Override
     public void onItemClick(View itemView, Object itemBean, final int position) {
         super.onItemClick(itemView, itemBean, position);
-        final NewsEntity entity = (NewsEntity) itemBean;
+        NewsEntity entity = (NewsEntity) itemBean;
         String notice_url = entity.getNotice_url();
         list.add(position,entity);
         //跳转到消息详情页面
@@ -107,19 +105,14 @@ public class NewsActivity extends BaseListActivity<NewsEntity> {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteNew(list.get(position).getId());
-                ToastUtils.showShort(NewsActivity.this,"shangchuu");
+                deleteNew(list.get(position).getId(),position);//删除消息
             }
         });
     }
 
-    /**
-     * 调接口删除数据
-     */
-    private void deleteNew(final String id) {
+    private void deleteNew(final String id, final int position) {
 
         DeleteNewDTO deleteNewDTO = new DeleteNewDTO();
-
         //修改userid
         deleteNewDTO.setUserid(AppContext.get("usertoken", ""));
         deleteNewDTO.setNoticeid(id);
@@ -127,14 +120,11 @@ public class NewsActivity extends BaseListActivity<NewsEntity> {
         CommonApiClient.deleteNew(this, deleteNewDTO, new CallBack<BaseEntity>() {
             @Override
             public void onSuccess(BaseEntity result) {
-                LogUtils.e("result========" + result.getMsg());
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("删除成功");
-                    ToastUtils.showShort(NewsActivity.this, "删除成功");
-
-                    mCurrentPage = 1;
                     sendRequestData();
-                    newsAdapter.notifyItemRemoved(Integer.parseInt(id));
+//                    list.remove(position);
+//                    newsAdapter.notifyDataSetChanged();
 
                 }
             }

@@ -13,9 +13,12 @@ import com.macth.match.login.dto.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
 import com.macth.match.mine.dto.AddInfoDTO;
 import com.macth.match.mine.dto.ChangePwdDTO;
+import com.macth.match.mine.dto.CloseDTO;
 import com.macth.match.mine.dto.DeleteNewDTO;
+import com.macth.match.mine.dto.UpdataDTO;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.mine.entity.NewsResult;
+import com.macth.match.mine.entity.UpdateResult;
 import com.macth.match.notice.entity.NoticeResult;
 import com.macth.match.recommend.dto.CooperativeDTO;
 import com.macth.match.recommend.dto.DownloadDTO;
@@ -23,6 +26,7 @@ import com.macth.match.recommend.dto.FundsDTO;
 import com.macth.match.recommend.dto.MinestoneDetailsDTO;
 import com.macth.match.recommend.dto.SubmitDTO;
 import com.macth.match.recommend.entity.AddItemListResult;
+import com.macth.match.recommend.entity.AttachmentsDTO;
 import com.macth.match.recommend.entity.FundsResult;
 import com.macth.match.recommend.entity.MilDetailsResult;
 import com.macth.match.recommend.entity.ProjectDetailsResult;
@@ -180,17 +184,61 @@ public class CommonApiClient extends BaseApiClient {
         post(getAbsoluteUrl("Home/Cooperatives/getMilePostDetailInfo"), dto,
                 asyncCallBack);
     }
+
+    /**
+     * 里程碑状态
+     *
+     * @param dto
+     * @param callback
+     */
+    public static void milestoneStatus(Activity act, UpdataDTO
+            dto, CallBack<MilDetailsResult> callback) {
+        AsyncCallBack<MilDetailsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, MilDetailsResult.class);
+        post(getAbsoluteUrl("Home/Cooperatives/updateMilePostStatus"), dto,
+                asyncCallBack);
+    }
+
+
+
+    /**
+     * 更新里程碑
+     *
+     * @param dto
+     * @param callback
+     */
+    public static void updata(Activity act, UpdataDTO
+            dto, CallBack<MilDetailsResult> callback) {
+        AsyncCallBack<MilDetailsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, MilDetailsResult.class);
+        post(getAbsoluteUrl("Home/Cooperatives/updateMilePostStatus?"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 查看附件
+     *
+     * @param dto
+     * @param callback
+     */
+    public static void attachments(Activity act, AttachmentsDTO
+            dto, CallBack<MilDetailsResult> callback) {
+        AsyncCallBack<MilDetailsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, MilDetailsResult.class);
+        post(getAbsoluteUrl("Home/Cooperatives/getFilesByMfileID?"), dto,
+                asyncCallBack);
+    }
     /**
      * 里程碑上传文件
      *
      * @param dto
      * @param callback
      */
-    public static void download(Activity act, DownloadDTO
-            dto, CallBack<FundsResult> callback) {
-        AsyncCallBack<FundsResult> asyncCallBack = new AsyncCallBack<>(
-                act, callback, FundsResult.class);
-        post(getAbsoluteUrl("Home/Cooperatives/uploadMilePostFile "), dto,
+    public static void download(Activity act, UpdataDTO
+            dto, CallBack<MilDetailsResult> callback) {
+        AsyncCallBack<MilDetailsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, MilDetailsResult.class);
+        post(getAbsoluteUrl("Home/Cooperatives/uploadMilePostFile"), dto,
                 asyncCallBack);
     }
 
@@ -200,11 +248,11 @@ public class CommonApiClient extends BaseApiClient {
      * @param dto
      * @param callback
      */
-    public static void see(Activity act, DownloadDTO
-            dto, CallBack<FundsResult> callback) {
-        AsyncCallBack<FundsResult> asyncCallBack = new AsyncCallBack<>(
-                act, callback, FundsResult.class);
-        post(getAbsoluteUrl("Home/Cooperatives/uploadMilePostFile "), dto,
+    public static void see(Activity act, UpdataDTO
+            dto, CallBack<UpdateResult> callback) {
+        AsyncCallBack<UpdateResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, UpdateResult.class);
+        post(getAbsoluteUrl("Home/Cooperatives/getMilePostList"), dto,
                 asyncCallBack);
     }
 
@@ -220,6 +268,20 @@ public class CommonApiClient extends BaseApiClient {
         AsyncCallBack<MineProjectsResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, MineProjectsResult.class);
         post(getAbsoluteUrl("Home/Projects/getMyProjectsList?"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 我的项目之申请关闭
+     *
+     * @param dto
+     * @param callback
+     */
+    public static void close(Activity act, CloseDTO
+            dto, CallBack<MilDetailsResult> callback) {
+        AsyncCallBack<MilDetailsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, MilDetailsResult.class);
+        get(getAbsoluteUrl("Home/Projects/applyCloseProject"), dto,
                 asyncCallBack);
     }
 

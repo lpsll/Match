@@ -11,7 +11,6 @@ import com.macth.match.recommend.activity.AddItemActivity;
 import com.macth.match.recommend.activity.ChoiceCityActivity;
 import com.macth.match.recommend.activity.DetailsFundsActivity;
 import com.macth.match.recommend.activity.IncreaseCapitalActivity;
-import com.macth.match.recommend.activity.MilestoneDetailsActivity;
 import com.macth.match.recommend.activity.ProjectDetailsActivity;
 
 /**
@@ -71,10 +70,18 @@ public class RecommendUiGoto {
     }
 
     /**
-     * 跳转到增加资金用途
+     * 跳转到添加资金用途
      * @param context
      */
     public static void increase(Context context){
+        Intent intent = new Intent(context, IncreaseCapitalActivity.class);
+        context.startActivity(intent);
+    }
+    /**
+     * 跳转到增加资金用途
+     * @param context
+     */
+    public static void adduse(Context context){
         Intent intent = new Intent(context, IncreaseCapitalActivity.class);
         context.startActivity(intent);
     }
@@ -91,15 +98,4 @@ public class RecommendUiGoto {
         context.startActivity(intent);
     }
 
-    /**
-     * 跳转到里程碑详情
-     * @param context
-     * @param b
-     */
-
-    public static void gotoMilestoneDetails(Context context, Bundle b){
-        Intent intent = new Intent(context, MilestoneDetailsActivity.class);
-        intent.putExtra("bundle",b);
-        context.startActivity(intent);
-    }
 }
