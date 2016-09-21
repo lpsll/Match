@@ -20,6 +20,7 @@ import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.login.dto.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
+import com.macth.match.mine.MineUIGoto;
 import com.macth.match.register.activity.ForgetPwdActivity;
 import com.macth.match.register.activity.RegisterActivity;
 
@@ -56,7 +57,6 @@ public class LoginActivity extends BaseTitleActivity {
     @Override
     public void initView() {
         setTitleText("登录");
-
         //设置框背景色
         setEdittextBackground();
 
@@ -170,12 +170,8 @@ public class LoginActivity extends BaseTitleActivity {
         CommonApiClient.login(this, loginDTO, new CallBack<LoginEntity>() {
             @Override
             public void onSuccess(LoginEntity result) {
-                LogUtils.e("result========" + result.getMsg());
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("登录成功");
-
-                    ToastUtils.showShort(LoginActivity.this, "登录成功");
-
                     AppContext.set("username",result.getData().getUsername());
                     AppContext.set("usermobile",account);
                     AppContext.set("useridentity",result.getData().getUseridentity());
@@ -184,14 +180,9 @@ public class LoginActivity extends BaseTitleActivity {
                     AppContext.set("usertoken",result.getData().getUsertoken());
                     AppContext.set("cooperativeid",result.getData().getCooperativeid());
                     AppContext.set("rytoken",result.getData().getRytoken());
+                    AppContext.set("userimager",result.getData().getUserimage());
                     AppContext.set("IS_LOGIN",true);
-                    LogUtils.d("用户信息==="+result.getData().toString());
                     finish();
-
-//                    setResult(1001);
-//                    //页面跳转
-//                    startActivity(new Intent(LoginActivity.this, AddInfoActivity.class));
-
 
                 }
             }

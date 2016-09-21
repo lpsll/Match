@@ -3,6 +3,7 @@ package com.macth.match.mine.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseFragment;
 import com.macth.match.common.utils.DialogUtils;
+import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.activity.MyProjectsActivity;
@@ -57,7 +59,7 @@ public class MineFragment extends BaseFragment {
     public void initView(View view) {
         //获取用户登录状态
         isLogin = AppContext.get("IS_LOGIN", false);
-        LogUtils.i("登录状态====" + AppContext.get("IS_LOGIN", false));
+        LogUtils.e("登录状态====" + AppContext.get("IS_LOGIN", false));
 
         addUsernameAndPhone();
 
@@ -78,6 +80,14 @@ public class MineFragment extends BaseFragment {
             tvUsername.setText(userName);
             String mobile = AppContext.get("usermobile", "");
             tvUserphone.setText(mobile);
+            if(TextUtils.isEmpty(AppContext.get("userimager", ""))){
+                LogUtils.e("userimager---",""+AppContext.get("userimager", ""));
+                imgLoginTouxiang.setBackgroundResource(R.drawable.morenxdpi_03);
+            }else {
+                ImageLoaderUtils.displayAvatarImage(AppContext.get("userimager", ""),imgLoginTouxiang);
+
+            }
+
         } else {
             imgLoginTouxiang.setBackgroundResource(R.drawable.touxiang_zhuce);
             tvUserphone.setText("");

@@ -11,9 +11,11 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lidong.photopicker.PhotoPickerActivity;
+import com.lidong.photopicker.SelectModel;
+import com.lidong.photopicker.intent.PhotoPickerIntent;
 import com.macth.match.AppConfig;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
@@ -34,22 +39,29 @@ import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.BitmapToRound_Util;
+import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
+import com.macth.match.common.utils.PhotoSystemUtils;
 import com.macth.match.mine.dto.AddInfoDTO;
 import com.macth.match.register.entity.Data;
 import com.macth.match.register.entity.ShenFenEntity;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
- * 完善信息页
+ * 完善个人信息页
  */
 public class AddInfoActivity extends BaseTitleActivity {
     @Bind(R.id.cb_add_info_username)
@@ -107,16 +119,19 @@ public class AddInfoActivity extends BaseTitleActivity {
 
     PopupWindow popWindow;
     TextView mCamera,mPhoto,mExit;
-    private Bitmap photo;
     private File mPhotoFile;
     /* 请求识别码 */
-    private int CAMERA_RESULT = 100;
-    private int RESULT_LOAD_IMAGE = 200;
+    private static final int CODE_CAMERA_REQUEST = 0xa1;
+    private static final int REQUEST_CAMERA_CODE = 10;
 
     private String saveDir = Environment.getExternalStorageDirectory()
             .getPath() + "/temp_image";
 
-    private String userCard;  //用户上传的头像
+    private String mImg; //用户上传的头像
+    private TextView mBaseBack;
+
+    private ArrayList<String> imagePaths = new ArrayList<>();
+    private byte[] mUrl;
     @Override
     protected int getContentResId() {
         return R.layout.activity_add_info;
@@ -125,7 +140,9 @@ public class AddInfoActivity extends BaseTitleActivity {
     @Override
     public void initView() {
 
-        setTitleText("注册");
+        setTitleText("完善个人信息");
+        mBaseBack = (TextView) findViewById(R.id.base_titlebar_back);
+        mBaseBack.setVisibility(View.GONE);
         //设置框背景色
         setEdittextBackground();
 
@@ -426,41 +443,19 @@ public class AddInfoActivity extends BaseTitleActivity {
                 break;
 
             case R.id.btn_alter_pic_camera://拍照
-
-                popWindow.dismiss();
-                destoryImage();
-                String state = Environment.getExternalStorageState();
-                if (state.equals(Environment.MEDIA_MOUNTED)) {
-                    mPhotoFile = new File(saveDir, "temp.jpg");
-                    mPhotoFile.delete();
-                    if (!mPhotoFile.exists()) {
-                        try {
-                            mPhotoFile.createNewFile();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplication(), "??????????!",
-                                    Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                    }
-                    Intent intent = new Intent(
-                            "android.media.action.IMAGE_CAPTURE");
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                            Uri.fromFile(mPhotoFile));
-                    startActivityForResult(intent, CAMERA_RESULT);
-                } else {
-                    Toast.makeText(getApplication(), "sdcard未找到",
-                            Toast.LENGTH_SHORT).show();
-                }
+                Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intentFromCapture, CODE_CAMERA_REQUEST);
 
                 break;
 
             case R.id.btn_alter_pic_photo://选择照片
-                popWindow.dismiss();
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                PhotoPickerIntent intent = new PhotoPickerIntent(AddInfoActivity.this);
+                intent.setSelectModel(SelectModel.MULTI);
+                intent.setShowCarema(true); // 是否显示拍照
+                intent.setMaxTotal(1); // 最多选择照片数量
+                intent.setSelectedPaths(imagePaths); // 已选中的照片地址， 用于回显选中状态
+                LogUtils.e("imagePaths---", "" + imagePaths);
+                startActivityForResult(intent, REQUEST_CAMERA_CODE);
 
 
                 break;
@@ -474,12 +469,6 @@ public class AddInfoActivity extends BaseTitleActivity {
 
     }
 
-    private void destoryImage() {
-        if (photo != null) {
-            photo.recycle();
-            photo = null;
-        }
-    }
 
     private void showPicPop() {
         LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -583,31 +572,17 @@ public class AddInfoActivity extends BaseTitleActivity {
         addInfoDto.setCompany(company);
         addInfoDto.setWork(work);
         addInfoDto.setCooperative(roleId + "");
-        if(userCard == null) {   //用户没有传头像
+        if(mUrl == null) {
 
-
-        }else {              //用户上传了头像11
-            LogUtils.d("头像的路径========="+userCard);
-
-            Bitmap bitmap = BitmapFactory.decodeFile(userCard);
-            Bitmap bitmapCompressed = ImageLoaderUtils.compressImage(bitmap);  //压缩
-            String img = ImageLoaderUtils.bitmaptoString(bitmapCompressed);    //转为base64
-
-            addInfoDto.setUserimg(img);
+        }else {
+            addInfoDto.setUserimg(mUrl);
         }
         CommonApiClient.addInfo(this, addInfoDto, new CallBack<BaseEntity>() {
             @Override
             public void onSuccess(BaseEntity result) {
-                LogUtils.e("result========" + result.getMsg());
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("完善用户信息成功");
-
-                    new AlertDialog.Builder(AddInfoActivity.this).setTitle("提示").setMessage("信息补充成功").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    }).show();
+                    finish();
 
                 }
             }
@@ -615,87 +590,89 @@ public class AddInfoActivity extends BaseTitleActivity {
     }
 
 
-    private BitmapToRound_Util round_Util = new BitmapToRound_Util();
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_RESULT && resultCode == RESULT_OK) {
-            if (mPhotoFile != null && mPhotoFile.exists()) {
-                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                bitmapOptions.inSampleSize = 8;
-                int degree = readPictureDegree(mPhotoFile.getAbsolutePath());
-                Bitmap bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath(),
-                        bitmapOptions);
-                bitmap = rotaingImageView(degree, bitmap);
-                bitmap = round_Util.toRoundBitmap(bitmap);  //将图片变成圆形
-                imgUserCard.setImageBitmap(bitmap);
-//                xUtilsImageUtils.display(imgUserCard,mPhotoFile.getPath(),true);
-                userCard = mPhotoFile.getPath();
-            }
-        }
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
-                && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        switch (requestCode) {
 
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
+            //拍照
+            case CODE_CAMERA_REQUEST:
+                LogUtils.e("CODE_CAMERA_REQUEST----", "CODE_CAMERA_REQUEST");
+                popWindow.dismiss();
+                backgroundAlpha(1f);
+                if (data == null||"".equals(data)) {
+                    LogUtils.e("data----CODE_CAMERA_REQUEST", "" + data);
+                    return;
+                } else {
+                    LogUtils.e("data----else", "else");
+                    String sdStatus = Environment.getExternalStorageState();
+                    if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
+                        LogUtils.e("TestFile", "SD card is not avaiable/writeable right now.");
+                        return;
+                    }
+                    String name = new DateFormat().format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
+                    LogUtils.e("name", "" + name);
+                    Bundle bundle = data.getExtras();
+                    Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
+                    LogUtils.e("bitmap---", "" + bitmap);
+                    Bitmap bm = PhotoSystemUtils.comp(bitmap);
 
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
+                    File file = new File("/sdcard/myImage/");
+                    file.mkdirs();// 创建文件夹
+                    String fileName = "/sdcard/myImage/" + name;
+                    LogUtils.e("fileName", "" + fileName);
+                    FileOutputStream b = null;
+                    try {
+                        b = new FileOutputStream(fileName);
+                        bm.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    finally {
+                        try {
+                            b.flush();
+                            b.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bm, 200);
+                    imgUserCard.setImageBitmap(roundedCornerBitmap);
 
-//            imgUserCard.setImageBitmap(BitmapFactory
-//                    .decodeFile(picturePath));
+                    mUrl = ImageLoaderUtils.getBitmapByte(fileName,null);
+                }
+                break;
 
-//            ImageLoaderUtils.displayAvatarImage(picturePath,imgUserCard);
-//            xUtilsImageUtils.display(imgUserCard,picturePath,true);
-            Bitmap bitmap = ImageLoaderUtils.readBitmap(picturePath);
-            Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bitmap, 200);
-            imgUserCard.setImageBitmap(roundedCornerBitmap);
+            // 选择照片
+            case REQUEST_CAMERA_CODE:
+                backgroundAlpha(1f);
+                popWindow.dismiss();
+                if(data == null){
+                    return;
+                }else{
+                    ArrayList<String> list = data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT);
+                    LogUtils.e("list: ", "list = " + list + "--size = " + list.size());
+                    if(null==list){
+                        return;
+                    }else {
+                        LogUtils.e("list.get(0)---", "" + list.get(0));
+                        Bitmap bit = ImageLoaderUtils.readBitmap(list.get(0));
+                        Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bit, 200);
+                        imgUserCard.setImageBitmap(roundedCornerBitmap);
 
-            userCard = picturePath;
+                        mUrl = ImageLoaderUtils.getBitmapByte(list.get(0),null);
+                    }
+                }
+
+                break;
+
         }
     }
 
-    private static int readPictureDegree(String path) {
-        int degree = 0;
-        try {
-            ExifInterface exifInterface = new ExifInterface(path);
-            int orientation = exifInterface.getAttributeInt(
-                    ExifInterface.TAG_ORIENTATION,
-                    ExifInterface.ORIENTATION_NORMAL);
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    degree = 90;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    degree = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    degree = 270;
-                    break;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return degree;
-    }
-
-    private static Bitmap rotaingImageView(int angle, Bitmap bitmap) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        System.out.println("angle2=" + angle);
-        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
-                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        return resizedBitmap;
-    }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        destoryImage();
+    public void onBackPressed() {
+        DialogUtils.showPrompt(this, "提示","请完善个人信息！", "知道了");
     }
 }

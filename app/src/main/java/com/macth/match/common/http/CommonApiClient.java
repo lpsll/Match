@@ -16,6 +16,7 @@ import com.macth.match.mine.dto.ChangePwdDTO;
 import com.macth.match.mine.dto.CloseDTO;
 import com.macth.match.mine.dto.DeleteNewDTO;
 import com.macth.match.mine.dto.UpdataDTO;
+import com.macth.match.mine.entity.InformationResult;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.mine.entity.NewsResult;
 import com.macth.match.mine.entity.UpdateResult;
@@ -239,6 +240,20 @@ public class CommonApiClient extends BaseApiClient {
         AsyncCallBack<MilDetailsResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, MilDetailsResult.class);
         post(getAbsoluteUrl("Home/Cooperatives/uploadMilePostFile"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 获取个人信息
+     *
+     * @param dto
+     * @param callback
+     */
+    public static void information(Activity act, BaseDTO
+            dto, CallBack<InformationResult> callback) {
+        AsyncCallBack<InformationResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, InformationResult.class);
+        get(getAbsoluteUrl("Home/Login/getUserInfo"), dto,
                 asyncCallBack);
     }
 

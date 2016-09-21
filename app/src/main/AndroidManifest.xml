@@ -83,7 +83,13 @@
         <activity
             android:name=".register.activity.RegisterActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".register.activity.AddInfoActivity" />
+        <activity android:name=".register.activity.AddInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity android:name=".mine.activity.ModifyInformationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".mine.activity.NewsDetailsActivity" />
         <activity android:name=".mine.activity.SettingActivity" />
         <activity android:name=".register.activity.ForgetPwdActivity" />

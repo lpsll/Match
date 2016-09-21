@@ -21,6 +21,17 @@ public class Data {
     private String usertoken;
     private String cooperativeid;
     private String rytoken;
+    private String userimage;
+
+    public String getUserimage() {
+        return userimage;
+    }
+
+    public void setUserimage(String userimage) {
+        this.userimage = userimage;
+    }
+
+
     public String getRytoken() {
         return rytoken;
     }

@@ -18,15 +18,21 @@ public class AddInfoDTO {
     private String company;
     private String work;
     private String cooperative;
-    private String userimg;
+    private byte[] userimg;
 
-    public String getUserimg() {
+    public byte[] getUserimg() {
         return userimg;
     }
 
-    public void setUserimg(String userimg) {
+    public void setUserimg(byte[] userimg) {
         this.userimg = userimg;
     }
+
+
+
+
+
+
 
     public String getUsermobile() {
         return usermobile;

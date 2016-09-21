@@ -33,7 +33,7 @@
                 android:layout_height="@dimen/ds_200"
                 android:layout_marginRight="@dimen/fs_40"
                 android:layout_gravity="center"
-                android:background="@drawable/right"/>
+                android:background="@drawable/morenxdpi_03"/>
             <ImageView
                 android:layout_width="@dimen/ds_40"
                 android:layout_height="@dimen/ds_40"

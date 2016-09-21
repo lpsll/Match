@@ -20,7 +20,7 @@
                 android:layout_width="@dimen/ds_270"
                 android:layout_height="@dimen/ds_270"
                 android:layout_gravity="center"
-                android:src="@drawable/touxiang_zhuce" />
+                android:src="@drawable/morenxdpi_03" />
         </FrameLayout>
 
         <LinearLayout
@@ -76,19 +76,14 @@
                 android:checked="false"
                 android:clickable="false" />
 
-            <EditText
-                android:maxLength="11"
+            <TextView
                 android:id="@+id/et_add_info_phone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="请输入您的手机号"
-                android:inputType="number"
+                android:text=""
                 android:paddingLeft="@dimen/ds_40"
-                android:textColor="@color/navi"
-                android:textColorHint="@color/tv_hintdc3"
-                android:textCursorDrawable="@drawable/color_cursor"
+                android:textColor="@color/tv_hintdc3"
                 android:textSize="@dimen/fs_55" />
         </LinearLayout>
 
@@ -111,18 +106,14 @@
                 android:checked="false"
                 android:clickable="false" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_add_info_shenfen"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:editable="false"
                 android:gravity="center_vertical"
-                android:hint="请选择身份"
+                android:text=""
                 android:paddingLeft="@dimen/ds_40"
-                android:textColor="@color/navi"
-                android:textColorHint="@color/tv_hintdc3"
-                android:textCursorDrawable="@drawable/color_cursor"
+                android:textColor="@color/tv_hintdc3"
                 android:textSize="@dimen/fs_55" />
         </LinearLayout>
 
@@ -145,19 +136,14 @@
                 android:checked="false"
                 android:clickable="false" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_add_info_company"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:hint="请输入公司名称"
-                android:maxLines="2"
+                android:text=""
                 android:paddingLeft="@dimen/ds_40"
-                android:textColor="@color/navi"
-                android:textColorHint="@color/tv_hintdc3"
-                android:textCursorDrawable="@drawable/color_cursor"
+                android:textColor="@color/tv_hintdc3"
                 android:textSize="@dimen/fs_55" />
         </LinearLayout>
 
@@ -180,19 +166,14 @@
                 android:checked="false"
                 android:clickable="false" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_add_info_work"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:hint="请输入公司职务"
-                android:maxLines="2"
+                android:text=""
                 android:paddingLeft="@dimen/ds_40"
-                android:textColor="@color/navi"
-                android:textColorHint="@color/tv_hintdc3"
-                android:textCursorDrawable="@drawable/color_cursor"
+                android:textColor="@color/tv_hintdc3"
                 android:textSize="@dimen/fs_55" />
         </LinearLayout>
 
@@ -215,18 +196,14 @@
                 android:checked="false"
                 android:clickable="false" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_add_info_role"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:editable="false"
                 android:gravity="center_vertical"
-                android:hint="请选择协同角色"
+                android:text=""
                 android:paddingLeft="@dimen/ds_40"
-                android:textColor="@color/navi"
-                android:textColorHint="@color/tv_hintdc3"
-                android:textCursorDrawable="@drawable/color_cursor"
+                android:textColor="@color/tv_hintdc3"
                 android:textSize="@dimen/fs_55" />
         </LinearLayout>
 

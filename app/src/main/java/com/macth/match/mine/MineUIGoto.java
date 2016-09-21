@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.macth.match.login.activity.LoginActivity;
 import com.macth.match.mine.activity.ChangePwdActivity;
 import com.macth.match.mine.activity.ModificationProjectActivity;
+import com.macth.match.mine.activity.ModifyInformationActivity;
 import com.macth.match.mine.activity.NewsActivity;
 import com.macth.match.mine.activity.NewsDetailsActivity;
 import com.macth.match.mine.activity.PersonalInformationActivity;
@@ -35,7 +36,6 @@ public class MineUIGoto {
      * @param
      */
     public static void gotoNews(Activity act){
-//        Intent intent = new Intent(act, NewsActivity.class);
         Intent intent = new Intent(act, NewsActivity.class);
         act.startActivity(intent);
     }
@@ -69,12 +69,24 @@ public class MineUIGoto {
     }
 
     /**
-     * 跳转到完善信息
+     * 跳转到完善个人信息页
      * @param
      */
     public static void gotoAddInfo(Activity act) {
         Intent intent = new Intent(act, AddInfoActivity.class);
         act.startActivity(intent);
+    }
+
+    /**
+     * 跳转到修改信息页
+     * @param
+     * @param bundle
+     */
+    public static final int MF_REQUEST = 0x1100;
+    public static void gotoModifyinformation(Activity act, Bundle bundle) {
+        Intent intent = new Intent(act, ModifyInformationActivity.class);
+        intent.putExtra("bundle",bundle);
+        act.startActivityForResult(intent,MF_REQUEST);
     }
 
     /**
@@ -93,6 +105,7 @@ public class MineUIGoto {
      * 跳转到修改项目页
      * @param
      */
+
     public static void gotoModification(Context context, Bundle bundle) {
         Intent intent = new Intent(context, ModificationProjectActivity.class);
         intent.putExtra("bundle",bundle);

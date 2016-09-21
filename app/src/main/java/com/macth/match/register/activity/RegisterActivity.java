@@ -20,13 +20,16 @@ import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.login.activity.LoginActivity;
+import com.macth.match.mine.MineUIGoto;
 import com.macth.match.register.dto.RegisterDTO;
 import com.macth.match.register.dto.VerifyDTO;
 import com.macth.match.register.view.TimeButton;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
+/**
+ * 注册页
+ */
 public class RegisterActivity extends BaseTitleActivity {
 
 
@@ -239,13 +242,14 @@ public class RegisterActivity extends BaseTitleActivity {
         CommonApiClient.register(this, registerDTO, new CallBack<BaseEntity>() {
             @Override
             public void onSuccess(BaseEntity result) {
+                if(result.getCode().equals("0")){
+                    finish();
+                    MineUIGoto.gotoAddInfo(RegisterActivity.this);//必须完善个人信息
+                }
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("注册成功");
-                    ToastUtils.showShort(RegisterActivity.this, "注册成功");
-                    LogUtils.e("result---", "" + result);
-                    //跳转到完善信息页面
-                    startActivity(new Intent(RegisterActivity.this, AddInfoActivity.class));
                     finish();
+                    MineUIGoto.gotoAddInfo(RegisterActivity.this);//必须完善个人信息
                 }
             }
         });
