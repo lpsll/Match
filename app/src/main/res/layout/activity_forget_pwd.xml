@@ -35,10 +35,10 @@
 
 
 
-            <com.macth.match.register.view.TimeButton
+            <Button
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/TimeButton_forget_pwd"
-                android:layout_width="@dimen/ds_310"
+                android:layout_width="@dimen/ds_320"
                 android:layout_height="@dimen/ds_85"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"

@@ -132,9 +132,7 @@ public abstract class BaseListActivity<T> extends BaseTitleActivity implements B
                     }
                 }, 100);
             }
-
         }
-
     }
 
 

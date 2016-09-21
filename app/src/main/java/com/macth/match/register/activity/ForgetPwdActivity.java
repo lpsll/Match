@@ -3,6 +3,7 @@ package com.macth.match.register.activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -14,10 +15,10 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
+import com.macth.match.common.utils.TimeCountUtil;
 import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.register.dto.ForgetPwdDTO;
 import com.macth.match.register.dto.VerifyDTO;
-import com.macth.match.register.view.TimeButton;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -28,11 +29,12 @@ public class ForgetPwdActivity extends BaseTitleActivity {
     @Bind(R.id.et_forget_pwd_phone)
     EditText etForgetPwdPhone;
     @Bind(R.id.TimeButton_forget_pwd)
-    TimeButton TimeButtonForgetPwd;
+    Button TimeButtonForgetPwd;
     @Bind(R.id.et_forget_pwd_code)
     EditText etForgetPwdCode;
     @Bind(R.id.tv_forget_pwd_next)
     TextView tvForgetPwdNext;
+    private TimeCountUtil timeCountUtil;
 
     @Override
     protected int getContentResId() {
@@ -50,7 +52,7 @@ public class ForgetPwdActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-
+        timeCountUtil = new TimeCountUtil(this, 60000, 1000, TimeButtonForgetPwd);
     }
 
 
@@ -63,10 +65,9 @@ public class ForgetPwdActivity extends BaseTitleActivity {
                 //验证电话号码
                 boolean isValid = PhoneUtils.isPhoneNumberValid(etForgetPwdPhone.getText().toString());
                 if (!isValid) {
-                    TimeButtonForgetPwd.setLenght(0);
                     new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请输入正确的电话号码!").setPositiveButton("确定", null).show();
                 } else {
-                    TimeButtonForgetPwd.setLenght(60 * 1000);
+                    timeCountUtil.start();
                     //获取验证码
                     getSmsVerifyCode();
                 }

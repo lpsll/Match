@@ -95,7 +95,6 @@
         <activity android:name=".register.activity.ForgetPwdActivity" />
         <activity android:name=".mine.activity.ChangePwdActivity" />
         <activity android:name=".register.activity.SetNewPwdActivity" />
-        <activity android:name=".find.SearchActivity" />
         <activity android:name=".mine.activity.MyProjectsActivity" />
 
         <!-- 百度地图 -->
@@ -124,7 +123,7 @@
         </activity>
         <!-- 融云 end-->
 
-        <activity android:name=".find.Search2Activity" />
+        <activity android:name=".find.SearchActivity" />
         <activity android:name=".mine.activity.NewsActivity"></activity>
     </application>
 

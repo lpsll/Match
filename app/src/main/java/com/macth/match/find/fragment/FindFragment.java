@@ -3,10 +3,6 @@ package com.macth.match.find.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.macth.match.AppConfig;
 import com.macth.match.R;
@@ -16,7 +12,7 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.widget.EmptyLayout;
-import com.macth.match.find.Search2Activity;
+import com.macth.match.find.SearchActivity;
 import com.macth.match.find.adapter.FindAdapter;
 import com.macth.match.find.entity.FindEntity;
 import com.macth.match.find.entity.FindResult;
@@ -34,10 +30,6 @@ public class FindFragment extends BaseListFragment<FindEntity> {
 
     private FindAdapter findAdapter;
 
-    private LinearLayout ll_find_search1;
-    private Button btn_find;
-    private EditText et_find_search;
-    private ImageView img_find_search;
 
 
     @Override
@@ -89,12 +81,7 @@ public class FindFragment extends BaseListFragment<FindEntity> {
     public void initView(View view) {
         super.initView(view);
         ll_find_header.setVisibility(View.VISIBLE);
-        ll_find_search1 = (LinearLayout) ll_find_header.findViewById(R.id.ll_find_search1);
-        btn_find = (Button) ll_find_header.findViewById(R.id.btn_find);
-        et_find_search = (EditText) ll_find_header.findViewById(R.id.et_find_search);
-        img_find_search = (ImageView) ll_find_header.findViewById(R.id.img_find_search);
-        btn_find.setOnClickListener(this);
-        img_find_search.setOnClickListener(this);
+        ll_find_header.setOnClickListener(this);
     }
 
     @Override
@@ -118,7 +105,7 @@ public class FindFragment extends BaseListFragment<FindEntity> {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case  R.id.btn_find:
+            case  R.id.ll_find_header:
 //                btn_find.setVisibility(View.GONE);
 //                ll_find_search1.setVisibility(View.VISIBLE);
 //                //自动获得焦点并弹出软键盘
@@ -133,7 +120,7 @@ public class FindFragment extends BaseListFragment<FindEntity> {
 
                     //跳转到搜索页面
 //                startActivity(new Intent(getContext(), SearchActivity.class));
-                startActivity(new Intent(getContext(), Search2Activity.class));
+                startActivity(new Intent(getContext(), SearchActivity.class));
 
                 break;
 
@@ -172,6 +159,4 @@ public class FindFragment extends BaseListFragment<FindEntity> {
         b.putString("pid", entity.getPid());
         RecommendUiGoto.gotoProject(getActivity(), b);
     }
-
-
 }

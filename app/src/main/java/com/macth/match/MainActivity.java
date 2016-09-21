@@ -230,8 +230,8 @@ public class MainActivity extends BaseTitleActivity {
                 break;
             case 1:
                 setTitleText("发现");
-                mBaseEnsure.setVisibility(View.VISIBLE);
-                mBaseEnsure.setText("筛选");
+                mBaseEnsure.setVisibility(View.GONE);
+//                mBaseEnsure.setText("筛选");
                 if(fg1==0){
                     fg1=1;
                 }else {
@@ -296,5 +296,4 @@ public class MainActivity extends BaseTitleActivity {
             }
         }
     }
-
 }

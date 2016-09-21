@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -18,12 +19,12 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
+import com.macth.match.common.utils.TimeCountUtil;
 import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.login.activity.LoginActivity;
 import com.macth.match.mine.MineUIGoto;
 import com.macth.match.register.dto.RegisterDTO;
 import com.macth.match.register.dto.VerifyDTO;
-import com.macth.match.register.view.TimeButton;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -54,7 +55,7 @@ public class RegisterActivity extends BaseTitleActivity {
     @Bind(R.id.tv_register_ok)
     TextView tvRegisterOk;
     @Bind(R.id.TimeButton_register)
-    TimeButton TimeButtonRegister;
+    Button TimeButtonRegister;
     @Bind(R.id.rl_register_username)
     RelativeLayout rlRegisterUsername;
     @Bind(R.id.ll_register_code)
@@ -63,6 +64,7 @@ public class RegisterActivity extends BaseTitleActivity {
     LinearLayout llRegisterPwd;
     @Bind(R.id.ll_register_pwd_again)
     LinearLayout llRegisterPwdAgain;
+    private TimeCountUtil timeCountUtil;
 
     @Override
     protected int getContentResId() {
@@ -169,6 +171,8 @@ public class RegisterActivity extends BaseTitleActivity {
     @Override
     public void initData() {
 
+        timeCountUtil = new TimeCountUtil(this, 60000, 1000, TimeButtonRegister);
+
     }
 
 
@@ -187,10 +191,9 @@ public class RegisterActivity extends BaseTitleActivity {
                 //验证电话号码
                 boolean isValid = PhoneUtils.isPhoneNumberValid(etRegisterUsername.getText().toString());
                 if (!isValid) {
-                    TimeButtonRegister.setLenght(0);
                     new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请输入正确的电话号码!").setPositiveButton("确定", null).show();
                 } else {
-                    TimeButtonRegister.setLenght(60 * 1000);
+                    timeCountUtil.start();
                     //获取验证码
                     getSmsVerifyCode();
                 }
