@@ -1,26 +1,28 @@
-package com.macth.match.common.base;
+package com.macth.match.recommend.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.macth.match.R;
+import com.macth.match.common.base.BaseTitleActivity;
+import com.macth.match.common.base.SimplePage;
 import com.macth.match.common.utils.LogUtils;
+import com.macth.match.common.utils.UIHelper;
 import com.macth.match.common.widget.ProgressWebView;
 
 /**
- * 公用浏览器
-
+ * 新增项目的h5页
  */
-public class BrowserActivity extends BaseTitleActivity {
+public class AddItemBrowserActivity extends BaseTitleActivity {
     protected ProgressWebView mWebView;
     protected String strUrl;
-    protected String title;
-    protected String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +43,10 @@ public class BrowserActivity extends BaseTitleActivity {
         LogUtils.e("initView---","initView");
         mWebView = (ProgressWebView) findViewById(R.id.browser_webview);
         mWebView.setWebViewClient(new MyWebViewClient());
-        if (!TextUtils.isEmpty(title)) {
-            setTitleText(title);
-        }else {
+        final JavaScriptInterface myJavaScriptInterface = new JavaScriptInterface(this);
 
-            mWebView.setWebViewClient(new WebViewClient() {
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    setTitleText(view.getTitle());
-//                    BrowserActivity.this.setTitle(view.getTitle());
-                }
-            });
-        }
-
-
+        mWebView.addJavascriptInterface(myJavaScriptInterface, "click");
+        setTitleText("新增项目");
 
     }
 
@@ -62,12 +54,27 @@ public class BrowserActivity extends BaseTitleActivity {
     public void initData() {
         LogUtils.e("initData---","initData");
         mWebView.loadUrl(strUrl);
-
     }
+
+    public class JavaScriptInterface {
+        Context mContext;
+
+        JavaScriptInterface(Context c) {
+            mContext = c;
+        }
+        @JavascriptInterface
+        public void AddItemComplete(String projectNo) {
+            Bundle b = new Bundle();
+            b.putString("projectNo", projectNo);
+            b.putString("flag","1");
+            UIHelper.showBundleFragment(AddItemBrowserActivity.this, SimplePage.ADD_USE,b);//增加资金用途
+        }
+    }
+
+
 
     @Override
     protected int getContentResId() {
-
         LogUtils.e("getContentResId---","getContentResId");
         return R.layout.browser;
     }
@@ -95,14 +102,9 @@ public class BrowserActivity extends BaseTitleActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             LogUtils.e("shouldOverrideUrlLoading---url----",""+url);
-//            if (url.startsWith("tel:")) {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-//            } else {
-//                view.loadUrl(url);
-//            }
+
             // 如果不需要其他对点击链接事件的处理返回true，否则返回false
             return true;
         }
     }
-
 }

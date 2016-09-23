@@ -56,7 +56,7 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 /**
- * 添加资金用途页
+ * 增加资金用途页
  */
 public class IncreaseCapitalActivity extends BaseTitleActivity {
     @Bind(R.id.et_01)

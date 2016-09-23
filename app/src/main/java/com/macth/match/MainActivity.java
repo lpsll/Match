@@ -64,6 +64,7 @@ public class MainActivity extends BaseTitleActivity {
     private int currentTab = -1; // 当前Tab页面索引
     private TextView mBaseEnsure, mBaseBack;
     int fg1,fg2,fg3,fg4,fg5;
+    private String flag;
 
     @Override
     protected int getContentResId() {
@@ -280,9 +281,14 @@ public class MainActivity extends BaseTitleActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.base_titlebar_ensure:
+                if(AppContext.get("useridentity","").equals("内部用户")){
+                    flag ="1";
+                }else {
+                    flag ="2";
+                }
                 Bundle b = new Bundle();
-                b.putString("url", AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+AppContext.get("useridentity",""));
-                LogUtils.e("url---",""+AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+AppContext.get("useridentity",""));
+                b.putString("url", AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag);
+                LogUtils.e("url---",""+AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag);
                 RecommendUiGoto.gotoAdded(this, b);
 //                RecommendUiGoto.gotoAddItem(this);
             default:

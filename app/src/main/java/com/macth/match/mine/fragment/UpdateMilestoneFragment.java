@@ -39,7 +39,9 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
     @Bind(R.id.updata_list)
     RecyclerView mUpdataList;
     BaseSimpleRecyclerAdapter mAdapter;
-    private String mProjectID;
+    private String mProjectID,mDID;
+    List<Boolean> mList = new ArrayList<>();
+    boolean isFrist;
 
     @Override
     protected int getLayoutResId() {
@@ -49,8 +51,10 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
     @Override
     public void initView(View view) {
         super.initView(view);
+        isFrist = true;
         Bundle bundle = getArguments();
         mProjectID = bundle.getString("pid");
+        mDID = bundle.getString("DId");
         mUpdataList.setLayoutManager(new FullyLinearLayoutManager(getActivity()));
         mAdapter=new BaseSimpleRecyclerAdapter<MilDetailsEntity>() {
             TextView tv02,tv03,mTvUp;
@@ -66,6 +70,22 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
                 tv03 = holder.getView(R.id.md_tv_03);
                 mTvUp= holder.getView(R.id.md_tv_04);
                 list.add(position,milDetailsEntity.getMfileid());
+                if(isFrist){
+                    if(position==0){
+                        mList.add(position,true);
+                    }else {
+                        mList.add(position,false);
+                    }
+
+                }
+
+                if(mList.get(position)){
+                    tv02.setEnabled(true);
+                }else {
+                    tv02.setEnabled(false);
+                }
+                LogUtils.e("mList----",""+mList);
+
                 holder.setText(R.id.md_tv_01, milDetailsEntity.getName());
                 if(milDetailsEntity.getFinsh().equals("1")){
                     tv02.setText("未完成");
@@ -75,21 +95,35 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
                 tv02.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        UpdataDTO dto = new UpdataDTO();
-                        dto.setCooperativeID(AppContext.get("cooperativeid", ""));
-                        dto.setProjectID(mProjectID);
-                        dto.setMilepostID(list.get(position));
-                        dto.setUserID(AppContext.get("usertoken",""));
-                        CommonApiClient.milestoneStatus(getActivity(), dto, new CallBack<MilDetailsResult>() {
-                            @Override
-                            public void onSuccess(MilDetailsResult result) {
-                                if (AppConfig.SUCCESS.equals(result.getCode())) {
-                                    LogUtils.e("里程碑状态成功");
+                        tv02 = (TextView) v;
+                        isFrist=false;
+                        if(position+1<mList.size()){
+                            mList.set(position+1,true);
+                        }
 
-                                }
+                        if(tv02.getText().toString().equals("已完成")){
+                            DialogUtils.showPrompt(getActivity(), "提示","里程碑更新已完成！", "知道了");
+                        }else {
+                            DialogUtils.showPrompt(getActivity(), "提示","请上传文件！", "知道了");
+//                            UpdataDTO dto = new UpdataDTO();
+//                            dto.setCooperativeID(AppContext.get("cooperativeid", ""));
+//                            dto.setProjectID(mProjectID);
+//                            dto.setMilepostID(list.get(position));
+//                            dto.setUserID(AppContext.get("usertoken",""));
+//                            CommonApiClient.milestoneStatus(getActivity(), dto, new CallBack<MilDetailsResult>() {
+//                                @Override
+//                                public void onSuccess(MilDetailsResult result) {
+//                                    if (AppConfig.SUCCESS.equals(result.getCode())) {
+//                                        LogUtils.e("里程碑状态成功");
+//
+//                                    }
+//
+//                                }
+//                            });
+                        }
 
-                            }
-                        });
+                        mAdapter.notifyDataSetChanged();
+
 
 
                     }
@@ -147,7 +181,7 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
 
     private void reqMilDetails() {
         MinestoneDetailsDTO dto = new MinestoneDetailsDTO();
-        dto.setCooperativeID(AppContext.get("cooperativeid", ""));
+        dto.setCooperativeID(mDID);
         dto.setProjectID(mProjectID);
         CommonApiClient.milestoneDetails(getActivity(), dto, new CallBack<MilDetailsResult>() {
             @Override

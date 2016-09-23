@@ -90,6 +90,20 @@
             android:name=".common.base.SimpleActivity"
             android:screenOrientation="portrait"
              />
+        <activity
+            android:name=".mine.activity.MyMilepostActivityBrowserActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity
+            android:name=".mine.activity.ModificationProjectBrowserActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity
+            android:name=".recommend.activity.AddItemBrowserActivity"
+            android:screenOrientation="portrait"
+            />
 
         <activity
             android:name=".mine.activity.PersonalInformationActivity"

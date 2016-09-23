@@ -24,6 +24,7 @@ import com.macth.match.mine.activity.MyProjectsActivity;
 import com.macth.match.mine.dto.CloseDTO;
 import com.macth.match.mine.entity.MineProjectsEntity;
 import com.macth.match.mine.entity.MineProjectsResult;
+import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.entity.MilDetailsResult;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
 import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
@@ -36,7 +37,7 @@ import java.util.List;
  */
 public class MineProjectsAdapter extends BaseSimpleRecyclerAdapter<MineProjectsEntity> {
 
-
+    private String flag;
     private final Context context;
     TextView tv01,tv02,tv03;
     List<MineProjectsEntity> list =  new ArrayList<>();
@@ -117,23 +118,35 @@ public class MineProjectsAdapter extends BaseSimpleRecyclerAdapter<MineProjectsE
         tv02.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Bundle bundle = new Bundle();
-                bundle.putString("pid",list.get(position).getPid());
-                LogUtils.e("pid---",""+list.get(position).getPid());
-                UIHelper.showBundleFragment(context, SimplePage.UPDATA_MILESTONE,bundle);//更新里程碑
+                bundle.putString("url", AppConfig.MILEPOST_H5_URL+ list.get(position).getPid()+"&userid="+AppContext.get("usertoken",""));
+                LogUtils.e("url---",""+AppConfig.MILEPOST_H5_URL+ list.get(position).getPid()+"&userid="+AppContext.get("usertoken",""));
+                RecommendUiGoto.gotoMyMilePost(context, bundle);
+
+
             }
         });
 
         tv03.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("pid",list.get(position).getPid());
+//                bundle.putString("name",list.get(position).getCompanyname());
+//                bundle.putString("price",list.get(position).getPrice());
+//                bundle.putString("value",list.get(position).getProject_termvalue());
+//                bundle.putString("unit",list.get(position).getProject_termunit());
+//                MineUIGoto.gotoModification(context,bundle);//修改项目
+                if(AppContext.get("useridentity","").equals("内部用户")){
+                    flag ="1";
+                }else {
+                    flag ="2";
+                }
                 Bundle bundle = new Bundle();
-                bundle.putString("pid",list.get(position).getPid());
-                bundle.putString("name",list.get(position).getCompanyname());
-                bundle.putString("price",list.get(position).getPrice());
-                bundle.putString("value",list.get(position).getProject_termvalue());
-                bundle.putString("unit",list.get(position).getProject_termunit());
-                MineUIGoto.gotoModification(context,bundle);//修改项目
+                bundle.putString("url", AppConfig.MDPROJECT_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+list.get(position).getPid());
+                LogUtils.e("url---",""+AppConfig.MDPROJECT_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+list.get(position).getPid());
+                RecommendUiGoto.gotoModificationPj(context, bundle);
 
             }
         });

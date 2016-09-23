@@ -54,7 +54,7 @@ public class AddUseFragment extends BasePullScrollViewFragment {
     public void initView(View view) {
         super.initView(view);
         Bundle bundle = getArguments();
-        mId = bundle.getString("pid");
+        mId = bundle.getString("projectNo");
         flag = bundle.getString("flag");
         mAdduseList.setLayoutManager(new FullyLinearLayoutManager(getActivity()));
         mAdapter=new BaseSimpleRecyclerAdapter<AddUseEntity>() {

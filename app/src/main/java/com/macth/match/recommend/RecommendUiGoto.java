@@ -7,7 +7,10 @@ import android.os.Bundle;
 
 import com.macth.match.common.base.BrowserActivity;
 import com.macth.match.login.activity.LoginActivity;
+import com.macth.match.mine.activity.ModificationProjectBrowserActivity;
+import com.macth.match.mine.activity.MyMilepostActivityBrowserActivity;
 import com.macth.match.recommend.activity.AddItemActivity;
+import com.macth.match.recommend.activity.AddItemBrowserActivity;
 import com.macth.match.recommend.activity.ChoiceCityActivity;
 import com.macth.match.recommend.activity.DetailsFundsActivity;
 import com.macth.match.recommend.activity.IncreaseCapitalActivity;
@@ -38,7 +41,7 @@ public class RecommendUiGoto {
      */
 
     public static void gotoAdded(Context context, Bundle b){
-        Intent intent = new Intent(context, BrowserActivity.class);
+        Intent intent = new Intent(context, AddItemBrowserActivity.class);
         intent.putExtra("bundle",b);
         context.startActivity(intent);
     }
@@ -63,6 +66,30 @@ public class RecommendUiGoto {
 
     public static void gotoMilePost(Context context, Bundle b){
         Intent intent = new Intent(context, MilepostActivityBrowserActivity.class);
+        intent.putExtra("bundle",b);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转到我的里程碑h5
+     * @param context
+     * @param b
+     */
+
+    public static void gotoMyMilePost(Context context, Bundle b){
+        Intent intent = new Intent(context, MyMilepostActivityBrowserActivity.class);
+        intent.putExtra("bundle",b);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转到我的项目修改h5
+     * @param context
+     * @param b
+     */
+
+    public static void gotoModificationPj(Context context, Bundle b){
+        Intent intent = new Intent(context, ModificationProjectBrowserActivity.class);
         intent.putExtra("bundle",b);
         context.startActivity(intent);
     }

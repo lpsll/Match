@@ -348,7 +348,7 @@ public class ModifyInformationActivity extends BaseTitleActivity {
                     LogUtils.e("bitmap---", "" + bitmap);
                     Bitmap bm = PhotoSystemUtils.comp(bitmap);
 
-                    File file = new File("/sdcard/myImage/",name);
+                    File file = new File("/sdcard/myImage/");
                     file.mkdirs();// 创建文件夹
 
                     String fileName = "/sdcard/myImage/" + name;
