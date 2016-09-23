@@ -25,8 +25,6 @@ public class SettingActivity extends BaseTitleActivity {
 
     @Bind(R.id.rl_setting_change_pwd)
     RelativeLayout rlSettingChangePwd;
-    @Bind(R.id.rlsetting_add_info)
-    RelativeLayout rlsettingAddInfo;
     @Bind(R.id.tv_moresetting_cache)
     TextView tvMoresettingCache;
     @Bind(R.id.rl_setting_clear_cache)
@@ -57,7 +55,7 @@ public class SettingActivity extends BaseTitleActivity {
 
 
 
-    @OnClick({R.id.rl_setting_change_pwd, R.id.rlsetting_add_info, R.id.rl_setting_clear_cache})
+    @OnClick({R.id.rl_setting_change_pwd, R.id.rl_setting_clear_cache})
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
@@ -66,11 +64,11 @@ public class SettingActivity extends BaseTitleActivity {
                 MineUIGoto.gotoChangePwd(SettingActivity.this);
 
                 break;
-            case R.id.rlsetting_add_info:
-                //跳转到完善信息页
-                MineUIGoto.gotoAddInfo(SettingActivity.this);
-
-                break;
+//            case R.id.rlsetting_add_info:
+//                //跳转到完善信息页
+//                MineUIGoto.gotoAddInfo(SettingActivity.this);
+//
+//                break;
             case R.id.rl_setting_clear_cache:
 
                 //清除缓存

@@ -35,6 +35,8 @@ public class FindAdapter extends BaseSimpleRecyclerAdapter<FindEntity> {
 
         ImageView mImg = holder.getView(R.id.img_find);
         ImageLoaderUtils.displayImage(findEntity.getImage(), mImg);
+
+
     }
 
 

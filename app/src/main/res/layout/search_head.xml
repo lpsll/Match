@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/linear_gray"
     android:id="@+id/rl_search"
     android:visibility="gone"
+    android:paddingBottom="@dimen/ds_30"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,7 +13,6 @@
         android:id="@+id/ll_find_search1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ds_90"
-        android:layout_marginBottom="@dimen/ds_30"
         android:layout_marginLeft="@dimen/ds_40"
         android:layout_marginRight="@dimen/ds_240"
         android:layout_marginTop="@dimen/ds_30"

@@ -10,13 +10,10 @@ import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.entity.BaseEntity;
-import com.macth.match.common.eventbus.ErrorEvent;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
-import com.macth.match.common.utils.ToastUtils;
-import com.macth.match.mine.activity.NewsActivity;
 import com.macth.match.mine.dto.DeleteNewDTO;
 import com.macth.match.mine.entity.NewsEntity;
 import com.macth.match.mine.entity.NewsEvent;
@@ -56,7 +53,7 @@ public class NewsAdapter extends BaseSimpleRecyclerAdapter<NewsEntity> {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtils.confirm(context, "是否删除地址", new DialogInterface.OnClickListener() {
+                DialogUtils.confirm(context, "是否删除此条消息", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         DeleteNewDTO deleteNewDTO = new DeleteNewDTO();

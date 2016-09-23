@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.entity.BaseEntity;
@@ -108,8 +109,7 @@ public class ChangePwdActivity extends BaseTitleActivity {
 
         ChangePwdDTO changePwdDTO = new ChangePwdDTO();
 
-        //uid?????????????????????????????????
-        changePwdDTO.setUserid("2");
+        changePwdDTO.setUserid(AppContext.get("usertoken",""));
         changePwdDTO.setUseroldpwd(oldPwd);
         changePwdDTO.setUsernewpwd(newPwd);
 
@@ -119,7 +119,6 @@ public class ChangePwdActivity extends BaseTitleActivity {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("设置新密码成功");
                     ToastUtils.showShort(ChangePwdActivity.this, "设置新密码成功");
-
                     MineUIGoto.gotoLoginForPwd(ChangePwdActivity.this);
                     finish();
                 }

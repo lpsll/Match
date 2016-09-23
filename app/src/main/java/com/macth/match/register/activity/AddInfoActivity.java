@@ -6,13 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lidong.photopicker.PhotoPickerActivity;
 import com.lidong.photopicker.SelectModel;
@@ -40,10 +34,8 @@ import com.macth.match.AppConfig;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.dto.BaseDTO;
-import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
-import com.macth.match.common.utils.BitmapToRound_Util;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
@@ -556,6 +548,26 @@ public class AddInfoActivity extends BaseTitleActivity {
         //用户名非空验证
         if (TextUtils.isEmpty(username)) {
             new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("用户名不能为空!").setPositiveButton("确定", null).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(shenFen)) {
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请选择身份！").setPositiveButton("确定", null).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(etAddInfoCompany.getText().toString())) {
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请输入公司名称！").setPositiveButton("确定", null).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(etAddInfoWork.getText().toString())) {
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请输入公司职务！").setPositiveButton("确定", null).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(role)) {
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请选择协同角色！").setPositiveButton("确定", null).show();
             return;
         }
 

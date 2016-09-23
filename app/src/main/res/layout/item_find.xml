@@ -14,7 +14,7 @@
         <ImageView
             android:id="@+id/img_find"
             android:layout_width="@dimen/ds_400"
-            android:layout_height="@dimen/ds_300"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:background="#ffffff" />
 

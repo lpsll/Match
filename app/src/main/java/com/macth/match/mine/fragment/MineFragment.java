@@ -1,5 +1,6 @@
 package com.macth.match.mine.fragment;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseFragment;
-import com.macth.match.common.eventbus.ErrorEvent;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
@@ -82,11 +82,11 @@ public class MineFragment extends BaseFragment {
             tvUsername.setText(userName);
             String mobile = AppContext.get("usermobile", "");
             tvUserphone.setText(mobile);
-            if(TextUtils.isEmpty(AppContext.get("userimager", ""))){
-                LogUtils.e("userimager---",""+AppContext.get("userimager", ""));
+            if (TextUtils.isEmpty(AppContext.get("userimager", ""))) {
+                LogUtils.e("userimager---", "" + AppContext.get("userimager", ""));
                 imgLoginTouxiang.setBackgroundResource(R.drawable.morenxdpi_03);
-            }else {
-                ImageLoaderUtils.displayAvatarImage(AppContext.get("userimager", ""),imgLoginTouxiang);
+            } else {
+                ImageLoaderUtils.displayAvatarImage(AppContext.get("userimager", ""), imgLoginTouxiang);
 
             }
 
@@ -98,25 +98,34 @@ public class MineFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.rl_mine_projects, R.id.rl_mine_news, R.id.rl_mine_setting, R.id.rl_mine_exit,R.id.lin_user})
+    @OnClick({R.id.rl_mine_projects, R.id.rl_mine_news, R.id.rl_mine_setting, R.id.rl_mine_exit, R.id.lin_user})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_mine_projects:
                 //进入到我的项目页
                 if (!isLogin) {
                     //打开登录页面
-
-                    MineUIGoto.gotoLoginForPwd(getActivity());
+                    new AlertDialog.Builder(getActivity()).setTitle("温馨提示").setMessage("您还没有登录，是否进行登录？").setNegativeButton("暂不登录", null).setPositiveButton("去登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MineUIGoto.gotoLoginForPwd(getActivity());
+                        }
+                    }).show();
                 } else {
-//                    startActivity(new Intent(getActivity(), MineProjectsActivity.class));
                     startActivity(new Intent(getActivity(), MyProjectsActivity.class));
-
                 }
+
                 break;
             case R.id.rl_mine_news:
                 if (!isLogin) {
                     //打开登录页面
-                    MineUIGoto.gotoLoginForPwd(getActivity());
+                    new AlertDialog.Builder(getActivity()).setTitle("温馨提示").setMessage("您还没有登录，是否进行登录？").setNegativeButton("暂不登录", null).setPositiveButton("去登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MineUIGoto.gotoLoginForPwd(getActivity());
+                        }
+                    }).show();
+
                 } else {
                     MineUIGoto.gotoNews(getActivity());
                 }
@@ -124,7 +133,13 @@ public class MineFragment extends BaseFragment {
             case R.id.rl_mine_setting:
                 if (!isLogin) {
                     //打开登录页面
-                    MineUIGoto.gotoLoginForPwd(getActivity());
+                    new AlertDialog.Builder(getActivity()).setTitle("温馨提示").setMessage("您还没有登录，是否进行登录？").setNegativeButton("暂不登录", null).setPositiveButton("去登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MineUIGoto.gotoLoginForPwd(getActivity());
+                        }
+                    }).show();
+
                 } else {
                     //打开设置页面
                     MineUIGoto.gotoSetting(getActivity());
@@ -135,14 +150,17 @@ public class MineFragment extends BaseFragment {
             case R.id.rl_mine_exit:
                 if (!isLogin) {
                     //打开登录页面
-                    MineUIGoto.gotoLoginForPwd(getActivity());
+                    new AlertDialog.Builder(getActivity()).setTitle("温馨提示").setMessage("您还没有登录，是否进行登录？").setNegativeButton("暂不登录", null).setPositiveButton("去登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MineUIGoto.gotoLoginForPwd(getActivity());
+                        }
+                    }).show();
 
                 } else {
                     //退出对话框
                     exitDialog();
-
                 }
-
                 break;
 
             case R.id.lin_user:
@@ -193,7 +211,6 @@ public class MineFragment extends BaseFragment {
         meFragment.initView(null);
 
 
-
     }
 
 
@@ -204,11 +221,11 @@ public class MineFragment extends BaseFragment {
 
         } else {
             tvUsername.setText(AppContext.get("username", ""));
-            LogUtils.e("userimager---",""+AppContext.get("userimager", ""));
-            if(TextUtils.isEmpty(AppContext.get("userimager", ""))){
+            LogUtils.e("userimager---", "" + AppContext.get("userimager", ""));
+            if (TextUtils.isEmpty(AppContext.get("userimager", ""))) {
                 imgLoginTouxiang.setBackgroundResource(R.drawable.morenxdpi_03);
-            }else {
-                ImageLoaderUtils.displayAvatarImage(AppContext.get("userimager", ""),imgLoginTouxiang);
+            } else {
+                ImageLoaderUtils.displayAvatarImage(AppContext.get("userimager", ""), imgLoginTouxiang);
 
             }
         }
