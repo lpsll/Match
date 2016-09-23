@@ -13,7 +13,8 @@ import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
  * Created by John_Libo on 2016/8/23.
  */
 public class RecommendAdapter extends BaseSimpleRecyclerAdapter<RecommendEntity> {
-    TextView mTv,mTvCompany;
+    TextView mTv, mTvCompany;
+
     @Override
     public int getItemViewLayoutId() {
         return R.layout.item_recommend;
@@ -26,10 +27,11 @@ public class RecommendAdapter extends BaseSimpleRecyclerAdapter<RecommendEntity>
         mTv.getPaint().setFakeBoldText(true);//加粗
         mTvCompany.getPaint().setFakeBoldText(true);//加粗
         mTvCompany.setText(recommendEntity.getCompanyname());
-        holder.setText(R.id.rc_tv_money,recommendEntity.getPrice());
-        holder.setText(R.id.rc_tv_term,recommendEntity.getProject_termunit()+"年 "+recommendEntity.getProject_type());
-        holder.setText(R.id.rc_tv_data,recommendEntity.getCtime());
-        ImageView mImg =holder.getView( R.id.rc_img);
+        holder.setText(R.id.rc_tv_money, recommendEntity.getPrice());
+        holder.setText(R.id.rc_tv_term, recommendEntity.getProject_termunit() + "年 " + recommendEntity.getProject_type());
+        holder.setText(R.id.rc_tv_data, recommendEntity.getCtime());
+
+        ImageView mImg = holder.getView(R.id.rc_img);
         ImageLoaderUtils.displayImage(recommendEntity.getImage(), mImg);
     }
 }

@@ -337,7 +337,7 @@ public class CommonApiClient extends BaseApiClient {
 
 
     /**
-     * 发现列表
+     * 我的项目
      *
      * @param dto
      * @param callback
