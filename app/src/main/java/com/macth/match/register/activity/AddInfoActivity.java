@@ -50,6 +50,7 @@ import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.PhotoSystemUtils;
 import com.macth.match.mine.dto.AddInfoDTO;
+import com.macth.match.mine.entity.MdInformationResult;
 import com.macth.match.register.entity.Data;
 import com.macth.match.register.entity.ShenFenEntity;
 
@@ -591,9 +592,9 @@ public class AddInfoActivity extends BaseTitleActivity {
         }else {
             addInfoDto.setUserimg(mUrl);
         }
-        CommonApiClient.addInfo(this, addInfoDto, new CallBack<BaseEntity>() {
+        CommonApiClient.addInfo(this, addInfoDto, new CallBack<MdInformationResult>() {
             @Override
-            public void onSuccess(BaseEntity result) {
+            public void onSuccess(MdInformationResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("完善用户信息成功");
                     finish();
