@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import com.macth.match.common.base.BaseApplication;
 
+import cn.sharesdk.framework.ShareSDK;
+
 /**
  * Created by John_Libo on 2016/8/15.
  */
@@ -25,6 +27,7 @@ public class AppContext extends BaseApplication {
         this.sp = this.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
         this.editor = this.sp.edit();
 
+        ShareSDK.initSDK(this,"17533b6d06b7c");
     }
 
     /**
