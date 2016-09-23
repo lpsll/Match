@@ -6,7 +6,7 @@
     <TextView
         android:id="@+id/tv_btn"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ds_160"
+        android:layout_height="@dimen/ds_100"
         android:layout_marginTop="@dimen/ds_120"
         android:layout_marginLeft="@dimen/ds_80"
         android:layout_marginRight="@dimen/ds_80"

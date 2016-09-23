@@ -1,5 +1,7 @@
 package com.macth.match.mine.dto;
 
+import java.io.File;
+
 /**
  * Created by Administrator on 2016/8/27.
  * 参数：usermobile-----用户手机号----必填
@@ -18,21 +20,15 @@ public class AddInfoDTO {
     private String company;
     private String work;
     private String cooperative;
-    private byte[] userimg;
+    private File userimg;
 
-    public byte[] getUserimg() {
+    public File getUserimg() {
         return userimg;
     }
 
-    public void setUserimg(byte[] userimg) {
+    public void setUserimg(File userimg) {
         this.userimg = userimg;
     }
-
-
-
-
-
-
 
     public String getUsermobile() {
         return usermobile;

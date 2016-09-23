@@ -11,7 +11,9 @@ import com.macth.match.recommend.activity.AddItemActivity;
 import com.macth.match.recommend.activity.ChoiceCityActivity;
 import com.macth.match.recommend.activity.DetailsFundsActivity;
 import com.macth.match.recommend.activity.IncreaseCapitalActivity;
+import com.macth.match.recommend.activity.MilepostActivityBrowserActivity;
 import com.macth.match.recommend.activity.ProjectDetailsActivity;
+import com.macth.match.recommend.activity.ProjectDetailsBrowserActivity;
 
 /**
  * Created by John_Libo on 2016/8/24.
@@ -25,6 +27,42 @@ public class RecommendUiGoto {
 
     public static void gotoProject(Context context, Bundle b){
         Intent intent = new Intent(context, ProjectDetailsActivity.class);
+        intent.putExtra("bundle",b);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转到新增项目h5
+     * @param context
+     * @param b
+     */
+
+    public static void gotoAdded(Context context, Bundle b){
+        Intent intent = new Intent(context, BrowserActivity.class);
+        intent.putExtra("bundle",b);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转到项目详情h5
+     * @param context
+     * @param b
+     */
+
+    public static void gotoPdb(Context context, Bundle b){
+        Intent intent = new Intent(context, ProjectDetailsBrowserActivity.class);
+        intent.putExtra("bundle",b);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转到里程碑h5
+     * @param context
+     * @param b
+     */
+
+    public static void gotoMilePost(Context context, Bundle b){
+        Intent intent = new Intent(context, MilepostActivityBrowserActivity.class);
         intent.putExtra("bundle",b);
         context.startActivity(intent);
     }
@@ -72,19 +110,14 @@ public class RecommendUiGoto {
     /**
      * 跳转到添加资金用途
      * @param context
+     * @param b
      */
-    public static void increase(Context context){
+    public static void increase(Context context, Bundle b){
         Intent intent = new Intent(context, IncreaseCapitalActivity.class);
+        intent.putExtra("bundle",b);
         context.startActivity(intent);
     }
-    /**
-     * 跳转到增加资金用途
-     * @param context
-     */
-    public static void adduse(Context context){
-        Intent intent = new Intent(context, IncreaseCapitalActivity.class);
-        context.startActivity(intent);
-    }
+
 
     /**
      * 跳转到资金用途详情

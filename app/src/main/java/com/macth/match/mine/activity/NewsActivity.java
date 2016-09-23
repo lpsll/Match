@@ -1,5 +1,7 @@
 package com.macth.match.mine.activity;
 
+import android.content.DialogInterface;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -9,8 +11,10 @@ import com.macth.match.R;
 import com.macth.match.common.base.BaseListActivity;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.entity.BaseEntity;
+import com.macth.match.common.eventbus.ErrorEvent;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
+import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.common.widget.EmptyLayout;
@@ -18,6 +22,7 @@ import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.adapter.NewsAdapter;
 import com.macth.match.mine.dto.DeleteNewDTO;
 import com.macth.match.mine.entity.NewsEntity;
+import com.macth.match.mine.entity.NewsEvent;
 import com.macth.match.mine.entity.NewsResult;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 
@@ -31,7 +36,7 @@ public class NewsActivity extends BaseListActivity<NewsEntity> {
 
     @Override
     public BaseRecyclerAdapter<NewsEntity> createAdapter() {
-        newsAdapter = new NewsAdapter();
+        newsAdapter = new NewsAdapter(this);
         return newsAdapter;
     }
 
@@ -62,6 +67,7 @@ public class NewsActivity extends BaseListActivity<NewsEntity> {
     @Override
     protected void sendRequestData() {
 
+        LogUtils.e("sendRequestData----","sendRequestData");
         BaseDTO dto = new BaseDTO();
         dto.setUserid(AppContext.get("usertoken", ""));
         dto.setPage(String.valueOf(mCurrentPage));
@@ -91,43 +97,25 @@ public class NewsActivity extends BaseListActivity<NewsEntity> {
         });
     }
 
-    List<NewsEntity> list = new ArrayList<>();
+    NewsEntity entity;
     @Override
     public void onItemClick(View itemView, Object itemBean, final int position) {
         super.onItemClick(itemView, itemBean, position);
-        NewsEntity entity = (NewsEntity) itemBean;
+        entity = (NewsEntity) itemBean;
         String notice_url = entity.getNotice_url();
-        list.add(position,entity);
         //跳转到消息详情页面
         MineUIGoto.gotoNewsDetails(NewsActivity.this, notice_url);
 
-        ImageView delete = (ImageView) itemView.findViewById(R.id.img_news_delete);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteNew(list.get(position).getId(),position);//删除消息
-            }
-        });
     }
 
-    private void deleteNew(final String id, final int position) {
+    public void onEventMainThread(NewsEvent event) {
+        String msg = event.getMsg();
+        LogUtils.e("msg---", "" + msg);
+        if (TextUtils.isEmpty(msg)) {
 
-        DeleteNewDTO deleteNewDTO = new DeleteNewDTO();
-        //修改userid
-        deleteNewDTO.setUserid(AppContext.get("usertoken", ""));
-        deleteNewDTO.setNoticeid(id);
-
-        CommonApiClient.deleteNew(this, deleteNewDTO, new CallBack<BaseEntity>() {
-            @Override
-            public void onSuccess(BaseEntity result) {
-                if (AppConfig.SUCCESS.equals(result.getCode())) {
-                    LogUtils.e("删除成功");
-                    sendRequestData();
-//                    list.remove(position);
-//                    newsAdapter.notifyDataSetChanged();
-
-                }
-            }
-        });
+        } else {
+            mCurrentPage =1;
+            sendRequestData();
+        }
     }
 }

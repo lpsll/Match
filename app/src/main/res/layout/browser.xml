@@ -8,5 +8,6 @@
         android:id="@+id/browser_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        onclick="javascript:android.user('1')"
         />
 </LinearLayout>

@@ -46,10 +46,22 @@
         <activity
             android:name=".recommend.activity.ProjectDetailsActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".common.base.BrowserActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".recommend.activity.AddItemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".recommend.activity.ProjectDetailsBrowserActivity"
+            android:screenOrientation="portrait"
+             />
+        <activity
+            android:name=".recommend.activity.MilepostActivityBrowserActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".recommend.activity.ChoiceCityActivity"
             android:screenOrientation="portrait"

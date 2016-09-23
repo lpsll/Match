@@ -3,6 +3,7 @@ package com.macth.match.group.fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,12 @@ public class GroupFragment extends BasePullScrollViewFragment {
             @Override
             public void bindData(BaseRecyclerViewHolder holder, GroupEntity groupEntity, int position) {
                 holder.setText(R.id.group_tv, groupEntity.getGroupname());
+                ImageView img = holder.getView(R.id.group_img);
+                if(TextUtils.isEmpty(groupEntity.getGroupimg())){
+
+                }else {
+                    ImageLoaderUtils.displayAvatarImage(groupEntity.getGroupimg(),img);
+                }
             }
 
 

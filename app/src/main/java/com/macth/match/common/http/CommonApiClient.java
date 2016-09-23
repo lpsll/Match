@@ -17,21 +17,26 @@ import com.macth.match.mine.dto.CloseDTO;
 import com.macth.match.mine.dto.DeleteNewDTO;
 import com.macth.match.mine.dto.UpdataDTO;
 import com.macth.match.mine.entity.InformationResult;
+import com.macth.match.mine.entity.MdInformationResult;
 import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.mine.entity.NewsResult;
 import com.macth.match.mine.entity.UpdateResult;
 import com.macth.match.notice.entity.NoticeResult;
+import com.macth.match.recommend.dto.AddUseDTO;
 import com.macth.match.recommend.dto.CooperativeDTO;
-import com.macth.match.recommend.dto.DownloadDTO;
+import com.macth.match.recommend.dto.DeleteListDTO;
 import com.macth.match.recommend.dto.FundsDTO;
 import com.macth.match.recommend.dto.MinestoneDetailsDTO;
 import com.macth.match.recommend.dto.SubmitDTO;
+import com.macth.match.recommend.dto.UploadDTO;
 import com.macth.match.recommend.entity.AddItemListResult;
+import com.macth.match.recommend.entity.AddUseResult;
 import com.macth.match.recommend.entity.AttachmentsDTO;
 import com.macth.match.recommend.entity.FundsResult;
 import com.macth.match.recommend.entity.MilDetailsResult;
 import com.macth.match.recommend.entity.ProjectDetailsResult;
 import com.macth.match.recommend.entity.RecommendResult;
+import com.macth.match.recommend.entity.SubmitResult;
 import com.macth.match.register.dto.ForgetPwdDTO;
 import com.macth.match.register.dto.RegisterDTO;
 import com.macth.match.register.dto.SetNewPwdDTO;
@@ -54,6 +59,51 @@ public class CommonApiClient extends BaseApiClient {
         AsyncCallBack<RecommendResult> asyncCallBack = new AsyncCallBack<>(
                 fragment, callback, RecommendResult.class);
         post(getAbsoluteUrl("Home/Projects/getHomeProjectsList"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 获取项目资金用途列表
+     *
+     * @param act
+     * @param dto
+     * @param callback
+     */
+    public static void useList(Activity act, AddUseDTO
+            dto, CallBack<AddUseResult> callback) {
+        AsyncCallBack<AddUseResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, AddUseResult.class);
+        post(getAbsoluteUrl("Home/Projects/getProjectFundsList?"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 获取项目资金用途列表
+     *
+     * @param act
+     * @param dto
+     * @param callback
+     */
+    public static void deleteList(Activity act, DeleteListDTO
+            dto, CallBack<AddUseResult> callback) {
+        AsyncCallBack<AddUseResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, AddUseResult.class);
+        post(getAbsoluteUrl("Home/Projects/deleteProjectFunds"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 上传项目资金用途
+     *
+     * @param act
+     * @param dto
+     * @param callback
+     */
+    public static void upload(Activity act, UploadDTO
+            dto, CallBack<RecommendResult> callback) {
+        AsyncCallBack<RecommendResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, RecommendResult.class);
+        post(getAbsoluteUrl("Home/Projects/uploadProjectFunds"), dto,
                 asyncCallBack);
     }
 
@@ -137,10 +187,24 @@ public class CommonApiClient extends BaseApiClient {
      * @param callback
      */
     public static void submit(Activity act, SubmitDTO
-            dto, CallBack<AddItemListResult> callback) {
-        AsyncCallBack<AddItemListResult> asyncCallBack = new AsyncCallBack<>(
-                act, callback, AddItemListResult.class);
+            dto, CallBack<SubmitResult> callback) {
+        AsyncCallBack<SubmitResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, SubmitResult.class);
         post(getAbsoluteUrl("Home/Projects/publishProject"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 修改项目
+     *
+     * @param dto
+     * @param callback
+     */
+    public static void modify(Activity act, SubmitDTO
+            dto, CallBack<UpdateResult> callback) {
+        AsyncCallBack<UpdateResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, UpdateResult.class);
+        post(getAbsoluteUrl("Home/Projects/updateProject"), dto,
                 asyncCallBack);
     }
 
@@ -410,9 +474,23 @@ public class CommonApiClient extends BaseApiClient {
      * @param
      * @param callback
      */
-    public static void addInfo(Activity act, AddInfoDTO dto, CallBack<BaseEntity> callback) {
-        AsyncCallBack<BaseEntity> asyncCallBack = new AsyncCallBack<>(
-                act, callback, BaseEntity.class);
+    public static void addInfo(Activity act, AddInfoDTO dto, CallBack<MdInformationResult> callback) {
+        AsyncCallBack<MdInformationResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, MdInformationResult.class);
+        post(getAbsoluteUrl("Home/Login/perfectUserData"), dto,
+                asyncCallBack);
+    }
+
+    /**
+     * 修改用户信息信息
+     *
+     * @param act
+     * @param
+     * @param callback
+     */
+    public static void mdInfo(Activity act, AddInfoDTO dto, CallBack<MdInformationResult> callback) {
+        AsyncCallBack<MdInformationResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, MdInformationResult.class);
         post(getAbsoluteUrl("Home/Login/perfectUserData"), dto,
                 asyncCallBack);
     }

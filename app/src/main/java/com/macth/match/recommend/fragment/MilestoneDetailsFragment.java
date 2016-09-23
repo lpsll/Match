@@ -39,7 +39,7 @@ public class MilestoneDetailsFragment extends BasePullScrollViewFragment {
     @Bind(R.id.miles_list)
     RecyclerView mMilesList;
     BaseSimpleRecyclerAdapter mAdapter;
-    private String mProjectID;
+    private String mProjectID,MDid;
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_milestonedetails;
@@ -50,6 +50,7 @@ public class MilestoneDetailsFragment extends BasePullScrollViewFragment {
         super.initView(view);
         Bundle bundle = getArguments();
         mProjectID = bundle.getString("projectID");
+        MDid = bundle.getString("DId");
         mMilesList.setLayoutManager(new FullyLinearLayoutManager(getActivity()));
         mAdapter=new BaseSimpleRecyclerAdapter<MilDetailsEntity>() {
             TextView tv;
@@ -105,7 +106,7 @@ public class MilestoneDetailsFragment extends BasePullScrollViewFragment {
 
     private void reqMilDetails() {
         MinestoneDetailsDTO dto = new MinestoneDetailsDTO();
-        dto.setCooperativeID(AppContext.get("cooperativeid",""));
+        dto.setCooperativeID(MDid);
         dto.setProjectID(mProjectID);
         CommonApiClient.milestoneDetails(getActivity(), dto, new CallBack<MilDetailsResult>() {
             @Override

@@ -14,6 +14,7 @@ import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.dto.BaseDTO;
+import com.macth.match.common.eventbus.ErrorEvent;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.ImageLoaderUtils;
@@ -21,10 +22,12 @@ import com.macth.match.common.utils.LogUtils;
 import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.entity.InformationEntity;
 import com.macth.match.mine.entity.InformationResult;
+import com.macth.match.mine.entity.PicEvent;
 import com.macth.match.mine.fragment.MineFragment;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * 个人信息页
@@ -122,8 +125,12 @@ public class PersonalInformationActivity extends BaseTitleActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MineUIGoto.MF_REQUEST) {
-//            ImageLoaderUtils.displayAvatarImage(AppContext.get("username",""), imgImg);
+            if(TextUtils.isEmpty(AppContext.get("userimager",""))){
+                ImageLoaderUtils.displayAvatarImage(AppContext.get("userimager",""), imgImg);
+            }
             nameTv.setText(AppContext.get("username",""));
+            EventBus.getDefault().post(
+                    new PicEvent("ok"));
         }
     }
 }

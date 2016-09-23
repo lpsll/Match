@@ -10,6 +10,8 @@
     <string name="error_view_no_data">暂无内容</string>
     <string name="tab_recommend">推荐</string>
     <string name="tab_find">发现</string>
+    <string name="xc">删除</string>
+    <string name="xg">修改</string>
     <string name="tab_notice">公告</string>
     <string name="tab_group">群组</string>
     <string name="tab_mine">我的</string>
@@ -34,6 +36,7 @@
     <string name="introduce">介绍</string>
     <string name="bond_rating">债券评级</string>
     <string name="add_money">添加资金用途+</string>
+    <string name="add_use_money">资金用途</string>
     <string name="add_company">北京--公司</string>
     <string name="add_province">请选择您所在的省份</string>
     <string name="add_city">请选择您所在的地市</string>

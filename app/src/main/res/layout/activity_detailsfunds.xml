@@ -70,6 +70,8 @@
         android:id="@+id/et_02"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/ds_20"
+        android:paddingTop="@dimen/ds_20"
         android:layout_marginTop="@dimen/ds_40"
         android:layout_marginLeft="@dimen/ds_60"
         android:layout_marginRight="@dimen/ds_40"

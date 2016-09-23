@@ -78,9 +78,13 @@ public class MineProjectsAdapter extends BaseSimpleRecyclerAdapter<MineProjectsE
             tv02.setVisibility(View.VISIBLE);
             tv03.setVisibility(View.VISIBLE);
         }else {
-            tv01.setVisibility(View.GONE);
+            tv01.setVisibility(View.VISIBLE);
             tv02.setVisibility(View.VISIBLE);
-            tv03.setVisibility(View.GONE);
+            tv03.setVisibility(View.VISIBLE);
+
+//            tv01.setVisibility(View.GONE);
+//            tv02.setVisibility(View.VISIBLE);
+//            tv03.setVisibility(View.GONE);
         }
 
         list.add(position,mineProjectsEntity);
@@ -124,6 +128,7 @@ public class MineProjectsAdapter extends BaseSimpleRecyclerAdapter<MineProjectsE
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
+                bundle.putString("pid",list.get(position).getPid());
                 bundle.putString("name",list.get(position).getCompanyname());
                 bundle.putString("price",list.get(position).getPrice());
                 bundle.putString("value",list.get(position).getProject_termvalue());

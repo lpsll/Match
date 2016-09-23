@@ -13,6 +13,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -28,9 +29,20 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.macth.match.AppConfig;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
+import com.macth.match.common.http.CallBack;
+import com.macth.match.common.http.CommonApiClient;
+import com.macth.match.common.utils.DialogUtils;
+import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
+import com.macth.match.recommend.dto.AddUseDTO;
+import com.macth.match.recommend.dto.FundsDTO;
+import com.macth.match.recommend.dto.UploadDTO;
+import com.macth.match.recommend.entity.AddUseEvent;
+import com.macth.match.recommend.entity.FundsResult;
+import com.macth.match.recommend.entity.RecommendResult;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,6 +53,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * 添加资金用途页
@@ -57,7 +70,8 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     private String provider;
     boolean ifFrist = true;
     BaiduMap mBaiduMap;
-
+    private String mLongitude,mLatitude;
+    private String mId,flag,fundsid;
 
     @Override
     protected int getContentResId() {
@@ -67,10 +81,44 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 
     @Override
     public void initView() {
-        setTitleText("增加资金用途");
+
         setEnsureText("完成");
+        mId = getIntent().getBundleExtra("bundle").getString("pid");
+        if(null==getIntent().getBundleExtra("bundle").getString("flag")){
+            setTitleText("增加资金用途");
+        }else {
+            setTitleText("修改资金用途");
+            flag =getIntent().getBundleExtra("bundle").getString("flag");
+            fundsid =getIntent().getBundleExtra("bundle").getString("fundsid");
+            reqFundsDetails();
+        }
 
     }
+
+    private void reqFundsDetails() {
+        FundsDTO dto = new FundsDTO();
+        dto.setFundid(fundsid);
+        CommonApiClient.funds(this, dto, new CallBack<FundsResult>() {
+            @Override
+            public void onSuccess(FundsResult result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("获取资金用途详情成功");
+                    setResult(result);
+
+                }
+
+            }
+        });
+    }
+
+    private void setResult(FundsResult result) {
+        mEt01.setText(result.getData().getFunds_desc());
+        mEt02.setText(result.getData().getFunds_companyaddrress());
+//        ImageLoaderUtils.displayImage(AppConfig.BASE_URL+result.getData().getFunds_images(), img01);
+//        ImageLoaderUtils.displayImage(result.getData().getImageurl()[0], img02);
+//        ImageLoaderUtils.displayImage(result.getData().getImageurl()[0], img03);
+    }
+
 
     @Override
     public void initData() {
@@ -137,18 +185,6 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
                 locationListener);
 
 
-        //定义Maker坐标点
-//        LatLng point = new LatLng(39.963175, 116.400244);
-//        //构建Marker图标
-//        BitmapDescriptor bitmap = BitmapDescriptorFactory
-//                .fromResource(R.drawable.page_icon_empty);
-//        //构建MarkerOption，用于在地图上添加Marker
-//        OverlayOptions option = new MarkerOptions()
-//                .position(point)
-//                .icon(bitmap);
-//        //在地图上添加Marker，并显示
-//        mBaiduMap.addOverlay(option);
-
     }
 
 
@@ -212,38 +248,30 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
             LogUtils.e("经度：",""+location.getLongitude());
             LogUtils.e("纬度：",""+location.getLatitude());
             LogUtils.e("海拔：",""+location.getAltitude());
+            mLongitude = String.valueOf(location.getLongitude());
+            mLatitude= String.valueOf(location.getLatitude());
             // 位置改变则重新定位并显示地图
             navigateTo(location);
         }
     };
 
-    /**
-     * 返回查询条件
-     * @return
-     */
-    private Criteria getCriteria(){
-        Criteria criteria=new Criteria();
-        //设置定位精确度 Criteria.ACCURACY_COARSE比较粗略，Criteria.ACCURACY_FINE则比较精细
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        //设置是否要求速度
-        criteria.setSpeedRequired(false);
-        // 设置是否允许运营商收费
-        criteria.setCostAllowed(false);
-        //设置是否需要方位信息
-        criteria.setBearingRequired(false);
-        //设置是否需要海拔信息
-        criteria.setAltitudeRequired(false);
-        // 设置对电源的需求
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        return criteria;
-    }
 
 
     @OnClick(R.id.bmapView)
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.base_titlebar_ensure:
-                reqFunds();
+                if(TextUtils.isEmpty(mEt01.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","项目介绍不能为空", "知道了");
+                }
+                else if(TextUtils.isEmpty(mEt02.getText().toString())){
+                    DialogUtils.showPrompt(this, "提示","公司地址不能为空", "知道了");
+                }
+                else {
+                    reqFunds();//地图截图
+                }
+
+
                 break;
             default:
                 break;
@@ -264,12 +292,8 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
                         out.flush();
                         out.close();
                     }
-                    Toast.makeText(IncreaseCapitalActivity.this, "屏幕截图成功，图片存在: " +
-                                    file.toString(),
-                            Toast.LENGTH_SHORT).show();
-                    Toast.makeText(IncreaseCapitalActivity.this, "屏幕截图成功，图片存在: " +
-                                    file.toString(),
-                            Toast.LENGTH_SHORT).show();
+                    LogUtils.e("file---",""+file);
+                   reqUpload();//上传资金用途
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -285,9 +309,30 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void reqUpload() {
+        UploadDTO dto = new UploadDTO();
+        dto.setProjectno(mId);
+        dto.setDesc(mEt01.getText().toString());
+        dto.setAddress(mEt02.getText().toString());
+        if(!TextUtils.isEmpty(mLongitude)){
+            dto.setLbs(mLongitude+","+mLatitude);
+            dto.setLbsimg("");
+            dto.setPimg("");
+        }
+        CommonApiClient.upload(this, dto, new CallBack<RecommendResult>() {
+            @Override
+            public void onSuccess(RecommendResult result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("上传项目资金用途成功");
+                    EventBus.getDefault().post(
+                            new AddUseEvent("ok"));
+                    finish();
 
+                }
+
+            }
+        });
     }
+
+
 }

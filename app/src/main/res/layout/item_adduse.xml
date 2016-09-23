@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+ <TextView
+     android:id="@+id/item_tv"
+     android:layout_width="wrap_content"
+     android:layout_height="@dimen/ds_80"
+     android:gravity="center"
+     android:textColor="@color/color_00"
+     android:textSize="@dimen/fs_45"
+     android:layout_marginLeft="@dimen/ds_80"
+     android:text="资金用途+id"/>
+
+ <TextView
+     android:id="@+id/tv_xg"
+     android:layout_width="@dimen/ds_200"
+     android:layout_height="@dimen/ds_80"
+     android:gravity="center"
+     android:textColor="@color/color_ff0"
+     android:textSize="@dimen/fs_45"
+     android:layout_marginLeft="@dimen/ds_40"
+     android:text="@string/xg"/>
+
+ <TextView
+     android:id="@+id/tv_xc"
+     android:layout_width="@dimen/ds_200"
+     android:layout_height="@dimen/ds_80"
+     android:gravity="center"
+     android:textColor="@color/color_ff0"
+     android:textSize="@dimen/fs_45"
+     android:layout_marginLeft="@dimen/ds_40"
+     android:text="@string/xc"/>
+
+</LinearLayout>

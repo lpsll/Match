@@ -13,11 +13,13 @@ import android.widget.TextView;
 import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseFragment;
+import com.macth.match.common.eventbus.ErrorEvent;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.activity.MyProjectsActivity;
+import com.macth.match.mine.entity.PicEvent;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -192,5 +194,23 @@ public class MineFragment extends BaseFragment {
 
 
 
+    }
+
+
+    public void onEventMainThread(PicEvent event) {
+        String msg = event.getMsg();
+        LogUtils.e("msg---", "" + msg);
+        if (TextUtils.isEmpty(msg)) {
+
+        } else {
+            tvUsername.setText(AppContext.get("username", ""));
+            LogUtils.e("userimager---",""+AppContext.get("userimager", ""));
+            if(TextUtils.isEmpty(AppContext.get("userimager", ""))){
+                imgLoginTouxiang.setBackgroundResource(R.drawable.morenxdpi_03);
+            }else {
+                ImageLoaderUtils.displayAvatarImage(AppContext.get("userimager", ""),imgLoginTouxiang);
+
+            }
+        }
     }
 }

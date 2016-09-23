@@ -1,6 +1,7 @@
 package com.macth.match.recommend.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -16,15 +17,18 @@ import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
+import com.macth.match.common.base.SimplePage;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
+import com.macth.match.common.utils.UIHelper;
 import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.dto.AddItemListDTO;
 import com.macth.match.recommend.dto.SubmitDTO;
 import com.macth.match.recommend.entity.AddItemListEntity;
 import com.macth.match.recommend.entity.AddItemListResult;
+import com.macth.match.recommend.entity.SubmitResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +111,11 @@ public class AddItemActivity extends BaseTitleActivity {
     @Override
     public void initView() {
         setTitleText("新增项目");
+        if(null ==AppContext.get("useridentity","")){
+            et18.setVisibility(View.GONE);
+        }else {
+            et18.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -193,10 +202,10 @@ public class AddItemActivity extends BaseTitleActivity {
                     else if(et11.getText().toString().equals("请输入主题评级")){
                         DialogUtils.showPrompt(this, "提示","主题评级不能为空", "知道了");
                     }
-                    //                else if(et17.getText().toString().equals("请选择债券评级")){
-//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
-//                }
-                    else if(TextUtils.isEmpty(et18.getText().toString())){
+                    else if(et17.getText().toString().equals("请选择债券评级")){
+                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                    }
+                    else if(et18.getVisibility()== View.VISIBLE &&TextUtils.isEmpty(et18.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
                     }
                     else {
@@ -214,10 +223,10 @@ public class AddItemActivity extends BaseTitleActivity {
                     else if(TextUtils.isEmpty(et13.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","介绍不能为空", "知道了");
                     }
-                    //                else if(et17.getText().toString().equals("请选择债券评级")){
-//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
-//                }
-                    else if(TextUtils.isEmpty(et18.getText().toString())){
+                    else if(et17.getText().toString().equals("请选择债券评级")){
+                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                    }
+                    else if(et18.getVisibility()== View.VISIBLE &&TextUtils.isEmpty(et18.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
                     }
                     else {
@@ -234,10 +243,10 @@ public class AddItemActivity extends BaseTitleActivity {
                     else if(TextUtils.isEmpty(et15.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","哪一级政府不能为空", "知道了");
                     }
-                    //                else if(et17.getText().toString().equals("请选择债券评级")){
-//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
-//                }
-                    else if(TextUtils.isEmpty(et18.getText().toString())){
+                    else if(et17.getText().toString().equals("请选择债券评级")){
+                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                    }
+                    else if(et18.getVisibility()== View.VISIBLE &&TextUtils.isEmpty(et18.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
                     }
                     else {
@@ -254,10 +263,10 @@ public class AddItemActivity extends BaseTitleActivity {
                     else if(TextUtils.isEmpty(et15.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","哪一级政府不能为空", "知道了");
                     }
-                    //                else if(et17.getText().toString().equals("请选择债券评级")){
-//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
-//                }
-                    else if(TextUtils.isEmpty(et18.getText().toString())){
+                    else if(et17.getText().toString().equals("请选择债券评级")){
+                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                    }
+                    else if(et18.getVisibility()== View.VISIBLE &&TextUtils.isEmpty(et18.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
                     }
                     else {
@@ -272,10 +281,10 @@ public class AddItemActivity extends BaseTitleActivity {
                     if(TextUtils.isEmpty(et16.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","其他说明不能为空", "知道了");
                     }
-                    //                else if(et17.getText().toString().equals("请选择债券评级")){
-//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
-//                }
-                    else if(TextUtils.isEmpty(et18.getText().toString())){
+                    else if(et17.getText().toString().equals("请选择债券评级")){
+                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                    }
+                    else if(et18.getVisibility()== View.VISIBLE &&TextUtils.isEmpty(et18.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
                     }
                     else {
@@ -292,7 +301,6 @@ public class AddItemActivity extends BaseTitleActivity {
     }
 
     private void reqSubmit() {
-//        RecommendUiGoto.increase(AddItemActivity.this);//增加资金用途
         SubmitDTO dto=new SubmitDTO();
         dto.setUserid(AppContext.get("usertoken",""));
         dto.setCompanyname(et01.getText().toString());
@@ -304,32 +312,54 @@ public class AddItemActivity extends BaseTitleActivity {
         dto.setTermunit(mTerm);
         dto.setTermvalue(time);
         dto.setSincerity(et08.getText().toString());
-//        dto.setBond(et17.getText().toString());
-        dto.setBond("AAA");
+        dto.setBond(et17.getText().toString());
         dto.setCost(et18.getText().toString());
         dto.setPromote("2");
         if(mType.equals("1")){
+            dto.setSincerity("1");
             dto.setDbcompanyname(et09.getText().toString());
             dto.setDbitemrate(et10.getText().toString());
             dto.setDbassure_ztrate(et11.getText().toString());
         }
         else if(mType.equals("2")){
+            dto.setSincerity("2");
             dto.setDyratevalue(et12.getText().toString());
             dto.setDydesc(et13.getText().toString());
         }
-        else if(mType.equals("3")||mType.equals("4")){
+        else if(mType.equals("3")){
+            dto.setSincerity("3");
+            if(et15.getText().toString().equals("是")){
+                dto.setRest("2");
+            }else if(et15.getText().toString().equals("否")){
+                dto.setRest("1");
+            }
+            dto.setGovernment(et15.getText().toString());
+        }
+        else if(mType.equals("4")){
+            dto.setSincerity("4");
+            if(et15.getText().toString().equals("是")){
+                dto.setRest("2");
+            }else if(et15.getText().toString().equals("否")){
+                dto.setRest("1");
+            }
+
             dto.setGovernment(et15.getText().toString());
         }
         else if(mType.equals("5")){
+            dto.setSincerity("5");
+
             dto.setQtdesc(et16.getText().toString());
         }
 
-        CommonApiClient.submit(this, dto, new CallBack<AddItemListResult>() {
+        CommonApiClient.submit(this, dto, new CallBack<SubmitResult>() {
             @Override
-            public void onSuccess(AddItemListResult result) {
+            public void onSuccess(SubmitResult result) {
                 if(AppConfig.SUCCESS.equals(result.getCode())){
                     LogUtils.e("提交项目成功");
-                    RecommendUiGoto.adduse(AddItemActivity.this);//增加资金用途
+                    Bundle b = new Bundle();
+                    b.putString("pid", result.getData().getProjectno());
+                    b.putString("flag","1");
+                    UIHelper.showBundleFragment(AddItemActivity.this, SimplePage.ADD_USE,b);//增加资金用途
                 }
             }
         });
@@ -338,23 +368,20 @@ public class AddItemActivity extends BaseTitleActivity {
     private void reqList() {
         AddItemListDTO dto=new AddItemListDTO();
         if(type==1){
-            dto.setConstantType("项目类型");
+            dto.setConstantType("2");
         }
         if(type==2){
-            dto.setConstantType("企业性质");
+            dto.setConstantType("3");
         }
         if(type==3){
-            dto.setConstantType("项目评级");
+            dto.setConstantType("7");
         }
         if(type==4){
-            dto.setConstantType("主体评级");
+            dto.setConstantType("6");
         }
         if(type==5){
-            dto.setConstantType("债券评级");
+            dto.setConstantType("1");
         }
-//        if(type==6){
-//            dto.setConstantType("期限");
-//        }
 
         CommonApiClient.addList(this, dto, new CallBack<AddItemListResult>() {
             @Override

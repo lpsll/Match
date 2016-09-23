@@ -83,5 +83,7 @@
         android:src="@drawable/paizhaoxdpi_03"
         android:layout_marginBottom="@dimen/ds_60"/>
         </LinearLayout>
+
+
     </ScrollView>
 </LinearLayout>

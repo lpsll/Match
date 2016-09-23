@@ -8,6 +8,16 @@ import com.macth.match.common.entity.BaseEntity;
 public class GroupEntity extends BaseEntity {
     private String groupid;
     private String groupname;
+    private String groupimg;
+    public String getGroupimg() {
+        return groupimg;
+    }
+
+    public void setGroupimg(String groupimg) {
+        this.groupimg = groupimg;
+    }
+
+
     public String getGroupid() {
         return groupid;
     }

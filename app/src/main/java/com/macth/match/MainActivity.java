@@ -1,6 +1,7 @@
 package com.macth.match;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -279,7 +280,11 @@ public class MainActivity extends BaseTitleActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.base_titlebar_ensure:
-                RecommendUiGoto.gotoAddItem(this);
+                Bundle b = new Bundle();
+                b.putString("url", AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+AppContext.get("useridentity",""));
+                LogUtils.e("url---",""+AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+AppContext.get("useridentity",""));
+                RecommendUiGoto.gotoAdded(this, b);
+//                RecommendUiGoto.gotoAddItem(this);
             default:
                 break;
         }

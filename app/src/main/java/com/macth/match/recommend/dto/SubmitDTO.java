@@ -6,6 +6,7 @@ import com.macth.match.common.dto.BaseDTO;
  * Created by John_Libo on 2016/8/25.
  */
 public class SubmitDTO extends BaseDTO {
+    private String projectno;
     private String companyname;
     private String s_province;
     private String s_city;
@@ -23,9 +24,25 @@ public class SubmitDTO extends BaseDTO {
     private String dbassure_ztrate;
     private String dyratevalue;
     private String dydesc;
-//    private String true
+    private String rest;
     private String government;
     private String qtdesc;
+    public String getProjectno() {
+        return projectno;
+    }
+
+    public void setProjectno(String projectno) {
+        this.projectno = projectno;
+    }
+    public String getRest() {
+        return rest;
+    }
+
+    public void setRest(String rest) {
+        this.rest = rest;
+    }
+
+
 
     public String getCompanyname() {
         return companyname;

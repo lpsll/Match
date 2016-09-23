@@ -54,6 +54,7 @@ import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.PhotoSystemUtils;
 import com.macth.match.mine.dto.AddInfoDTO;
 import com.macth.match.mine.entity.InformationEntity;
+import com.macth.match.mine.entity.MdInformationResult;
 import com.macth.match.register.entity.Data;
 import com.macth.match.register.entity.ShenFenEntity;
 
@@ -122,7 +123,7 @@ public class ModifyInformationActivity extends BaseTitleActivity {
     private static final int CODE_CAMERA_REQUEST = 0xa1;
     private static final int REQUEST_CAMERA_CODE = 10;
 
-    private byte[] mUrl;
+    private File mUrl;
     InformationEntity data;
     private ArrayList<String> imagePaths = new ArrayList<>();
 
@@ -304,13 +305,14 @@ public class ModifyInformationActivity extends BaseTitleActivity {
         }else {
             addInfoDto.setUserimg(mUrl);
         }
-        CommonApiClient.addInfo(this, addInfoDto, new CallBack<BaseEntity>() {
+        CommonApiClient.mdInfo(this, addInfoDto, new CallBack<MdInformationResult>() {
             @Override
-            public void onSuccess(BaseEntity result) {
+            public void onSuccess(MdInformationResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("修改用户信息成功");
                     AppContext.set("username",etAddInfoUsername.getText().toString());
-                    AppContext.set("imager",etAddInfoUsername.getText().toString());
+                    AppContext.set("userimager",result.getData().getUserimg());
+                    setResult(000001);
                     finish();
                 }
             }
@@ -346,8 +348,9 @@ public class ModifyInformationActivity extends BaseTitleActivity {
                     LogUtils.e("bitmap---", "" + bitmap);
                     Bitmap bm = PhotoSystemUtils.comp(bitmap);
 
-                    File file = new File("/sdcard/myImage/");
+                    File file = new File("/sdcard/myImage/",name);
                     file.mkdirs();// 创建文件夹
+
                     String fileName = "/sdcard/myImage/" + name;
                     LogUtils.e("fileName", "" + fileName);
                     FileOutputStream b = null;
@@ -368,7 +371,8 @@ public class ModifyInformationActivity extends BaseTitleActivity {
                     Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bm, 200);
                     imgUserCard.setImageBitmap(roundedCornerBitmap);
 
-                    mUrl = ImageLoaderUtils.Bitmap2Bytes(bm);
+                    mUrl = file;
+                    LogUtils.e("mUrl---1--",""+mUrl);
                 }
                 break;
 
@@ -383,13 +387,14 @@ public class ModifyInformationActivity extends BaseTitleActivity {
                     if(null==list){
                         return;
                     }else {
-
                         LogUtils.e("list.get(0)---", "" + list.get(0));
                         Bitmap bit = ImageLoaderUtils.readBitmap(list.get(0));
                         LogUtils.e("bit---", "" + bit);
                         Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bit, 200);
                         imgUserCard.setImageBitmap(roundedCornerBitmap);
-                        mUrl = ImageLoaderUtils.Bitmap2Bytes(bit);
+                        File file = new File(list.get(0));
+                        mUrl = file;
+                        LogUtils.e("mUrl---2--",""+mUrl);
 
                     }
                 }

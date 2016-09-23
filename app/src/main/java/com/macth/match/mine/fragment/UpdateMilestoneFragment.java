@@ -170,27 +170,27 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
 
     }
 
-//    private void reqUpdata() {
-//        UpdataDTO dto = new UpdataDTO();
-//        dto.setProjectID(mProjectID);
-//        dto.setUserID(AppContext.get("usertoken",""));
-//        CommonApiClient.see(getActivity(), dto, new CallBack<UpdateResult>() {
-//            @Override
-//            public void onSuccess(UpdateResult result) {
-//                if (AppConfig.SUCCESS.equals(result.getCode())) {
-//                    LogUtils.e("查看里程碑成功");
-//                    mErrorLayout.setErrorMessage("暂无里程碑记录", mErrorLayout.FLAG_NODATA);
-//                    mErrorLayout.setErrorImag(R.drawable.page_icon_empty, mErrorLayout.FLAG_NODATA);
-//                    if (null == result.getData()) {
-//                        mErrorLayout.setErrorType(EmptyLayout.NODATA);
-//                    } else {
-//                        mAdapter.removeAll();
-//                        mAdapter.append(result.getData());
-////                        refreshComplete();
-//                    }
-//                }
-//
-//            }
-//        });
-//    }
+    private void reqUpdata() {
+        UpdataDTO dto = new UpdataDTO();
+        dto.setProjectID(mProjectID);
+        dto.setUserID(AppContext.get("usertoken",""));
+        CommonApiClient.see(getActivity(), dto, new CallBack<UpdateResult>() {
+            @Override
+            public void onSuccess(UpdateResult result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("查看里程碑成功");
+                    mErrorLayout.setErrorMessage("暂无里程碑记录", mErrorLayout.FLAG_NODATA);
+                    mErrorLayout.setErrorImag(R.drawable.page_icon_empty, mErrorLayout.FLAG_NODATA);
+                    if (null == result.getData()) {
+                        mErrorLayout.setErrorType(EmptyLayout.NODATA);
+                    } else {
+                        mAdapter.removeAll();
+                        mAdapter.append(result.getData());
+//                        refreshComplete();
+                    }
+                }
+
+            }
+        });
+    }
 }

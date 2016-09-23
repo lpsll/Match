@@ -1,9 +1,11 @@
 package com.macth.match.register.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,9 +13,12 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.Gravity;
@@ -131,7 +136,7 @@ public class AddInfoActivity extends BaseTitleActivity {
     private TextView mBaseBack;
 
     private ArrayList<String> imagePaths = new ArrayList<>();
-    private byte[] mUrl;
+    private File mUrl;
     @Override
     protected int getContentResId() {
         return R.layout.activity_add_info;
@@ -139,6 +144,15 @@ public class AddInfoActivity extends BaseTitleActivity {
 
     @Override
     public void initView() {
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            int readSDPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+            if (readSDPermission != PackageManager.PERMISSION_GRANTED) {
+                LogUtils.e("readSDPermission",""+readSDPermission);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        123);
+            }
+        }
 
         setTitleText("完善个人信息");
         mBaseBack = (TextView) findViewById(R.id.base_titlebar_back);
@@ -640,7 +654,7 @@ public class AddInfoActivity extends BaseTitleActivity {
                     Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bm, 200);
                     imgUserCard.setImageBitmap(roundedCornerBitmap);
 
-                    mUrl = ImageLoaderUtils.getBitmapByte(fileName,null);
+//                    mUrl = ImageLoaderUtils.getBitmapByte(fileName,null);
                 }
                 break;
 
@@ -661,7 +675,7 @@ public class AddInfoActivity extends BaseTitleActivity {
                         Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bit, 200);
                         imgUserCard.setImageBitmap(roundedCornerBitmap);
 
-                        mUrl = ImageLoaderUtils.getBitmapByte(list.get(0),null);
+//                        mUrl = ImageLoaderUtils.getBitmapByte(list.get(0),null);
                     }
                 }
 

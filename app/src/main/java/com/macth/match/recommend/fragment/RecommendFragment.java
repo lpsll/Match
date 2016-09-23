@@ -1,44 +1,31 @@
 package com.macth.match.recommend.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseListFragment;
-import com.macth.match.common.base.BasePullScrollViewFragment;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
-import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.widget.EmptyLayout;
-import com.macth.match.common.widget.FullyLinearLayoutManager;
 import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.adapter.RecommendAdapter;
 import com.macth.match.recommend.entity.RecommendEntity;
 import com.macth.match.recommend.entity.RecommendResult;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
-import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
-import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
 
 import java.io.Serializable;
 import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * 推荐页
  */
 public class RecommendFragment extends BaseListFragment<RecommendEntity> {
-
+    private String flag;
     @Override
     public BaseRecyclerAdapter<RecommendEntity> createAdapter() {
         return new RecommendAdapter();
@@ -79,6 +66,7 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
 
     @Override
     public void initData() {
+        mCurrentPage =1;
         sendRequestData();
 
     }
@@ -97,7 +85,15 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
         super.onItemClick(itemView, itemBean, position);
         RecommendEntity entity = (RecommendEntity) itemBean;
         Bundle b = new Bundle();
-        b.putString("pid", entity.getPid());
-        RecommendUiGoto.gotoProject(getActivity(), b);
+        if(AppContext.get("useridentity","").equals("内部用户")){
+            flag ="1";
+        }else {
+            flag ="2";
+        }
+        b.putString("title","项目详情");
+        b.putString("url", AppConfig.DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
+        LogUtils.e("url---",""+AppConfig.DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
+        RecommendUiGoto.gotoPdb(getActivity(), b);
+
     }
 }

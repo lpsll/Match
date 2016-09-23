@@ -22,6 +22,8 @@ public class AppConfig {
     public static final String SUCCESS = "1";
     public static final String CODE = "0";
     public static final String BASE_URL = "http://cuohe.damaimob.com/";
+    public static final String ADD_H5_URL = "http://cuohe.damaimob.com/CuoHeApp/html/AddItem.html?userid=";
+    public static final String DETAILS_H5_URL = "http://cuohe.damaimob.com/CuoHeApp/html/ItemDec.html?userid=";
 
 
 

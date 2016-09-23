@@ -1,6 +1,7 @@
 package com.macth.match.mine.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -15,15 +16,19 @@ import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
+import com.macth.match.common.base.SimplePage;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
+import com.macth.match.common.utils.UIHelper;
+import com.macth.match.mine.entity.UpdateResult;
 import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.dto.AddItemListDTO;
 import com.macth.match.recommend.dto.SubmitDTO;
 import com.macth.match.recommend.entity.AddItemListEntity;
 import com.macth.match.recommend.entity.AddItemListResult;
+import com.macth.match.recommend.entity.SubmitResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +102,7 @@ public class ModificationProjectActivity extends BaseTitleActivity {
     int type,mTimeType;
     List<AddItemListEntity> mListEntity;
     private String mType;
-    private String mPrice,mName,mValue,mUnit;
+    private String mPrice,mName,mValue,mUnit,mId;
 
     @Override
     protected int getContentResId() {
@@ -106,7 +111,9 @@ public class ModificationProjectActivity extends BaseTitleActivity {
 
     @Override
     public void initView() {
+
         setTitleText("修改项目");
+        mId = getIntent().getBundleExtra("bundle").getString("pid");
         mName = getIntent().getBundleExtra("bundle").getString("name");
         mPrice = getIntent().getBundleExtra("bundle").getString("price");
         mValue = getIntent().getBundleExtra("bundle").getString("value");
@@ -204,9 +211,9 @@ public class ModificationProjectActivity extends BaseTitleActivity {
                     else if(et11.getText().toString().equals("请输入主题评级")){
                         DialogUtils.showPrompt(this, "提示","主题评级不能为空", "知道了");
                     }
-                    //                else if(et17.getText().toString().equals("请选择债券评级")){
-//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
-//                }
+                    else if(et17.getText().toString().equals("请选择债券评级")){
+                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                }
                     else if(TextUtils.isEmpty(et18.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
                     }
@@ -225,9 +232,9 @@ public class ModificationProjectActivity extends BaseTitleActivity {
                     else if(TextUtils.isEmpty(et13.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","介绍不能为空", "知道了");
                     }
-                    //                else if(et17.getText().toString().equals("请选择债券评级")){
-//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
-//                }
+                    else if(et17.getText().toString().equals("请选择债券评级")){
+                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                }
                     else if(TextUtils.isEmpty(et18.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
                     }
@@ -245,9 +252,9 @@ public class ModificationProjectActivity extends BaseTitleActivity {
                     else if(TextUtils.isEmpty(et15.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","哪一级政府不能为空", "知道了");
                     }
-                    //                else if(et17.getText().toString().equals("请选择债券评级")){
-//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
-//                }
+                    else if(et17.getText().toString().equals("请选择债券评级")){
+                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                }
                     else if(TextUtils.isEmpty(et18.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
                     }
@@ -265,9 +272,9 @@ public class ModificationProjectActivity extends BaseTitleActivity {
                     else if(TextUtils.isEmpty(et15.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","哪一级政府不能为空", "知道了");
                     }
-                    //                else if(et17.getText().toString().equals("请选择债券评级")){
-//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
-//                }
+                    else if(et17.getText().toString().equals("请选择债券评级")){
+                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                }
                     else if(TextUtils.isEmpty(et18.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
                     }
@@ -283,9 +290,9 @@ public class ModificationProjectActivity extends BaseTitleActivity {
                     if(TextUtils.isEmpty(et16.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","其他说明不能为空", "知道了");
                     }
-                    //                else if(et17.getText().toString().equals("请选择债券评级")){
-//                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
-//                }
+                    else if(et17.getText().toString().equals("请选择债券评级")){
+                    DialogUtils.showPrompt(this, "提示","债券评级不能为空", "知道了");
+                }
                     else if(TextUtils.isEmpty(et18.getText().toString())){
                         DialogUtils.showPrompt(this, "提示","综合成本不能为空", "知道了");
                     }
@@ -303,9 +310,8 @@ public class ModificationProjectActivity extends BaseTitleActivity {
     }
 
     private void reqSubmit() {
-//        RecommendUiGoto.increase(AddItemActivity.this);//增加资金用途
         SubmitDTO dto=new SubmitDTO();
-        dto.setUserid(AppContext.get("usertoken",""));
+        dto.setProjectno(mId);
         dto.setCompanyname(et01.getText().toString());
         dto.setS_province(et02.getText().toString());
         dto.setS_city(et03.getText().toString());
@@ -315,32 +321,52 @@ public class ModificationProjectActivity extends BaseTitleActivity {
         dto.setTermunit(mTerm);
         dto.setTermvalue(time);
         dto.setSincerity(et08.getText().toString());
-//        dto.setBond(et17.getText().toString());
-        dto.setBond("AAA");
+        dto.setBond(et17.getText().toString());
         dto.setCost(et18.getText().toString());
         dto.setPromote("2");
         if(mType.equals("1")){
+            dto.setSincerity("1");
             dto.setDbcompanyname(et09.getText().toString());
             dto.setDbitemrate(et10.getText().toString());
             dto.setDbassure_ztrate(et11.getText().toString());
         }
         else if(mType.equals("2")){
+            dto.setSincerity("2");
             dto.setDyratevalue(et12.getText().toString());
             dto.setDydesc(et13.getText().toString());
         }
-        else if(mType.equals("3")||mType.equals("4")){
+        else if(mType.equals("3")){
+            dto.setSincerity("3");
+            if(et15.getText().toString().equals("是")){
+                dto.setRest("2");
+            }else if(et15.getText().toString().equals("否")){
+                dto.setRest("1");
+            }
+            dto.setGovernment(et15.getText().toString());
+        }
+        else if(mType.equals("4")){
+            dto.setSincerity("4");
+            if(et15.getText().toString().equals("是")){
+                dto.setRest("2");
+            }else if(et15.getText().toString().equals("否")){
+                dto.setRest("1");
+            }
+
             dto.setGovernment(et15.getText().toString());
         }
         else if(mType.equals("5")){
+            dto.setSincerity("5");
             dto.setQtdesc(et16.getText().toString());
         }
 
-        CommonApiClient.submit(this, dto, new CallBack<AddItemListResult>() {
+        CommonApiClient.modify(this, dto, new CallBack<UpdateResult>() {
             @Override
-            public void onSuccess(AddItemListResult result) {
+            public void onSuccess(UpdateResult result) {
                 if(AppConfig.SUCCESS.equals(result.getCode())){
-                    LogUtils.e("提交项目成功");
-                    RecommendUiGoto.increase(ModificationProjectActivity.this);//增加资金用途
+                    LogUtils.e("修改项目成功");
+                    Bundle b = new Bundle();
+                    b.putString("pid", mId);
+                    UIHelper.showBundleFragment(ModificationProjectActivity.this, SimplePage.ADD_USE,b);//增加资金用途
                 }
             }
         });
@@ -349,23 +375,21 @@ public class ModificationProjectActivity extends BaseTitleActivity {
     private void reqList() {
         AddItemListDTO dto=new AddItemListDTO();
         if(type==1){
-            dto.setConstantType("项目类型");
+            dto.setConstantType("2");
         }
         if(type==2){
-            dto.setConstantType("企业性质");
+            dto.setConstantType("3");
         }
         if(type==3){
-            dto.setConstantType("项目评级");
+            dto.setConstantType("7");
         }
         if(type==4){
-            dto.setConstantType("主体评级");
+            dto.setConstantType("6");
         }
         if(type==5){
-            dto.setConstantType("债券评级");
+            dto.setConstantType("1");
         }
-//        if(type==6){
-//            dto.setConstantType("期限");
-//        }
+
 
         CommonApiClient.addList(this, dto, new CallBack<AddItemListResult>() {
             @Override
