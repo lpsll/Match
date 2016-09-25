@@ -28,7 +28,7 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
     private String flag;
     @Override
     public BaseRecyclerAdapter<RecommendEntity> createAdapter() {
-        return new RecommendAdapter();
+        return new RecommendAdapter(getActivity());
     }
 
     @Override

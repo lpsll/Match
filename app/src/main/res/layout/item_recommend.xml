@@ -3,101 +3,110 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <ImageView
         android:id="@+id/rc_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/ds_225"
         android:layout_marginTop="@dimen/ds_30"
         android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/ds_40"
-        android:textSize="@dimen/ds_50"
-        android:gravity="center"
-        android:textColor="@color/color_33"
-        android:text="@string/company"/>
 
-        <TextView
-            android:id="@+id/rc_tv_company"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/ds_50"
-            android:gravity="center"
-            android:textColor="@color/color_33"
-            android:text="@string/company"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    </LinearLayout>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/ds_90">
-    <LinearLayout
-        android:id="@+id/rl_lin"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/ds_40"
-            android:textSize="@dimen/ds_45"
-            android:gravity="center"
-            android:textColor="@color/color_01"
-            android:text="@string/money"/>
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/ds_40"
+                android:gravity="center"
+                android:text="@string/company"
+                android:textColor="@color/color_33"
+                android:textSize="@dimen/ds_50" />
 
-        <TextView
-            android:id="@+id/rc_tv_money"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/ds_45"
-            android:gravity="center"
-            android:textColor="@color/color_01"
-            android:text="@string/company"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/rl_lin"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/ds_40"
-            android:textSize="@dimen/ds_45"
-            android:gravity="center"
-            android:textColor="@color/color_01"
-            android:text="@string/term"/>
+            <TextView
+                android:id="@+id/rc_tv_company"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/company"
+                android:textColor="@color/color_33"
+                android:textSize="@dimen/ds_50" />
 
-        <TextView
-            android:id="@+id/rc_tv_term"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/ds_45"
-            android:gravity="center"
-            android:textColor="@color/color_01"
-            android:text="@string/term"/>
-    </LinearLayout>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/rc_tv_data"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_marginRight="@dimen/ds_40"
-        android:layout_height="match_parent"
-        android:textSize="@dimen/ds_45"
-        android:gravity="center"
-        android:textColor="@color/color_01"
-        android:text="@string/company"/>
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ds_90">
+
+            <LinearLayout
+                android:id="@+id/rl_lin"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/ds_40"
+                    android:gravity="center"
+                    android:text="@string/money"
+                    android:textColor="@color/color_01"
+                    android:textSize="@dimen/ds_45" />
+
+                <TextView
+                    android:id="@+id/rc_tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/company"
+                    android:textColor="@color/color_01"
+                    android:textSize="@dimen/ds_45" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/rl_lin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/ds_40"
+                    android:gravity="center"
+                    android:text="@string/term"
+                    android:textColor="@color/color_01"
+                    android:textSize="@dimen/ds_45" />
+
+                <TextView
+                    android:id="@+id/rc_tv_term"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/term"
+                    android:textColor="@color/color_01"
+                    android:textSize="@dimen/ds_45" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/rc_tv_data"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/ds_40"
+                android:gravity="center"
+                android:text="2016-01-01"
+                android:textColor="@color/color_01"
+                android:textSize="@dimen/ds_40" />
+        </RelativeLayout>
 
     </LinearLayout>
 </LinearLayout>

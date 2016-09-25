@@ -17,9 +17,10 @@
         android:padding="@dimen/ds_25">
 
         <ImageView
+            android:scaleType="fitXY"
             android:id="@+id/img_mine_project"
             android:layout_width="@dimen/ds_400"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/ds_300"
             android:layout_gravity="center_vertical"
             android:background="#ffffff" />
         <LinearLayout

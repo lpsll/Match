@@ -97,6 +97,11 @@ public class ProjectDetailsBrowserActivity extends BaseTitleActivity {
             if (url.contains("http")) {
                 Bundle b = new Bundle();
                 b.putString("url", url);
+                if(url.contains("Milestone")){  //里程碑
+                    b.putString("title","里程碑");
+                }else {   //资金用途详情
+                    b.putString("title","资金用途详情");
+                }
                 RecommendUiGoto.gotoMilePost(ProjectDetailsBrowserActivity.this, b);
             }
             // 如果不需要其他对点击链接事件的处理返回true，否则返回false

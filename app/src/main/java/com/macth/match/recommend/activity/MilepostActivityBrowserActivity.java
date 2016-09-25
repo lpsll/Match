@@ -2,7 +2,6 @@ package com.macth.match.recommend.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.webkit.JavascriptInterface;
@@ -22,6 +21,7 @@ import com.macth.match.common.widget.ProgressWebView;
 public class MilepostActivityBrowserActivity extends BaseTitleActivity {
     protected ProgressWebView mWebView;
     protected String strUrl;
+    private String title;
 
     @Override
     protected int getContentResId() {
@@ -36,6 +36,7 @@ public class MilepostActivityBrowserActivity extends BaseTitleActivity {
         Intent mIntent = getIntent();
         if (mIntent != null) {
             strUrl = mIntent.getBundleExtra("bundle").getString("url");
+            title = mIntent.getBundleExtra("bundle").getString("title");
             LogUtils.e("strUrl------------",strUrl);
 
         }
@@ -74,7 +75,7 @@ public class MilepostActivityBrowserActivity extends BaseTitleActivity {
     @Override
     public void initData() {
         LogUtils.e("initData---","initData");
-        setTitleText("里程碑");
+        setTitleText(title);
         mWebView.loadUrl(strUrl);
 
     }

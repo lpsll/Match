@@ -13,8 +13,9 @@
 
         <ImageView
             android:id="@+id/img_find"
+            android:scaleType="fitXY"
             android:layout_width="@dimen/ds_400"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/ds_300"
             android:layout_centerVertical="true"
              />
 
