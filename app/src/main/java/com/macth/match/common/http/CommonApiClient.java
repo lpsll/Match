@@ -32,6 +32,7 @@ import com.macth.match.recommend.dto.UploadDTO;
 import com.macth.match.recommend.entity.AddItemListResult;
 import com.macth.match.recommend.entity.AddUseResult;
 import com.macth.match.recommend.entity.AttachmentsDTO;
+import com.macth.match.recommend.entity.AttachmentsResult;
 import com.macth.match.recommend.entity.FundsResult;
 import com.macth.match.recommend.entity.MilDetailsResult;
 import com.macth.match.recommend.entity.ProjectDetailsResult;
@@ -308,9 +309,9 @@ public class CommonApiClient extends BaseApiClient {
      * @param callback
      */
     public static void attachments(Activity act, AttachmentsDTO
-            dto, CallBack<MilDetailsResult> callback) {
-        AsyncCallBack<MilDetailsResult> asyncCallBack = new AsyncCallBack<>(
-                act, callback, MilDetailsResult.class);
+            dto, CallBack<AttachmentsResult> callback) {
+        AsyncCallBack<AttachmentsResult> asyncCallBack = new AsyncCallBack<>(
+                act, callback, AttachmentsResult.class);
         post(getAbsoluteUrl("Home/Cooperatives/getFilesByMfileID?"), dto,
                 asyncCallBack);
     }

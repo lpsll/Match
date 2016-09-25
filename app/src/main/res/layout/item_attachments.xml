@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
     <View
         android:layout_width="match_parent"
@@ -11,7 +11,7 @@
         android:background="@color/color_cc"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ds_100"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/ds_40"
         android:layout_marginRight="@dimen/ds_40"
         android:orientation="horizontal">
@@ -20,9 +20,11 @@
             android:layout_height="match_parent"
             android:background="@color/color_cc"/>
         <TextView
+            android:paddingTop="@dimen/ds_20"
+            android:paddingBottom="@dimen/ds_20"
             android:id="@+id/attach_tv1"
             android:layout_width="0dip"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/project_name"
             android:gravity="center"
@@ -38,24 +40,18 @@
             android:layout_weight="1"
             android:orientation="horizontal">
         <TextView
+            android:paddingTop="@dimen/ds_20"
+            android:paddingBottom="@dimen/ds_20"
             android:id="@+id/attach_tv2"
             android:layout_width="0dip"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/look_details"
             android:textSize="@dimen/fs_45"
             android:textColor="@color/color_99"/>
 
-            <TextView
-                android:id="@+id/attach_tv3"
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/look_details"
-                android:textSize="@dimen/fs_45"
-                android:textColor="@color/color_99"/>
+
         </LinearLayout>
         <View
             android:layout_width="@dimen/ds_2"

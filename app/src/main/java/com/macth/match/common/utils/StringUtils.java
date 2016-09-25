@@ -1,5 +1,6 @@
 package com.macth.match.common.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,7 +43,7 @@ public class StringUtils {
 
     /***
      * 计算两个时间差，返回的是的秒s
-     * @return long
+     *
      * @param dete1
      * @param date2
      * @return
@@ -66,5 +67,16 @@ public class StringUtils {
         }
 
         return diff / 1000;
+    }
+
+    public static String toUtf8(String str) {
+        String result = null;
+        try {
+            result = new String(str.getBytes("UTF-8"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return result;
     }
 }

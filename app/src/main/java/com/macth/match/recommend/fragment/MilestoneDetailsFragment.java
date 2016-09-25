@@ -1,13 +1,11 @@
 package com.macth.match.recommend.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.macth.match.AppConfig;
-import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BasePullScrollViewFragment;
 import com.macth.match.common.base.SimplePage;
@@ -18,8 +16,6 @@ import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.UIHelper;
 import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.common.widget.FullyLinearLayoutManager;
-import com.macth.match.group.entity.GroupEntity;
-import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.dto.MinestoneDetailsDTO;
 import com.macth.match.recommend.entity.MilDetailsEntity;
 import com.macth.match.recommend.entity.MilDetailsResult;
@@ -78,7 +74,8 @@ public class MilestoneDetailsFragment extends BasePullScrollViewFragment {
                         }else {
                             Bundle bundle = new Bundle();
                             bundle.putString("mfileid",list.get(position));
-                            LogUtils.e("mfileid---",""+list.get(position));
+
+                            LogUtils.e("mfileid--222222222222222-",""+list.get(position));
                             UIHelper.showBundleFragment(getActivity(), SimplePage.ATTACHMENTS,bundle);//查看附件
                         }
 
