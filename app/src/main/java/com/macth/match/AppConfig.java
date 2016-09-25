@@ -22,10 +22,10 @@ public class AppConfig {
     public static final String SUCCESS = "1";
     public static final String CODE = "0";
     public static final String BASE_URL = "http://cuohe.damaimob.com/";
-    public static final String ADD_H5_URL = "http://cuohe.damaimob.com/CuoHeApp/html/AddItem.html?userid=";
-    public static final String DETAILS_H5_URL = "http://cuohe.damaimob.com/CuoHeApp/html/ItemDec.html?userid=";
-    public static final String MILEPOST_H5_URL = "http://cuohe.damaimob.com/CuoHeApp/html/Milestone.html?pid=";
-    public static final String MDPROJECT_H5_URL = "http://cuohe.damaimob.com/CuoHeApp/html/ItemDec.html?userid=";
+    public static final String ADD_H5_URL = "http://cuohe.damaimob.com/CuoHeApp/html/AddItem.html?userid=";//新增项目
+    public static final String DETAILS_H5_URL = "http://cuohe.damaimob.com/CuoHeApp/html/ItemDec.html?userid=";//项目详情
+    public static final String MILEPOST_H5_URL = "http://cuohe.damaimob.com/CuoHeApp/html/Milestone.html?pid=";//里程碑详情
+    public static final String MDPROJECT_H5_URL = "http://cuohe.damaimob.com/CuoHeApp/html/UpdateItem.html?userid=";//修改项目
 
 
 

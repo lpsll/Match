@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_header"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ds_40"
+            android:layout_marginLeft="@dimen/ds_40"
+            android:textColor="@color/navi"
+            android:textSize="@dimen/fs_50"
+            android:text="@string/project_introduction"/>
+
+        <EditText
+            android:id="@+id/et_01"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ds_300"
+            android:layout_marginTop="@dimen/ds_40"
+            android:layout_marginLeft="@dimen/ds_40"
+            android:layout_marginRight="@dimen/ds_40"
+            android:hint="@string/plesea_position_information"
+            android:gravity="clip_horizontal"
+            android:textSize="@dimen/fs_45"
+            android:textColor="@color/color_01"
+            android:paddingLeft="@dimen/ds_20"
+            android:paddingTop="@dimen/ds_20"
+            android:background="@drawable/ok_selector_shap_pressed"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ds_40"
+            android:layout_marginLeft="@dimen/ds_40"
+            android:textColor="@color/navi"
+            android:textSize="@dimen/fs_50"
+            android:text="@string/company_address"/>
+
+        <EditText
+            android:id="@+id/et_02"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ds_300"
+            android:layout_marginTop="@dimen/ds_40"
+            android:layout_marginLeft="@dimen/ds_40"
+            android:layout_marginRight="@dimen/ds_40"
+            android:hint="@string/plesea_company_address"
+            android:gravity="clip_horizontal"
+            android:textSize="@dimen/fs_45"
+            android:textColor="@color/color_01"
+            android:paddingLeft="@dimen/ds_20"
+            android:paddingTop="@dimen/ds_20"
+            android:background="@drawable/ok_selector_shap_pressed"/>
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ds_40"
+            android:layout_marginLeft="@dimen/ds_40"
+            android:textColor="@color/navi"
+            android:textSize="@dimen/fs_50"
+            android:text="@string/position_information"/>
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ds_600"
+            android:layout_marginTop="@dimen/ds_40"
+            android:layout_marginRight="@dimen/ds_60"
+            android:layout_marginLeft="@dimen/ds_60"
+            android:clickable="true" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

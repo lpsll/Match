@@ -81,10 +81,7 @@ public class AddUseFragment extends BasePullScrollViewFragment {
                     public void onClick(View v) {
                         Bundle b = new Bundle();
                         b.putString("fundsid", list.get(position));
-                        b.putString("pid", mId);
-                        b.putString("flag", flag);
-                        RecommendUiGoto.increase(getActivity(),b);//修改资金用途
-                        tv.setVisibility(View.GONE);
+                        RecommendUiGoto.mdCapital(getActivity(),b);//修改资金用途
                     }
                 });
 

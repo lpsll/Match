@@ -61,9 +61,9 @@ public class ModificationProjectBrowserActivity extends BaseTitleActivity {
             mContext = c;
         }
         @JavascriptInterface
-        public void UpdateItemComplete(String projectNo) {
+        public void UpdateItemComplete(String projectno) {
             Bundle b = new Bundle();
-            b.putString("projectNo", projectNo);
+            b.putString("projectNo", projectno);
             b.putString("flag","0");
             UIHelper.showBundleFragment(ModificationProjectBrowserActivity.this, SimplePage.ADD_USE,b);//增加资金用途
         }

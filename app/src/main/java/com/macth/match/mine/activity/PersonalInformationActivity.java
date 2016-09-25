@@ -125,7 +125,7 @@ public class PersonalInformationActivity extends BaseTitleActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MineUIGoto.MF_REQUEST) {
-            if(TextUtils.isEmpty(AppContext.get("userimager",""))){
+            if(!TextUtils.isEmpty(AppContext.get("userimager",""))){
                 ImageLoaderUtils.displayAvatarImage(AppContext.get("userimager",""), imgImg);
             }
             nameTv.setText(AppContext.get("username",""));

@@ -138,15 +138,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"/>
-    <ImageView
-        android:id="@+id/img_03"
-        android:layout_marginTop="@dimen/ds_40"
-        android:layout_marginBottom="@dimen/ds_60"
-        android:layout_marginLeft="@dimen/ds_60"
-        android:layout_marginRight="@dimen/ds_60"
-        android:scaleType="fitXY"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
 
         </LinearLayout>
     </ScrollView>

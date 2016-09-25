@@ -15,6 +15,7 @@ import com.macth.match.recommend.activity.ChoiceCityActivity;
 import com.macth.match.recommend.activity.DetailsFundsActivity;
 import com.macth.match.recommend.activity.IncreaseCapitalActivity;
 import com.macth.match.recommend.activity.MilepostActivityBrowserActivity;
+import com.macth.match.recommend.activity.ModifyCapitalActivity;
 import com.macth.match.recommend.activity.ProjectDetailsActivity;
 import com.macth.match.recommend.activity.ProjectDetailsBrowserActivity;
 
@@ -141,6 +142,17 @@ public class RecommendUiGoto {
      */
     public static void increase(Context context, Bundle b){
         Intent intent = new Intent(context, IncreaseCapitalActivity.class);
+        intent.putExtra("bundle",b);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转到修改资金用途
+     * @param context
+     * @param b
+     */
+    public static void mdCapital(Context context, Bundle b){
+        Intent intent = new Intent(context, ModifyCapitalActivity.class);
         intent.putExtra("bundle",b);
         context.startActivity(intent);
     }

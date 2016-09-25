@@ -1,20 +1,27 @@
 package com.macth.match.common.http;
 
 import android.text.TextUtils;
+import android.util.Pair;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.macth.match.AppConfig;
 import com.macth.match.common.utils.LogUtils;
+import com.macth.match.mine.entity.MdInformationResult;
 
+import java.io.File;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -122,13 +129,10 @@ public class BaseApiClient {
 		Set<String> key = map.keySet();
 		for (Iterator<String> it = key.iterator(); it.hasNext();) {
 			String s =  it.next();
-//			if(TextUtils.isEmpty(map.get(s).toString())){
-//				LogUtils.e("Found Empty Params--> "+s + "=" + map.get(s));
-//				continue;
-//			}
 			builder.add(s, map.get(s).toString());
 			LogUtils.e(s + " = " + map.get(s).toString());
 		}
+
 		LogUtils.e("post-------------reqParams    end-------------");
 
 		Request request = new Request.Builder()
@@ -139,7 +143,67 @@ public class BaseApiClient {
 		enqueue(request, asyncCallBack);
 	}
 
+	/**
+	 * post传键值对 (传图片)
+	 */
+	private Pair<String, File>[] files;
+	public static <T> void postImg(String url, Object dto, File file, List<File> listFile, AsyncCallBack<T>asyncCallBack) {
+		LogUtils.e("http_request_url:" + url);
+		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+		LogUtils.e("builder---0",""+builder);
+		LogUtils.e("post-------------reqParams   start-------------");
+		Map<String, ?> map = objectToMap(dto);
+		if (map == null)
+			return;
+		Set<String> key = map.keySet();
+		for (Iterator<String> it = key.iterator(); it.hasNext();) {
+			String s =  it.next();
+			builder.addFormDataPart(s, map.get(s).toString());
+			LogUtils.e(s + " = " + map.get(s).toString());
+		}
+		LogUtils.e("file---",""+file);
+		LogUtils.e("listFile---",""+listFile);
+		if(null!=file){
+			MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(file.getAbsolutePath()));
+			RequestBody fileBody = null;
+			fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
+			String fileName = file.getName();
+			builder.addFormDataPart("lbsimg",fileName,fileBody);
 
+			LogUtils.e("fileBody---file",""+fileBody);
+		}
+		if(null!=listFile){
+			RequestBody fileBody = null;
+			for(int i=0;i<listFile.size();i++){
+				MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(listFile.get(i).getAbsolutePath()));
+				fileBody = RequestBody.create(MEDIA_TYPE_PNG, listFile.get(i));
+				LogUtils.e("fileBody---listFile---",""+fileBody);
+				String fileName = listFile.get(i).getName();
+				builder.addFormDataPart("pimg",fileName,fileBody);
+			}
+
+			LogUtils.e("builder---2",""+builder);
+		}
+
+		LogUtils.e("post-------------reqParams    end-------------");
+		Request request = new Request.Builder()
+				.tag(asyncCallBack.getTag())
+				.url(url)
+				.post(builder.build())
+				.build();
+		enqueue(request, asyncCallBack);
+	}
+
+	private static String guessMimeType(String path)
+	{
+		FileNameMap fileNameMap = URLConnection.getFileNameMap();
+		String contentTypeFor = fileNameMap.getContentTypeFor(path);
+		if (contentTypeFor == null)
+		{
+			contentTypeFor = "application/octet-stream";
+		}
+		return contentTypeFor;
+	}
 
 	public static <T> void enqueue( Request request,
 								   AsyncCallBack<T> asyncCallBack) {

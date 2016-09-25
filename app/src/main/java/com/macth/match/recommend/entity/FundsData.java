@@ -2,18 +2,19 @@ package com.macth.match.recommend.entity;
 
 import com.macth.match.common.entity.BaseEntity;
 
+import java.io.File;
 import java.util.List;
 
 /**
  * Created by John_Libo on 2016/8/25.
  */
 public class FundsData extends BaseEntity{
-    String[] imageurl;
     private String fundid;
     private String funds_desc;
     private String funds_companyaddrress;
     private String funds_lbs;
     private String funds_images;
+    String[] imageurl;
 
     public String[] getImageurl() {
         return imageurl;
@@ -22,6 +23,13 @@ public class FundsData extends BaseEntity{
     public void setImageurl(String[] imageurl) {
         this.imageurl = imageurl;
     }
+
+
+
+
+
+
+
 
     public String getFundid() {
         return fundid;

@@ -21,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,16 +48,19 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.http.UploadFileTask;
 import com.macth.match.common.utils.BitmapToRound_Util;
+import com.macth.match.common.utils.CircleTransform;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.PhotoSystemUtils;
+import com.macth.match.common.utils.SelectPhotoDialogHelper;
 import com.macth.match.mine.dto.AddInfoDTO;
 import com.macth.match.mine.entity.InformationEntity;
 import com.macth.match.mine.entity.MdInformationResult;
 import com.macth.match.register.entity.Data;
 import com.macth.match.register.entity.ShenFenEntity;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -126,6 +130,8 @@ public class ModifyInformationActivity extends BaseTitleActivity {
     private File mUrl;
     InformationEntity data;
     private ArrayList<String> imagePaths = new ArrayList<>();
+    private SelectPhotoDialogHelper selectPhotoDialogHelper;//选择图片工具类
+    private File imageFile;//选择的图像文件
 
     @Override
     protected int getContentResId() {
@@ -146,12 +152,7 @@ public class ModifyInformationActivity extends BaseTitleActivity {
         //设置框背景色
         setEdittextBackground();
         data = (InformationEntity) getIntent().getBundleExtra("bundle").getSerializable("entity");
-        if(TextUtils.isEmpty(AppContext.get("imager", ""))){
-            imgUserCard.setBackgroundResource(R.drawable.morenxdpi_03);
-        }else {
-            ImageLoaderUtils.displayAvatarImage(AppContext.get("imager", ""),imgUserCard);
-
-        }
+        Picasso.with(this).load(Uri.parse(AppContext.get("userimager", ""))).transform(new CircleTransform()).error(R.drawable.morenxdpi_03).into(imgUserCard);
         etAddInfoUsername.setText(data.getUser_name());
         etAddInfoPhone.setText(data.getUser_mobile());
         etAddInfoShenfen.setText(data.getUser_identityname());
@@ -203,80 +204,15 @@ public class ModifyInformationActivity extends BaseTitleActivity {
                 phoneVerify();
                 break;
             case R.id.img_user_card:
-                showPicPop();
+                selectPhotoDialogHelper = new SelectPhotoDialogHelper(this, new OnPickPhotoFinishListener(),300,1,1);
+                selectPhotoDialogHelper.showPickPhotoDialog();
                 break;
 
-            case R.id.btn_alter_pic_camera://拍照
-                Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intentFromCapture, CODE_CAMERA_REQUEST);
-                break;
 
-            case R.id.btn_alter_pic_photo://选择照片
-                PhotoPickerIntent intent = new PhotoPickerIntent(ModifyInformationActivity.this);
-                intent.setSelectModel(SelectModel.MULTI);
-                intent.setShowCarema(true); // 是否显示拍照
-                intent.setMaxTotal(1); // 最多选择照片数量
-                intent.setSelectedPaths(imagePaths); // 已选中的照片地址， 用于回显选中状态
-                LogUtils.e("imagePaths---", "" + imagePaths);
-                startActivityForResult(intent, REQUEST_CAMERA_CODE);
-                break;
-
-            case R.id.btn_alter_exit:  //取消
-                backgroundAlpha(1f);
-                popWindow.dismiss();
-                break;
         }
 
     }
 
-
-    private void showPicPop() {
-        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View view = inflater.from(this).inflate(R.layout.popup_pic, null);
-        popWindow = new PopupWindow(view, WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT,true);
-
-        // 需要设置一下此参数，点击外边可消失
-        popWindow.setBackgroundDrawable(new BitmapDrawable());
-        //设置点击窗口外边窗口消失
-        popWindow.setOutsideTouchable(true);
-        // 设置此参数获得焦点，否则无法点击
-        popWindow.setFocusable(true);
-        //防止虚拟软键盘被弹出菜单遮住
-        popWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        backgroundAlpha(0.7f);
-
-        mCamera = (TextView) view.findViewById(R.id.btn_alter_pic_camera);
-        mPhoto = (TextView) view.findViewById(R.id.btn_alter_pic_photo);
-        mExit = (TextView) view.findViewById(R.id.btn_alter_exit);
-        mCamera.setOnClickListener(this);
-        mPhoto.setOnClickListener(this);
-        mExit.setOnClickListener(this);
-
-        View parent = getWindow().getDecorView();//高度为手机实际的像素高度
-        LogUtils.e("parent---",""+parent);
-        popWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-        //添加pop窗口关闭事件
-        popWindow.setOnDismissListener(new poponDismissListener());
-    }
-    public class poponDismissListener implements PopupWindow.OnDismissListener{
-
-        @Override
-        public void onDismiss() {
-            backgroundAlpha(1f);
-            popWindow.dismiss();
-        }
-
-    }
-    /**
-     * 设置添加屏幕的背景透明度
-     * @param bgAlpha
-     */
-    public void backgroundAlpha(float bgAlpha)
-    {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getWindow().setAttributes(lp);
-    }
 
 
     private void phoneVerify() {
@@ -286,11 +222,7 @@ public class ModifyInformationActivity extends BaseTitleActivity {
             addInfo();
         }
 
-
-
     }
-
-
 
 
     private void addInfo() {
@@ -301,11 +233,7 @@ public class ModifyInformationActivity extends BaseTitleActivity {
         addInfoDto.setCompany(data.getUser_company());
         addInfoDto.setWork(data.getUser_work());
         addInfoDto.setCooperative(data.getUser_cooperative());
-        if(null==mUrl) {
-        }else {
-            addInfoDto.setUserimg(mUrl);
-        }
-        CommonApiClient.mdInfo(this, addInfoDto, new CallBack<MdInformationResult>() {
+        CommonApiClient.mdInfo(this, addInfoDto,imageFile, new CallBack<MdInformationResult>() {
             @Override
             public void onSuccess(MdInformationResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
@@ -319,88 +247,23 @@ public class ModifyInformationActivity extends BaseTitleActivity {
         });
     }
 
-
+    /*选择照片结束的回调*/
+    private class OnPickPhotoFinishListener implements SelectPhotoDialogHelper.OnPickPhotoFinishListener {
+        @Override
+        public void onPickPhotoFinishListener(File imageFile) {
+            if(imageFile!=null){
+                ModifyInformationActivity.this.imageFile = imageFile;
+                Log.e("imageFile---",""+imageFile);
+                Picasso.with(ModifyInformationActivity.this).load(Uri.fromFile(imageFile)).transform(new CircleTransform()).into(imgUserCard);
+            }
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-
-            //拍照
-            case CODE_CAMERA_REQUEST:
-                LogUtils.e("CODE_CAMERA_REQUEST----", "CODE_CAMERA_REQUEST");
-                popWindow.dismiss();
-                backgroundAlpha(1f);
-                if (data == null||"".equals(data)) {
-                    LogUtils.e("data----CODE_CAMERA_REQUEST", "" + data);
-                    return;
-                } else {
-                    LogUtils.e("data----else", "else");
-                    String sdStatus = Environment.getExternalStorageState();
-                    if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
-                        LogUtils.e("TestFile", "SD card is not avaiable/writeable right now.");
-                        return;
-                    }
-                    String name = new DateFormat().format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
-                    LogUtils.e("name", "" + name);
-                    Bundle bundle = data.getExtras();
-                    Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
-                    LogUtils.e("bitmap---", "" + bitmap);
-                    Bitmap bm = PhotoSystemUtils.comp(bitmap);
-
-                    File file = new File("/sdcard/myImage/");
-                    file.mkdirs();// 创建文件夹
-
-                    String fileName = "/sdcard/myImage/" + name;
-                    LogUtils.e("fileName", "" + fileName);
-                    FileOutputStream b = null;
-                    try {
-                        b = new FileOutputStream(fileName);
-                        bm.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    finally {
-                        try {
-                            b.flush();
-                            b.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bm, 200);
-                    imgUserCard.setImageBitmap(roundedCornerBitmap);
-
-                    mUrl = file;
-                    LogUtils.e("mUrl---1--",""+mUrl);
-                }
-                break;
-
-            // 选择照片
-            case REQUEST_CAMERA_CODE:
-                backgroundAlpha(1f);
-                popWindow.dismiss();
-                if(data == null){
-                    return;
-                }else{
-                    ArrayList<String> list = data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT);
-                    if(null==list){
-                        return;
-                    }else {
-                        LogUtils.e("list.get(0)---", "" + list.get(0));
-                        Bitmap bit = ImageLoaderUtils.readBitmap(list.get(0));
-                        LogUtils.e("bit---", "" + bit);
-                        Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bit, 200);
-                        imgUserCard.setImageBitmap(roundedCornerBitmap);
-                        File file = new File(list.get(0));
-                        mUrl = file;
-                        LogUtils.e("mUrl---2--",""+mUrl);
-
-                    }
-                }
-
-                break;
-
+        if(selectPhotoDialogHelper!=null){//选择图片
+            selectPhotoDialogHelper.onActivityResult(requestCode, resultCode, data);
         }
     }
 
