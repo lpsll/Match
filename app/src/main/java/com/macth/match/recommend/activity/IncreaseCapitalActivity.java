@@ -187,7 +187,6 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
                 }
             }
         });
-
     }
 
 

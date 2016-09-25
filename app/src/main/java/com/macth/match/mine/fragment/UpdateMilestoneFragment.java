@@ -15,6 +15,7 @@ import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
+import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.common.widget.FullyLinearLayoutManager;
 import com.macth.match.mine.dto.UpdataDTO;
@@ -67,7 +68,7 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
             @Override
             public void bindData(BaseRecyclerViewHolder holder, MilDetailsEntity milDetailsEntity, final int position) {
                 tv02 = holder.getView(R.id.md_tv_02);
-                list.add(position, milDetailsEntity.getMfileid());
+                list.add(position, milDetailsEntity.getMid());
                 if (isFrist) {
                     if (position == 0) {
                         mList.add(position, true);
@@ -85,12 +86,14 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
                 LogUtils.e("mList----", "" + mList);
 
                 holder.setText(R.id.md_tv_01, milDetailsEntity.getName());
+                LogUtils.e("milDetailsEntity.getFinsh()----", "" + milDetailsEntity.getFinsh());
                 if (milDetailsEntity.getFinsh().equals("1")) {
                     tv02.setText("未完成");
                 } else if (milDetailsEntity.getFinsh().equals("2")) {
                     tv02.setText("已完成");
                 }
                 tv02.setOnClickListener(new View.OnClickListener() {
+                    TextView tv = tv02;
                     @Override
                     public void onClick(View v) {
                         tv02 = (TextView) v;
@@ -115,6 +118,8 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
                                         public void onSuccess(MilDetailsResult result) {
                                             if (AppConfig.SUCCESS.equals(result.getCode())) {
                                                 LogUtils.e("更新里程碑状态成功");
+                                                ToastUtils.showShort(getActivity(),"更新里程碑状态成功laaaaaaaa");
+                                                tv.setText("已完成");
                                             }
                                         }
                                     });
