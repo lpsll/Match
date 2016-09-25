@@ -98,17 +98,18 @@ public class CommonApiClient extends BaseApiClient {
 
     /**
      * 上传项目资金用途
-     *  @param act
+     * @param act
      * @param dto
      * @param imageFile
      * @param imgListFile
+     * @param id
      * @param callback
      */
     public static void upload(Activity act, UploadDTO
-            dto, File imageFile, List<File> imgListFile, CallBack<RecommendResult> callback) {
+            dto, File imageFile, List<File> imgListFile, String id, CallBack<RecommendResult> callback) {
         AsyncCallBack<RecommendResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, RecommendResult.class);
-        postImg(getAbsoluteUrl("Home/Projects/uploadProjectFunds"), dto,imageFile,imgListFile,
+        postImg(getAbsoluteUrl("Home/Projects/uploadProjectFunds"), dto,imageFile,imgListFile,id,
                 asyncCallBack);
     }
 
@@ -505,15 +506,16 @@ public class CommonApiClient extends BaseApiClient {
 
     /**
      * 修改用户信息信息
-     *  @param
+     * @param
      * @param act
      * @param imageFile
+     * @param id
      * @param callback
      */
-    public static void mdInfo(Activity act, AddInfoDTO dto, File imageFile, CallBack<MdInformationResult> callback) {
+    public static void mdInfo(Activity act, AddInfoDTO dto, File imageFile, String id, CallBack<MdInformationResult> callback) {
         AsyncCallBack<MdInformationResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, MdInformationResult.class);
-        postImg(getAbsoluteUrl("Home/Login/perfectUserData"), dto,imageFile,null, asyncCallBack);
+        postImg(getAbsoluteUrl("Home/Login/perfectUserData"), dto,imageFile,null,id, asyncCallBack);
     }
 
     /**

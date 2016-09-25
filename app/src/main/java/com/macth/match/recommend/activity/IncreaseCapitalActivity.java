@@ -112,7 +112,7 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     private static final int REQUEST_CAMERA_CODE = 10;
     ImgEntity entity;
     private ListAdapter listAdapter;
-    private ArrayList<File> mPic = new ArrayList<>();
+    private ArrayList<File> mPic= new ArrayList<>();
     private File imageFile;//地图文件
     private List<File> imgListFile;
 
@@ -124,6 +124,7 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 
     @Override
     public void initView() {
+
         LogUtils.e("initView---", "initView");
         if (Build.VERSION.SDK_INT >= 23) {
             int readSDPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -499,7 +500,8 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
             dto.setLbs(mLongitude + "," + mLatitude);
 
         }
-        CommonApiClient.upload(this, dto, imageFile,mPic,new CallBack<RecommendResult>() {
+        String id ="pimg";
+        CommonApiClient.upload(this, dto, imageFile,mPic,id,new CallBack<RecommendResult>() {
             @Override
             public void onSuccess(RecommendResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {

@@ -6,9 +6,12 @@
     android:orientation="vertical">
     <ImageView
         android:id="@+id/item_in_img"
+        android:layout_marginLeft="@dimen/ds_40"
+        android:layout_marginRight="@dimen/ds_40"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ds_160"
+        android:layout_height="@dimen/ds_380"
         android:layout_marginTop="@dimen/ds_40"
+        android:scaleType="fitXY"
         />
 
 </LinearLayout>

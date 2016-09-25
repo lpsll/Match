@@ -146,8 +146,7 @@ public class BaseApiClient {
 	/**
 	 * post传键值对 (传图片)
 	 */
-	private Pair<String, File>[] files;
-	public static <T> void postImg(String url, Object dto, File file, List<File> listFile, AsyncCallBack<T>asyncCallBack) {
+	public static <T> void postImg(String url, Object dto, File file, List<File> listFile, String id,AsyncCallBack<T>asyncCallBack) {
 		LogUtils.e("http_request_url:" + url);
 		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 		LogUtils.e("builder---0",""+builder);
@@ -168,7 +167,7 @@ public class BaseApiClient {
 			RequestBody fileBody = null;
 			fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
 			String fileName = file.getName();
-			builder.addFormDataPart("lbsimg",fileName,fileBody);
+			builder.addFormDataPart(id,fileName,fileBody);
 
 			LogUtils.e("fileBody---file",""+fileBody);
 		}
@@ -179,7 +178,7 @@ public class BaseApiClient {
 				fileBody = RequestBody.create(MEDIA_TYPE_PNG, listFile.get(i));
 				LogUtils.e("fileBody---listFile---",""+fileBody);
 				String fileName = listFile.get(i).getName();
-				builder.addFormDataPart("pimg",fileName,fileBody);
+				builder.addFormDataPart(id,fileName,fileBody);
 			}
 
 			LogUtils.e("builder---2",""+builder);

@@ -233,7 +233,8 @@ public class ModifyInformationActivity extends BaseTitleActivity {
         addInfoDto.setCompany(data.getUser_company());
         addInfoDto.setWork(data.getUser_work());
         addInfoDto.setCooperative(data.getUser_cooperative());
-        CommonApiClient.mdInfo(this, addInfoDto,imageFile, new CallBack<MdInformationResult>() {
+        String id = "userimg";
+        CommonApiClient.mdInfo(this, addInfoDto,imageFile, id,new CallBack<MdInformationResult>() {
             @Override
             public void onSuccess(MdInformationResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {

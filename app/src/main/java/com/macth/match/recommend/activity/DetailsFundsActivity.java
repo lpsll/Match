@@ -84,8 +84,8 @@ public class DetailsFundsActivity extends BaseTitleActivity {
     private void setResult(FundsResult result) {
         et01.setText(result.getData().getFunds_desc());
         et02.setText(result.getData().getFunds_companyaddrress());
-        if(!TextUtils.isEmpty(result.getData().getFunds_images())){
-            ImageLoaderUtils.displayImage(AppConfig.BASE_URL+result.getData().getFunds_images(), img01);
+        if(result.getData().getImageurl().length>1){
+            ImageLoaderUtils.displayImage(result.getData().getImageurl()[0], img01);
         }
         listAdapter = new ListAdapter(result.getData().getImageurl());
         list.setAdapter(listAdapter);

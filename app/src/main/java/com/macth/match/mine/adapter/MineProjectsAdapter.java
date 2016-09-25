@@ -79,10 +79,13 @@ public class MineProjectsAdapter extends BaseSimpleRecyclerAdapter<MineProjectsE
             tv02.setVisibility(View.VISIBLE);
             tv03.setVisibility(View.VISIBLE);
         }else {
-
-            tv01.setVisibility(View.GONE);
+            tv01.setVisibility(View.VISIBLE);
             tv02.setVisibility(View.VISIBLE);
-            tv03.setVisibility(View.GONE);
+            tv03.setVisibility(View.VISIBLE);
+
+//            tv01.setVisibility(View.INVISIBLE);
+//            tv02.setVisibility(View.VISIBLE);
+//            tv03.setVisibility(View.INVISIBLE);
         }
 
         list.add(position,mineProjectsEntity);

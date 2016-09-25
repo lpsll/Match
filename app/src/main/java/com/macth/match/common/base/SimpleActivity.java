@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 
+import com.macth.match.MainActivity;
 import com.macth.match.R;
 
 import java.lang.ref.WeakReference;
@@ -23,6 +24,7 @@ public class SimpleActivity extends BaseTitleActivity {
     protected int mPageValue = -1;
     private FragmentManager fragmentManager;
     SimplePage page;
+    int flag;
 
     @Override
     protected int getContentResId() {
@@ -46,6 +48,10 @@ public class SimpleActivity extends BaseTitleActivity {
         if (page == null) {
             throw new IllegalArgumentException("can not find page by value:"
                     + pageValue);
+        }
+        flag = page.getValue();
+        if(flag==4){
+            setEnsureText("完成");
         }
         setTitleText(page.getTitle());
         try {
@@ -80,6 +86,14 @@ public class SimpleActivity extends BaseTitleActivity {
         switch (v.getId()) {
             case R.id.base_titlebar_back:
                 baseGoBack();
+                break;
+            case R.id.base_titlebar_ensure:
+                if(flag==4){
+                    Intent intent2 = new Intent(SimpleActivity.this, MainActivity.class);
+                    intent2.putExtra("tag", 1);
+                    SimpleActivity.this.startActivity(intent2);
+                }
+
                 break;
         }
     }

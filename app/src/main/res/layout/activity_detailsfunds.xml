@@ -141,6 +141,8 @@
             <ListView
                 android:id="@+id/list"
                 android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/ds_60"
+                android:layout_marginRight="@dimen/ds_60"
                 android:layout_height="wrap_content">
 
             </ListView>
