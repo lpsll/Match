@@ -14,10 +14,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.Gravity;
@@ -29,19 +27,20 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
-import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.bumptech.glide.Glide;
 import com.lidong.photopicker.PhotoPickerActivity;
 import com.lidong.photopicker.SelectModel;
@@ -55,13 +54,10 @@ import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhotoSystemUtils;
 import com.macth.match.common.utils.SelectPhotoDialogHelper;
-import com.macth.match.common.widget.FullyLinearLayoutManager;
 import com.macth.match.recommend.dto.UploadDTO;
 import com.macth.match.recommend.entity.AddUseEvent;
 import com.macth.match.recommend.entity.ImgEntity;
 import com.macth.match.recommend.entity.RecommendResult;
-import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
-import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
 import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
 
 import org.json.JSONArray;
@@ -76,8 +72,6 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -197,6 +191,27 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     }
 
 
+    /**
+     * -------------------------------
+     */
+
+    private LocationClient locationClient = null;
+    private static final int UPDATE_TIME = 5000;
+    private static int LOCATION_COUTNS = 0;
+
+    private double Latitude;
+    private double Longitude;
+
+
+
+
+    /**
+     * -------------------------------
+     */
+
+
+
+
     @Override
     public void initData() {
         LogUtils.e("initData---", "initData");
@@ -215,66 +230,149 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 //        mEt02 = (EditText) header.findViewById(R.id.et_02);
 //        mBmapView = (MapView) header.findViewById(R.id.bmapView);
 
+
+         /**
+         * ----------------------------------------------
+        */
+
+
+        locationClient = new LocationClient(this);
+        // 设置定位条件
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 是否打开GPS
+        option.setCoorType("bd09ll"); // 设置返回值的坐标类型。
+        option.setPriority(LocationClientOption.NetWorkFirst); // 设置定位优先级
+        option.setProdName("LocationDemo"); // 设置产品线名称。强烈建议您使用自定义的产品线名称，方便我们以后为您提供更高效准确的定位服务。
+        option.setScanSpan(UPDATE_TIME);// 设置定时定位的时间间隔。单位毫秒
+        locationClient.setLocOption(option);
+
+        locationClient.start();
+			/*
+			 * 当所设的整数值大于等于1000（ms）时，定位SDK内部使用定时定位模式。调用requestLocation(
+			 * )后，每隔设定的时间，定位SDK就会进行一次定位。如果定位SDK根据定位依据发现位置没有发生变化，就不会发起网络请求，
+			 * 返回上一次定位的结果；如果发现位置改变，就进行网络请求进行定位，得到新的定位结果。
+			 * 定时定位时，调用一次requestLocation，会定时监听到定位结果。
+			 */
+        locationClient.requestLocation();
+
+        // 注册位置监听器
+        locationClient.registerLocationListener(new BDLocationListener() {
+
+            @Override
+            public void onReceiveLocation(BDLocation location) {
+                // TODO Auto-generated method stub
+                if (location == null) {
+                    return;
+                }
+                Latitude = location.getLatitude();
+                Longitude = location.getLongitude();
+
+                LogUtils.d("Latitude========="+Latitude);
+                LogUtils.d("Longitude========="+Longitude);
+
+                StringBuffer sb = new StringBuffer(256);
+                sb.append("Time : ");
+                sb.append(location.getTime());
+                sb.append("\nError code : ");
+                sb.append(location.getLocType());
+                sb.append("\nLatitude : ");
+                sb.append(location.getLatitude());
+                sb.append("\nLontitude : ");
+                sb.append(location.getLongitude());
+                sb.append("\nRadius : ");
+                sb.append(location.getRadius());
+                if (location.getLocType() == BDLocation.TypeGpsLocation) {
+                    sb.append("\nSpeed : ");
+                    sb.append(location.getSpeed());
+                    sb.append("\nSatellite : ");
+                    sb.append(location.getSatelliteNumber());
+                } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
+                    sb.append("\nAddress : ");
+                    sb.append(location.getAddrStr());
+                }
+                LOCATION_COUTNS++;
+                sb.append("\n检查位置更新次数：");
+                sb.append(String.valueOf(LOCATION_COUTNS));
+
+
+                navigateTo(Latitude,Longitude);
+
+            }
+
+        });
+
+
+
+        /**
+         * -------------------------------------------------------------
+         */
+
+
+
+
+
+
+//
         mBaiduMap = mBmapView.getMap();
-        //普通地图
+//        //普通地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-        //卫星地图
+//        //卫星地图
 //        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
-
-        //空白地图, 基础地图瓦片将不会被渲染。在地图类型中设置为NONE，将不会使用流量下载基础地图瓦片图层。
-        // 使用场景：与瓦片图层一起使用，节省流量，提升自定义瓦片图下载速度。
-//        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
-
-        // 设置可改变地图位置
+//
+//        //空白地图, 基础地图瓦片将不会被渲染。在地图类型中设置为NONE，将不会使用流量下载基础地图瓦片图层。
+//        // 使用场景：与瓦片图层一起使用，节省流量，提升自定义瓦片图下载速度。
+////        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
+//
+//        // 设置可改变地图位置
         mBaiduMap.setMyLocationEnabled(true);
-        //获取定位服务
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //判断GPS是否正常启动
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(this, "请开启GPS导航...", Toast.LENGTH_SHORT).show();
-            //返回开启GPS导航设置界面
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivityForResult(intent, 0);
-            return;
-        }
-        //获取当前可用的位置控制器
-        List<String> list = locationManager.getProviders(true);
-//        String str = locationManager.getBestProvider(getCriteria(),true);
-        LogUtils.e("list---", "" + list);
-        if (list.contains(LocationManager.GPS_PROVIDER)) {
-            //是否为GPS位置控制器
-            provider = LocationManager.GPS_PROVIDER;
-        } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
-            //是否为网络位置控制器
-            provider = LocationManager.NETWORK_PROVIDER;
-
-        } else {
-            Toast.makeText(this, "请检查网络或GPS是否打开",
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        LogUtils.e("provider---", "" + provider);
-        Location location = locationManager.getLastKnownLocation(provider);
-        LogUtils.e("location---", "" + location);
-        if (location != null) {
-            navigateTo(location);
-        }
+//        //获取定位服务
+//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        //判断GPS是否正常启动
+//        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            Toast.makeText(this, "请开启GPS导航...", Toast.LENGTH_SHORT).show();
+//            //返回开启GPS导航设置界面
+//            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//            startActivityForResult(intent, 0);
+//            return;
+//        }
+//        //获取当前可用的位置控制器
+//        List<String> list = locationManager.getProviders(true);
+////        String str = locationManager.getBestProvider(getCriteria(),true);
+//        LogUtils.e("list---", "" + list);
+//        if (list.contains(LocationManager.GPS_PROVIDER)) {
+//            //是否为GPS位置控制器
+//            provider = LocationManager.GPS_PROVIDER;
+//        } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
+//            //是否为网络位置控制器
+//            provider = LocationManager.NETWORK_PROVIDER;
+//
+//        } else {
+//            Toast.makeText(this, "请检查网络或GPS是否打开",
+//                    Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        LogUtils.e("provider---", "" + provider);
+//        Location location = locationManager.getLastKnownLocation(provider);
+//        LogUtils.e("location---", "" + location);
+//        if (location != null) {
+//            navigateTo(location);
+//        }
         //绑定定位事件，监听位置是否改变
         //第一个参数为控制器类型
         //第二个参数为监听位置变化的时间间隔（单位：毫秒）
         //第三个参数为位置变化的间隔（单位：米）
         // 第四个参数为位置监听器
-        locationManager.requestLocationUpdates(provider, 5000, 1,
-                locationListener);
+//        locationManager.requestLocationUpdates(provider, 5000, 1,
+//                locationListener);
 
 
     }
@@ -302,13 +400,14 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     }
 
 
-    private void navigateTo(Location location) {
+//    private void navigateTo(Location location) {
+    private void navigateTo(double Latitude,double Longitude) {
         // 按照经纬度确定地图位置
         if (ifFrist) {
-            LogUtils.e("getLatitude---", "" + location.getLatitude());
-            LogUtils.e("getLongitude---", "" + location.getLongitude());
-            LatLng ll = new LatLng(location.getLatitude(),
-                    location.getLongitude());
+//            LogUtils.e("getLatitude---", "" + location.getLatitude());
+//            LogUtils.e("getLongitude---", "" + location.getLongitude());
+            LatLng ll = new LatLng(Latitude,
+                    Longitude);
             MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
             // 移动到某经纬度
             mBaiduMap.animateMapStatus(update);
@@ -320,8 +419,11 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
         }
         // 显示个人位置图标
         MyLocationData.Builder builder = new MyLocationData.Builder();
-        builder.latitude(location.getLatitude());
-        builder.longitude(location.getLongitude());
+//        builder.latitude(location.getLatitude());
+//        builder.longitude(location.getLongitude());
+        builder.latitude(Latitude);
+        builder.longitude(Longitude);
+
         MyLocationData data = builder.build();
         mBaiduMap.setMyLocationData(data);
     }
@@ -365,7 +467,7 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
             mLongitude = String.valueOf(location.getLongitude());
             mLatitude = String.valueOf(location.getLatitude());
             // 位置改变则重新定位并显示地图
-            navigateTo(location);
+            navigateTo(location.getLatitude(),location.getLongitude());
         }
     };
 
