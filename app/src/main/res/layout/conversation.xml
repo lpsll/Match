@@ -4,35 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/navi"
-     >
 
-        <TextView
-            android:id="@+id/CommodityActivity_back"
-            android:layout_marginLeft="@dimen/ds_30"
-            android:background="@drawable/backleft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            />
-
-        <TextView
-            android:id="@+id/OtherActivity_Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="聊天群"
-            android:textColor="@color/color_00"
-            android:textSize="@dimen/fs_50" />
-
-    </RelativeLayout>
     <!-- 会话页面 Fragment -->
 
     <fragment
-        android:id="@+id/img_home_kefu_oter"
+        android:id="@+id/fragment_conversation"
         android:name="io.rong.imkit.fragment.ConversationFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

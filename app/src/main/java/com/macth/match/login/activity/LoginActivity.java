@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
+import com.macth.match.common.base.BaseApplication;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
@@ -25,6 +26,8 @@ import com.macth.match.register.activity.RegisterActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class LoginActivity extends BaseTitleActivity {
 
@@ -183,11 +186,58 @@ public class LoginActivity extends BaseTitleActivity {
                     AppContext.set("rytoken",result.getData().getRytoken());
                     AppContext.set("userimager",result.getData().getUserimage());
                     AppContext.set("IS_LOGIN",true);
+                    service();
 
                     finish();
 
                 }
             }
         });
+    }
+
+    private void service() {
+        if (this.getApplicationInfo().packageName
+                .equals(BaseApplication.getCurProcessName(this.getApplicationContext()))) {
+                        /*IMKit SDK调用第二步, 建立与服务器的连接*/
+            LogUtils.e("rytoken",""+AppContext.get("rytoken", ""));
+            RongIM.connect(AppContext.get("rytoken",""), new RongIMClient.ConnectCallback() {
+                /*  *
+                  *
+                  Token 错误
+                  ，
+                  在线上环境下主要是因为 Token
+                  已经过期，
+                  您需要向 App
+                  Server 重新请求一个新的
+                  Token*/
+                @Override
+                public void onTokenIncorrect() {
+                    LogUtils.e("", "--onTokenIncorrect");
+                }
+
+                /**
+                 *连接融云成功
+                 *
+                 @param
+                 userid 当前
+                 token*/
+                @Override
+                public void onSuccess(String userid) {
+                    LogUtils.e("--onSuccess", "--onSuccess" + userid);
+                }
+
+                /*  *
+                  *连接融云失败
+                  @param
+                  errorCode 错误码
+                  可到官网 查看错误码对应的注释*/
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LogUtils.e("--onError", "--onError" + errorCode);
+                }
+            });
+        }
+
+
     }
 }

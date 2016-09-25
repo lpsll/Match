@@ -46,6 +46,7 @@ import com.lidong.photopicker.PhotoPickerActivity;
 import com.lidong.photopicker.SelectModel;
 import com.lidong.photopicker.intent.PhotoPickerIntent;
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.http.CallBack;
@@ -109,6 +110,7 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     private ArrayList<File> mPic= new ArrayList<>();
     private File imageFile;//地图文件
     private List<File> imgListFile;
+    public LocationClient mLocationClient = null;
 
     @Override
     protected int getContentResId() {
@@ -194,10 +196,9 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
      * -------------------------------
      */
 
-    private LocationClient locationClient = null;
     private static final int UPDATE_TIME = 5000;
     private static int LOCATION_COUTNS = 0;
-
+    public LocationClient locationClient = null;
     private double Latitude;
     private double Longitude;
 
@@ -266,8 +267,8 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
                 Latitude = location.getLatitude();
                 Longitude = location.getLongitude();
 
-                LogUtils.d("Latitude========="+Latitude);
-                LogUtils.d("Longitude========="+Longitude);
+                LogUtils.e("Latitude========="+Latitude);
+                LogUtils.e("Longitude========="+Longitude);
 
                 StringBuffer sb = new StringBuffer(256);
                 sb.append("Time : ");
@@ -372,8 +373,9 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
         // 第四个参数为位置监听器
 //        locationManager.requestLocationUpdates(provider, 5000, 1,
 //                locationListener);
-
-
+//        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+//        LogUtils.e("mLocationClient----",""+mLocationClient);
+//        requestLocationInfo();//发请定位
     }
 
     /**
@@ -396,6 +398,71 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+    }
+
+    /**
+     * 发起定位
+     */
+    public void requestLocationInfo(){
+        LogUtils.e("requestLocationInfo----","requestLocationInfo");
+
+        setLocationOption();
+
+        if (mLocationClient != null && !mLocationClient.isStarted()){
+            mLocationClient.start();
+        }
+        if (mLocationClient != null && mLocationClient.isStarted()){
+            mLocationClient.requestLocation();
+        }
+    }
+
+    /**
+     * 设置相关参数
+     */
+    private void setLocationOption(){
+        LogUtils.e("setLocationOption----","setLocationOption");
+
+        mLocationClient.registerLocationListener( new MyLocationListener());    //注册监听函数
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true);        //是否打开GPS
+        option.setCoorType("bd09ll");       //设置返回值的坐标类型。
+        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
+        option.setProdName("LocationDemo"); //设置产品线名称。强烈建议您使用自定义的产品线名称，方便我们以后为您提供更高效准确的定位服务。
+
+        mLocationClient.setLocOption(option);
+    }
+
+    class MyLocationListener implements BDLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (location == null) {
+                LogUtils.e("location_failed----","location_failed");
+                return;
+            } else {
+                int locType = location.getLocType();
+                LogUtils.e("locType:",""+locType);
+                LogUtils.e("province:","" + location.getProvince());
+                LogUtils.e("city:" ,""+ location.getCity());
+                LogUtils.e("district:" ,""+ location.getDistrict());
+                LogUtils.e("AddrStr:" ,""+ location.getAddrStr());
+                String city = location.getCity();
+                String province = location.getProvince();
+                String district = location.getDistrict();
+                if (TextUtils.isEmpty(city)) {
+                    LogUtils.e("locType----","定位失败");
+                    mLocationClient.start();
+                } else {
+                    Latitude = location.getLatitude();
+                    Longitude = location.getLongitude();
+                    LogUtils.e("Latitude----",""+Latitude);
+                    LogUtils.e("Longitude----",""+Longitude);
+                    navigateTo(Latitude,Longitude);
+                    mLocationClient.stop();
+                }
+            }
+
+        }
     }
 
 
@@ -826,6 +893,15 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 
         class ViewHolder {
             ImageView image;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mLocationClient != null && mLocationClient.isStarted()) {
+            mLocationClient.stop();
+            mLocationClient = null;
         }
     }
 

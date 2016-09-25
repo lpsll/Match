@@ -1,5 +1,6 @@
 package com.macth.match.mine.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
     BaseSimpleRecyclerAdapter mAdapter;
     private String mProjectID, mDID;
     List<Boolean> mList = new ArrayList<>();
+    List<String> tList = new ArrayList<>();
     boolean isFrist;
 
     @Override
@@ -69,13 +71,23 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
             public void bindData(BaseRecyclerViewHolder holder, MilDetailsEntity milDetailsEntity, final int position) {
                 tv02 = holder.getView(R.id.md_tv_02);
                 list.add(position, milDetailsEntity.getMid());
+
+                LogUtils.e("isFrist--",""+isFrist);
                 if (isFrist) {
+                    tList.add(position,milDetailsEntity.getFinsh());
                     if (position == 0) {
                         mList.add(position, true);
                     } else {
                         mList.add(position, false);
                     }
+                    LogUtils.e("milDetailsEntity.getFinsh()----", "" + milDetailsEntity.getFinsh());
 
+                }
+                LogUtils.e("milDetailsEntity.getFinsh()----", "" + tList.get(position));
+                if (tList.get(position).equals("1")) {
+                    tv02.setText("未完成");
+                } else {
+                    tv02.setText("已完成");
                 }
 
                 if (mList.get(position)) {
@@ -86,12 +98,8 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
                 LogUtils.e("mList----", "" + mList);
 
                 holder.setText(R.id.md_tv_01, milDetailsEntity.getName());
-                LogUtils.e("milDetailsEntity.getFinsh()----", "" + milDetailsEntity.getFinsh());
-                if (milDetailsEntity.getFinsh().equals("1")) {
-                    tv02.setText("未完成");
-                } else if (milDetailsEntity.getFinsh().equals("2")) {
-                    tv02.setText("已完成");
-                }
+
+
                 tv02.setOnClickListener(new View.OnClickListener() {
                     TextView tv = tv02;
                     @Override
@@ -101,11 +109,11 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
                         if (position + 1 < mList.size()) {
                             mList.set(position + 1, true);
                         }
-
                         if (tv02.getText().toString().equals("已完成")) {
                             DialogUtils.showPrompt(getActivity(), "提示", "里程碑更新已完成！", "知道了");
+                            mAdapter.notifyDataSetChanged();
                         } else {
-                            new AlertDialog.Builder(getActivity()).setTitle("温馨提示").setMessage("确定要更新里程碑吗?").setNegativeButton("取消", null).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            DialogUtils.confirm(getActivity(), "确定要更新里程碑吗?", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     UpdataDTO dto = new UpdataDTO();
@@ -118,15 +126,20 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
                                         public void onSuccess(MilDetailsResult result) {
                                             if (AppConfig.SUCCESS.equals(result.getCode())) {
                                                 LogUtils.e("更新里程碑状态成功");
-                                                ToastUtils.showShort(getActivity(),"更新里程碑状态成功laaaaaaaa");
+                                                ToastUtils.showShort(getActivity(), "更新里程碑状态成功laaaaaaaa");
                                                 tv.setText("已完成");
+                                                tList.set(position, "2");
+
                                             }
+                                            mAdapter.notifyDataSetChanged();
                                         }
                                     });
+
                                 }
-                            }).show();
+                            });
+
                         }
-                        mAdapter.notifyDataSetChanged();
+
                     }
                 });
 

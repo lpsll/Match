@@ -5,6 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.macth.match.common.base.BaseApplication;
+import com.macth.match.common.entity.BaseEntity;
+import com.macth.match.group.entity.GroupEntity;
+
+import java.util.Collections;
+import java.util.List;
 
 import cn.sharesdk.framework.ShareSDK;
 
@@ -15,6 +20,16 @@ public class AppContext extends BaseApplication {
     private static AppContext instance;
     private SharedPreferences.Editor editor;
     private SharedPreferences sp;
+    private List<GroupEntity> groupEntityList = Collections.emptyList();
+
+    public List<GroupEntity> getGroupEntityList() {
+        return groupEntityList;
+    }
+
+    public void setGroupEntityList(List<GroupEntity> groupEntityList) {
+        this.groupEntityList = groupEntityList;
+    }
+
     /**
      * 清单文件名称f
      */

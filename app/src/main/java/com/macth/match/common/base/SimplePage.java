@@ -2,6 +2,8 @@ package com.macth.match.common.base;
 
 
 import com.macth.match.R;
+import com.macth.match.group.fragment.GroupFragment;
+import com.macth.match.group.fragment.GroupMembersFragment;
 import com.macth.match.mine.fragment.UpdateMilestoneFragment;
 import com.macth.match.recommend.fragment.AddUseFragment;
 import com.macth.match.recommend.fragment.AttachmentsFragment;
@@ -18,6 +20,8 @@ public enum SimplePage {
           ATTACHMENTS(2, R.string.look, AttachmentsFragment.class),
           UPDATA_MILESTONE(3, R.string.updata, UpdateMilestoneFragment.class),
           ADD_USE(4, R.string.add_use_money, AddUseFragment.class),
+          GROUP(5, R.string.tab_group, GroupFragment.class),
+          GROUP_MEMBERS(6, R.string.group_members, GroupMembersFragment.class),
     ;
 
     private int title;

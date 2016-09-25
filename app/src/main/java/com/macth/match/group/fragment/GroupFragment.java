@@ -31,6 +31,8 @@ import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
 import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.rong.imkit.RongIM;
@@ -83,6 +85,7 @@ public class GroupFragment extends BasePullScrollViewFragment {
                 LogUtils.e("rytoken----",""+AppContext.get("rytoken",""));
                 LogUtils.e("onItemClick----","onItemClick");
                 GroupEntity entity = (GroupEntity) itemBean;
+                AppContext.set("groupname",entity.getGroupname());
                 connect(entity.getGroupid());
             }
         });
@@ -107,6 +110,7 @@ public class GroupFragment extends BasePullScrollViewFragment {
             @Override
             public void onSuccess(GroupResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    AppContext.getInstance().setGroupEntityList(result.getData());
                     LogUtils.e("获取用户群成功");
                     mErrorLayout.setErrorMessage("暂无用户群记录", mErrorLayout.FLAG_NODATA);
                     mErrorLayout.setErrorImag(R.drawable.page_icon_empty, mErrorLayout.FLAG_NODATA);
@@ -196,6 +200,67 @@ public class GroupFragment extends BasePullScrollViewFragment {
             });
         }
     }
+
+    private void service() {
+        if (getActivity().getApplicationInfo().packageName
+                .equals(BaseApplication.getCurProcessName(getActivity().getApplicationContext()))) {
+                        /*IMKit SDK调用第二步, 建立与服务器的连接*/
+            LogUtils.e("mRongyunToken",""+AppContext.get("mRongyunToken", ""));
+            RongIM.connect(AppContext.get("mRongyunToken", ""), new RongIMClient.ConnectCallback() {
+                /*  *
+                  *
+                  Token 错误
+                  ，
+                  在线上环境下主要是因为 Token
+                  已经过期，
+                  您需要向 App
+                  Server 重新请求一个新的
+                  Token*/
+                @Override
+                public void onTokenIncorrect() {
+                    LogUtils.e("", "--onTokenIncorrect");
+                }
+
+                /**
+                 *连接融云成功
+                 *
+                 @param
+                 userid 当前
+                 token*/
+                @Override
+                public void onSuccess(String userid) {
+                    LogUtils.e("--onSuccess", "--onSuccess" + userid);
+                    /**
+                     *启动聊天界面。
+                     *
+                     *@param context 应用上下文。
+                     *@param conversationType 开启会话类型。
+                     *@param targetId  Id。
+                     *@param title 标题。*/
+                    //                    RongIM.getInstance().startConversation(ProductBrowserActivity.this,
+//                            io.rong.imlib.model.Conversation.ConversationType.APP_PUBLIC_SERVICE,
+//                            "KEFU146286268172386", "客服");//开发环境
+
+                    RongIM.getInstance().startConversation(getActivity(),
+                            io.rong.imlib.model.Conversation.ConversationType.APP_PUBLIC_SERVICE,
+                            "m7ua80gbuukrm", "会话");//生产环境
+                }
+
+                /*  *
+                  *连接融云失败
+                  @param
+                  errorCode 错误码
+                  可到官网 查看错误码对应的注释*/
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LogUtils.e("--onError", "--onError" + errorCode);
+                }
+            });
+        }
+
+
+    }
+
 
 
 }

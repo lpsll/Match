@@ -1,6 +1,7 @@
 package com.macth.match;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,11 +10,21 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
+import com.macth.match.common.base.BaseApplication;
 import com.macth.match.common.base.BaseFragment;
 import com.macth.match.common.base.BaseTitleActivity;
+import com.macth.match.common.base.SimplePage;
+import com.macth.match.common.dto.BaseDTO;
+import com.macth.match.common.http.CallBack;
+import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.TextViewUtils;
+import com.macth.match.common.utils.UIHelper;
+import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.find.fragment.FindFragment;
+import com.macth.match.group.entity.GroupEntity;
+import com.macth.match.group.entity.GroupResult;
+import com.macth.match.group.fragment.ConversationFragment;
 import com.macth.match.group.fragment.GroupFragment;
 import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.fragment.MineFragment;
@@ -25,6 +36,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import io.rong.imkit.RongContext;
+import io.rong.imkit.RongIM;
+import io.rong.imkit.model.GroupUserInfo;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Group;
+import io.rong.imlib.model.UserInfo;
 
 public class MainActivity extends BaseTitleActivity {
     @Bind(R.id.tv_tab_recommend)
@@ -73,6 +90,36 @@ public class MainActivity extends BaseTitleActivity {
 
     @Override
     public void initView() {
+        reqGroup();
+        //组信息
+        RongIM.setGroupInfoProvider(new RongIM.GroupInfoProvider() {
+            @Override
+            public Group getGroupInfo(String s) {
+                List<GroupEntity> groupEntityList = AppContext.getInstance().getGroupEntityList();
+                for(GroupEntity entity : groupEntityList){
+                    if(entity.getGroupid().equals(s)){
+                        return new Group(s,entity.getGroupname(),Uri.parse(entity.getGroupimg()));
+                    }
+                }
+                return null;
+            }
+        },true);
+//        //组成员信息
+//
+//        RongIM.setGroupUserInfoProvider(new RongIM.GroupUserInfoProvider() {
+//            @Override
+//            public GroupUserInfo getGroupUserInfo(String s, String s1) {
+//                return null;
+//            }
+//        },true);
+//        //个人信息
+//        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+//            @Override
+//            public UserInfo getUserInfo(String s) {
+//                return null;
+//            }
+//        },true);
+        service();
         fg1 = 0;
         fg2 = 0;
         fg3 = 0;
@@ -106,6 +153,8 @@ public class MainActivity extends BaseTitleActivity {
         showTab(0); // 显示目标tab
     }
 
+
+
     /**
      * @param fragment 除了fragment，其他的都hide
      */
@@ -136,7 +185,7 @@ public class MainActivity extends BaseTitleActivity {
                 fragment = new NoticeFragment();
                 break;
             case 3:
-                fragment = new GroupFragment();
+                fragment = new ConversationFragment();
                 break;
             case 4:
                 fragment = new MineFragment();
@@ -233,7 +282,6 @@ public class MainActivity extends BaseTitleActivity {
             case 1:
                 setTitleText("发现");
                 mBaseEnsure.setVisibility(View.GONE);
-//                mBaseEnsure.setText("筛选");
                 if(fg1==0){
                     fg1=1;
                 }else {
@@ -250,8 +298,9 @@ public class MainActivity extends BaseTitleActivity {
                 }
                 break;
             case 3:
-                setTitleText("群组");
-                mBaseEnsure.setVisibility(View.GONE);
+                setTitleText("会话");
+                mBaseEnsure.setVisibility(View.VISIBLE);
+                mBaseEnsure.setText("群组");
                 if(fg3==0){
                     fg3=1;
                 }else {
@@ -281,16 +330,22 @@ public class MainActivity extends BaseTitleActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.base_titlebar_ensure:
-                if(AppContext.get("useridentity","").equals("内部用户")){
-                    flag ="1";
-                }else {
-                    flag ="2";
+                if(mBaseEnsure.getText().toString().equals("新增项目")){
+                    if(AppContext.get("useridentity","").equals("内部用户")){
+                        flag ="1";
+                    }else {
+                        flag ="2";
+                    }
+                    Bundle b = new Bundle();
+                    b.putString("url", AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag);
+                    LogUtils.e("url---",""+AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag);
+                    RecommendUiGoto.gotoAdded(this, b);
+
                 }
-                Bundle b = new Bundle();
-                b.putString("url", AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag);
-                LogUtils.e("url---",""+AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag);
-                RecommendUiGoto.gotoAdded(this, b);
-//                RecommendUiGoto.gotoAddItem(this);
+                else if(mBaseEnsure.getText().toString().equals("群组")){
+                    UIHelper.showFragment(MainActivity.this, SimplePage.GROUP);//群组
+                }
+
             default:
                 break;
         }
@@ -306,5 +361,64 @@ public class MainActivity extends BaseTitleActivity {
                 meFragment.initView(null);
             }
         }
+    }
+
+    private void service() {
+        if (this.getApplicationInfo().packageName
+                .equals(BaseApplication.getCurProcessName(this.getApplicationContext()))) {
+                        /*IMKit SDK调用第二步, 建立与服务器的连接*/
+            LogUtils.e("rytoken",""+AppContext.get("rytoken", ""));
+            RongIM.connect(AppContext.get("rytoken",""), new RongIMClient.ConnectCallback() {
+                /*  *
+                  *
+                  Token 错误
+                  ，
+                  在线上环境下主要是因为 Token
+                  已经过期，
+                  您需要向 App
+                  Server 重新请求一个新的
+                  Token*/
+                @Override
+                public void onTokenIncorrect() {
+                    LogUtils.e("", "--onTokenIncorrect");
+                }
+
+                /**
+                 *连接融云成功
+                 *
+                 @param
+                 userid 当前
+                 token*/
+                @Override
+                public void onSuccess(String userid) {
+                    LogUtils.e("--onSuccess", "--onSuccess" + userid);
+                    LogUtils.e("AppContext.get(\"username\",\"\")----",""+AppContext.get("username",""));
+                    RongIM.getInstance().setCurrentUserInfo(new UserInfo(userid,AppContext.get("username",""), Uri.parse(AppContext.get("userimager",""))));
+                    RongIM.getInstance().setMessageAttachedUserInfo(true);
+                }
+
+                /*  *
+                  *连接融云失败
+                  @param
+                  errorCode 错误码
+                  可到官网 查看错误码对应的注释*/
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LogUtils.e("--onError", "--onError" + errorCode);
+                }
+            });
+        }}
+
+    private void reqGroup() {
+        BaseDTO dto = new BaseDTO();
+        dto.setUserid(AppContext.get("usertoken", ""));
+        CommonApiClient.group(this, dto, new CallBack<GroupResult>() {
+            @Override
+            public void onSuccess(GroupResult result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    AppContext.getInstance().setGroupEntityList(result.getData());
+                }
+            }
+        });
     }
 }
