@@ -609,8 +609,12 @@ public class AddInfoActivity extends BaseTitleActivity {
             public void onSuccess(MdInformationResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("完善用户信息成功");
-                    finish();
-
+                    new AlertDialog.Builder(AddInfoActivity.this).setTitle("温馨提示").setMessage("注册信息正在审核！将在3个工作日内审核通过。联系方式：400-000-0000").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).show();
                 }
             }
         });

@@ -10,20 +10,13 @@ import android.widget.TextView;
 import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
-import com.macth.match.common.base.SimplePage;
-import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
-import com.macth.match.common.utils.UIHelper;
-import com.macth.match.common.widget.EmptyLayout;
-import com.macth.match.mine.MineUIGoto;
-import com.macth.match.mine.activity.MyProjectsActivity;
 import com.macth.match.mine.dto.CloseDTO;
 import com.macth.match.mine.entity.MineProjectsEntity;
-import com.macth.match.mine.entity.MineProjectsResult;
 import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.entity.MilDetailsResult;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
@@ -120,8 +113,8 @@ public class MineProjectsAdapter extends BaseSimpleRecyclerAdapter<MineProjectsE
             public void onClick(View v) {
 
                 Bundle bundle = new Bundle();
-                bundle.putString("url", AppConfig.MILEPOST_H5_URL+ list.get(position).getPid()+"&userid="+AppContext.get("usertoken",""));
-                LogUtils.e("url---",""+AppConfig.MILEPOST_H5_URL+ list.get(position).getPid()+"&userid="+AppContext.get("usertoken",""));
+                bundle.putString("url", AppConfig.MYMILEPOST_H5_URL+ list.get(position).getPid()+"&userid="+AppContext.get("usertoken",""));
+                LogUtils.e("url---",""+AppConfig.MYMILEPOST_H5_URL+ list.get(position).getPid()+"&userid="+AppContext.get("usertoken",""));
                 RecommendUiGoto.gotoMyMilePost(context, bundle);
 
 
