@@ -5,18 +5,15 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.macth.match.AppConfig;
-import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BasePullScrollViewFragment;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
-import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.common.widget.FullyLinearLayoutManager;
 import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.dto.AddUseDTO;
@@ -24,8 +21,6 @@ import com.macth.match.recommend.dto.DeleteListDTO;
 import com.macth.match.recommend.entity.AddUseEntity;
 import com.macth.match.recommend.entity.AddUseEvent;
 import com.macth.match.recommend.entity.AddUseResult;
-import com.macth.match.recommend.entity.RecommendEntity;
-import com.macth.match.recommend.entity.RecommendResult;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
 import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
 
@@ -45,6 +40,7 @@ public class AddUseFragment extends BasePullScrollViewFragment {
     BaseSimpleRecyclerAdapter mAdapter;
     private String mId,flag;
     List<String> list = new ArrayList<>();
+
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_adduse;
@@ -67,7 +63,8 @@ public class AddUseFragment extends BasePullScrollViewFragment {
             @Override
             public void bindData(BaseRecyclerViewHolder holder, AddUseEntity adddUseEntity, final int position) {
                 list.add(position,adddUseEntity.getFundsid());
-                holder.setText(R.id.item_tv,"添加资金用途 "+adddUseEntity.getFundsid());
+                holder.setText(R.id.item_tv,"添加资金用途 "+(position+1));
+
                 TextView tv  = holder.getView(R.id.tv_xc);
                 tv1  = holder.getView(R.id.tv_xg);
                 if(flag.equals("1")){
