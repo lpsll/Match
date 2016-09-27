@@ -46,7 +46,6 @@ import com.lidong.photopicker.PhotoPickerActivity;
 import com.lidong.photopicker.SelectModel;
 import com.lidong.photopicker.intent.PhotoPickerIntent;
 import com.macth.match.AppConfig;
-import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.http.CallBack;
@@ -107,7 +106,7 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     private static final int REQUEST_CAMERA_CODE = 10;
     ImgEntity entity;
     private ListAdapter listAdapter;
-    private ArrayList<File> mPic= new ArrayList<>();
+    private ArrayList<File> mPic = new ArrayList<>();
     private File imageFile;//地图文件
     private List<File> imgListFile;
     public LocationClient mLocationClient = null;
@@ -203,13 +202,9 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     private double Longitude;
 
 
-
-
     /**
      * -------------------------------
      */
-
-
 
 
     @Override
@@ -231,9 +226,9 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 //        mBmapView = (MapView) header.findViewById(R.id.bmapView);
 
 
-         /**
+        /**
          * ----------------------------------------------
-        */
+         */
 
 
         locationClient = new LocationClient(this);
@@ -247,7 +242,7 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
         locationClient.setLocOption(option);
 
         locationClient.start();
-			/*
+            /*
 			 * 当所设的整数值大于等于1000（ms）时，定位SDK内部使用定时定位模式。调用requestLocation(
 			 * )后，每隔设定的时间，定位SDK就会进行一次定位。如果定位SDK根据定位依据发现位置没有发生变化，就不会发起网络请求，
 			 * 返回上一次定位的结果；如果发现位置改变，就进行网络请求进行定位，得到新的定位结果。
@@ -267,8 +262,8 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
                 Latitude = location.getLatitude();
                 Longitude = location.getLongitude();
 
-                LogUtils.e("Latitude========="+Latitude);
-                LogUtils.e("Longitude========="+Longitude);
+                LogUtils.e("Latitude=========" + Latitude);
+                LogUtils.e("Longitude=========" + Longitude);
 
                 StringBuffer sb = new StringBuffer(256);
                 sb.append("Time : ");
@@ -294,22 +289,22 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
                 sb.append("\n检查位置更新次数：");
                 sb.append(String.valueOf(LOCATION_COUTNS));
 
-
-                navigateTo(Latitude,Longitude);
+//                if (Latitude == 0) {
+//                    locationClient.start();
+//                    locationClient.requestLocation();
+//                    navigateTo(Latitude, Longitude);
+//
+//                }
+                navigateTo(Latitude, Longitude);
 
             }
 
         });
 
 
-
         /**
          * -------------------------------------------------------------
          */
-
-
-
-
 
 
 //
@@ -380,10 +375,11 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 
     /**
      * 动态设置ListView的高度
+     *
      * @param listView
      */
     public static void setListViewHeightBasedOnChildren(ListView listView) {
-        if(listView == null) return;
+        if (listView == null) return;
         ListAdapter listAdapter = (ListAdapter) listView.getAdapter();
         if (listAdapter == null) {
             // pre-condition
@@ -403,15 +399,15 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     /**
      * 发起定位
      */
-    public void requestLocationInfo(){
-        LogUtils.e("requestLocationInfo----","requestLocationInfo");
+    public void requestLocationInfo() {
+        LogUtils.e("requestLocationInfo----", "requestLocationInfo");
 
         setLocationOption();
 
-        if (mLocationClient != null && !mLocationClient.isStarted()){
+        if (mLocationClient != null && !mLocationClient.isStarted()) {
             mLocationClient.start();
         }
-        if (mLocationClient != null && mLocationClient.isStarted()){
+        if (mLocationClient != null && mLocationClient.isStarted()) {
             mLocationClient.requestLocation();
         }
     }
@@ -419,10 +415,10 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     /**
      * 设置相关参数
      */
-    private void setLocationOption(){
-        LogUtils.e("setLocationOption----","setLocationOption");
+    private void setLocationOption() {
+        LogUtils.e("setLocationOption----", "setLocationOption");
 
-        mLocationClient.registerLocationListener( new MyLocationListener());    //注册监听函数
+        mLocationClient.registerLocationListener(new MyLocationListener());    //注册监听函数
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);        //是否打开GPS
         option.setCoorType("bd09ll");       //设置返回值的坐标类型。
@@ -437,27 +433,27 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
         @Override
         public void onReceiveLocation(BDLocation location) {
             if (location == null) {
-                LogUtils.e("location_failed----","location_failed");
+                LogUtils.e("location_failed----", "location_failed");
                 return;
             } else {
                 int locType = location.getLocType();
-                LogUtils.e("locType:",""+locType);
-                LogUtils.e("province:","" + location.getProvince());
-                LogUtils.e("city:" ,""+ location.getCity());
-                LogUtils.e("district:" ,""+ location.getDistrict());
-                LogUtils.e("AddrStr:" ,""+ location.getAddrStr());
+                LogUtils.e("locType:", "" + locType);
+                LogUtils.e("province:", "" + location.getProvince());
+                LogUtils.e("city:", "" + location.getCity());
+                LogUtils.e("district:", "" + location.getDistrict());
+                LogUtils.e("AddrStr:", "" + location.getAddrStr());
                 String city = location.getCity();
                 String province = location.getProvince();
                 String district = location.getDistrict();
                 if (TextUtils.isEmpty(city)) {
-                    LogUtils.e("locType----","定位失败");
+                    LogUtils.e("locType----", "定位失败");
                     mLocationClient.start();
                 } else {
                     Latitude = location.getLatitude();
                     Longitude = location.getLongitude();
-                    LogUtils.e("Latitude----",""+Latitude);
-                    LogUtils.e("Longitude----",""+Longitude);
-                    navigateTo(Latitude,Longitude);
+                    LogUtils.e("Latitude----", "" + Latitude);
+                    LogUtils.e("Longitude----", "" + Longitude);
+                    navigateTo(Latitude, Longitude);
                     mLocationClient.stop();
                 }
             }
@@ -466,8 +462,8 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     }
 
 
-//    private void navigateTo(Location location) {
-    private void navigateTo(double Latitude,double Longitude) {
+    //    private void navigateTo(Location location) {
+    private void navigateTo(double Latitude, double Longitude) {
         // 按照经纬度确定地图位置
         if (ifFrist) {
 //            LogUtils.e("getLatitude---", "" + location.getLatitude());
@@ -533,7 +529,7 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
             mLongitude = String.valueOf(location.getLongitude());
             mLatitude = String.valueOf(location.getLatitude());
             // 位置改变则重新定位并显示地图
-            navigateTo(location.getLatitude(),location.getLongitude());
+            navigateTo(location.getLatitude(), location.getLongitude());
         }
     };
 
@@ -668,9 +664,8 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
             dto.setLbs(mLongitude + "," + mLatitude);
 
         }
-        String id ="pimg";
-        File[] files =  (File[])mPic.toArray(new File[mPic.size()]);
-        CommonApiClient.upload(this, dto, imageFile,files,id,new CallBack<RecommendResult>() {
+        String id = "pimg";
+        CommonApiClient.upload(this, dto, imageFile, mPic, id, new CallBack<RecommendResult>() {
             @Override
             public void onSuccess(RecommendResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {

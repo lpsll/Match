@@ -1,7 +1,5 @@
 package com.macth.match.mine.fragment;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -126,7 +124,7 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
                                         public void onSuccess(MilDetailsResult result) {
                                             if (AppConfig.SUCCESS.equals(result.getCode())) {
                                                 LogUtils.e("更新里程碑状态成功");
-                                                ToastUtils.showShort(getActivity(), "更新里程碑状态成功laaaaaaaa");
+                                                ToastUtils.showShort(getActivity(), "更新里程碑状态成功");
                                                 tv.setText("已完成");
                                                 tList.set(position, "2");
 

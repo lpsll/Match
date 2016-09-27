@@ -1,12 +1,14 @@
 package com.macth.match.find;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseListActivity;
 import com.macth.match.common.http.CallBack;
@@ -18,6 +20,7 @@ import com.macth.match.find.adapter.SearchAdapter;
 import com.macth.match.find.dto.SearchDTO;
 import com.macth.match.find.entity.FindEntity;
 import com.macth.match.find.entity.FindResult;
+import com.macth.match.recommend.RecommendUiGoto;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
 
 import java.io.Serializable;
@@ -131,5 +134,27 @@ public class SearchActivity extends BaseListActivity<FindEntity> {
                 }
             }
         });
+    }
+
+    private String flag;
+    @Override
+    public void onItemClick(View itemView, Object itemBean, int position) {
+        super.onItemClick(itemView, itemBean, position);
+//        FindEntity entity = (FindEntity) itemBean;
+//        Bundle b = new Bundle();
+//        b.putString("pid", entity.getPid());
+//        RecommendUiGoto.gotoProject(getActivity(), b);
+
+        FindEntity entity = (FindEntity) itemBean;
+        Bundle b = new Bundle();
+        if(AppContext.get("useridentity","").equals("内部用户")){
+            flag ="1";
+        }else {
+            flag ="2";
+        }
+        b.putString("title","项目详情");
+        b.putString("url", AppConfig.DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
+        LogUtils.e("url---",""+AppConfig.DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
+        RecommendUiGoto.gotoPdb(this, b);
     }
 }

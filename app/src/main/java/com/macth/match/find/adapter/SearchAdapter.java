@@ -40,8 +40,15 @@ public class SearchAdapter extends BaseSimpleRecyclerAdapter<FindEntity> {
          */
 
         holder.setText(R.id.tv_find_company_name,findEntity.getCompanyname());
-        holder.setText(R.id.tv_find_price,findEntity.getPrice());
-        holder.setText(R.id.tv_find_project_termunit,findEntity.getProject_termunit());
+        holder.setText(R.id.tv_find_price,findEntity.getPrice()+ "万元");
+//        holder.setText(R.id.tv_find_project_termunit,findEntity.getProject_termunit());
+
+        if("1".equals(findEntity.getProject_termunit())) {
+            holder.setText(R.id.tv_find_project_termunit, findEntity.getProject_termvalue() + "年 " );
+        }else if("2".equals(findEntity.getProject_termunit())) {
+            holder.setText(R.id.tv_find_project_termunit, findEntity.getProject_termvalue() + "个月 ");
+        }
+
         holder.setText(R.id.tv_find_ctime,findEntity.getCtime());
 
         int project_status = findEntity.getProject_status();

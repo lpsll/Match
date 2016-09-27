@@ -41,7 +41,7 @@ public class RecommendAdapter extends BaseSimpleRecyclerAdapter<RecommendEntity>
         if("1".equals(recommendEntity.getProject_termunit())) {
             holder.setText(R.id.rc_tv_term, recommendEntity.getProject_termvalue() + "年 " + recommendEntity.getProject_type());
         }else if("2".equals(recommendEntity.getProject_termunit())) {
-            holder.setText(R.id.rc_tv_term, recommendEntity.getProject_termvalue() + "月 " + recommendEntity.getProject_type());
+            holder.setText(R.id.rc_tv_term, recommendEntity.getProject_termvalue() + "个月 " + recommendEntity.getProject_type());
         }
         
         holder.setText(R.id.rc_tv_data, recommendEntity.getCtime());
