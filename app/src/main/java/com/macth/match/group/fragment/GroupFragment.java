@@ -40,10 +40,9 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
 /**
- * 群组
+ * 群组列表
  */
 public class GroupFragment extends BasePullScrollViewFragment {
-    boolean login;
     @Bind(R.id.group_list)
     RecyclerView groupList;
     BaseSimpleRecyclerAdapter mAdapter;
@@ -56,7 +55,6 @@ public class GroupFragment extends BasePullScrollViewFragment {
     @Override
     public void initView(View view) {
         super.initView(view);
-        login = AppContext.get("IS_LOGIN", false);
         LogUtils.e("rytoken----",""+AppContext.get("rytoken",""));
         groupList.setLayoutManager(new FullyLinearLayoutManager(getActivity()));
         mAdapter=new BaseSimpleRecyclerAdapter<GroupEntity>() {
@@ -76,17 +74,16 @@ public class GroupFragment extends BasePullScrollViewFragment {
                 }
             }
 
-
         };
         groupList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View itemView, Object itemBean, int position) {
                 LogUtils.e("rytoken----",""+AppContext.get("rytoken",""));
-                LogUtils.e("onItemClick----","onItemClick");
                 GroupEntity entity = (GroupEntity) itemBean;
                 AppContext.set("groupname",entity.getGroupname());
-                connect(entity.getGroupid());
+                RongIM.getInstance().startGroupChat(getActivity(),
+                        entity.getGroupid(), "群组聊天");
             }
         });
 
@@ -94,13 +91,7 @@ public class GroupFragment extends BasePullScrollViewFragment {
 
     @Override
     protected void sendRequestData() {
-        if(login){
             reqGroup();
-        }
-        else {
-            DialogUtils.confirm(getActivity(), "您尚未登录，是否去登录？", listener);
-        }
-
     }
 
     private void reqGroup() {
@@ -132,135 +123,10 @@ public class GroupFragment extends BasePullScrollViewFragment {
     }
 
 
-    DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            GroupUiGoto.gotoLogin(getActivity());
-        }
-    };
-
     @Override
     public boolean pulltoRefresh() {
         return true;
     }
-
-
-
-    /**
-     * 建立与融云服务器的连接
-     *
-     * @param id
-     */
-    private void connect(final String id) {
-
-
-        if (getActivity().getApplicationInfo().packageName.equals(BaseApplication.getCurProcessName(getActivity().getApplicationContext()))) {
-
-            /**
-             * IMKit SDK调用第二步,建立与服务器的连接
-             */
-            RongIM.connect(AppContext.get("rytoken",""), new RongIMClient.ConnectCallback() {
-
-                /**
-                 * Token 错误，在线上环境下主要是因为 Token 已经过期，您需要向 App Server 重新请求一个新的 Token
-                 */
-                @Override
-                public void onTokenIncorrect() {
-                    LogUtils.e("onTokenIncorrect", "------onTokenIncorrect");
-                }
-
-                /**
-                 * 连接融云成功
-                 * @param userid 当前 token
-                 */
-                @Override
-                public void onSuccess(String userid) {
-                    LogUtils.e("--onSuccess\"", "" + userid);
-                    /**
-                     *启动群组聊天界面。
-                     *@param context 应用上下文。
-                     *@param targetId Id。
-                     *@param title 标题。
-                     * */
-
-                    RongIM.getInstance().startGroupChat(getActivity(),
-                            id, "群组聊天");//生产环境
-
-
-                }
-
-                /**
-                 * 连接融云失败
-                 * @param errorCode 错误码，可到官网 查看错误码对应的注释
-                 */
-                @Override
-                public void onError(RongIMClient.ErrorCode errorCode) {
-                    LogUtils.e("--onError", "" + errorCode);
-                }
-            });
-        }
-    }
-
-    private void service() {
-        if (getActivity().getApplicationInfo().packageName
-                .equals(BaseApplication.getCurProcessName(getActivity().getApplicationContext()))) {
-                        /*IMKit SDK调用第二步, 建立与服务器的连接*/
-            LogUtils.e("mRongyunToken",""+AppContext.get("mRongyunToken", ""));
-            RongIM.connect(AppContext.get("mRongyunToken", ""), new RongIMClient.ConnectCallback() {
-                /*  *
-                  *
-                  Token 错误
-                  ，
-                  在线上环境下主要是因为 Token
-                  已经过期，
-                  您需要向 App
-                  Server 重新请求一个新的
-                  Token*/
-                @Override
-                public void onTokenIncorrect() {
-                    LogUtils.e("", "--onTokenIncorrect");
-                }
-
-                /**
-                 *连接融云成功
-                 *
-                 @param
-                 userid 当前
-                 token*/
-                @Override
-                public void onSuccess(String userid) {
-                    LogUtils.e("--onSuccess", "--onSuccess" + userid);
-                    /**
-                     *启动聊天界面。
-                     *
-                     *@param context 应用上下文。
-                     *@param conversationType 开启会话类型。
-                     *@param targetId  Id。
-                     *@param title 标题。*/
-                    //                    RongIM.getInstance().startConversation(ProductBrowserActivity.this,
-//                            io.rong.imlib.model.Conversation.ConversationType.APP_PUBLIC_SERVICE,
-//                            "KEFU146286268172386", "客服");//开发环境
-
-                    RongIM.getInstance().startConversation(getActivity(),
-                            io.rong.imlib.model.Conversation.ConversationType.APP_PUBLIC_SERVICE,
-                            "m7ua80gbuukrm", "会话");//生产环境
-                }
-
-                /*  *
-                  *连接融云失败
-                  @param
-                  errorCode 错误码
-                  可到官网 查看错误码对应的注释*/
-                @Override
-                public void onError(RongIMClient.ErrorCode errorCode) {
-                    LogUtils.e("--onError", "--onError" + errorCode);
-                }
-            });
-        }
-
-
-    }
-
 
 
 }

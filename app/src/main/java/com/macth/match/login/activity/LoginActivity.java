@@ -2,6 +2,7 @@ package com.macth.match.login.activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
@@ -14,20 +15,27 @@ import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseApplication;
 import com.macth.match.common.base.BaseTitleActivity;
+import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.ToastUtils;
+import com.macth.match.group.entity.GroupEntity;
+import com.macth.match.group.entity.GroupResult;
 import com.macth.match.login.dto.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
 import com.macth.match.register.activity.ForgetPwdActivity;
 import com.macth.match.register.activity.RegisterActivity;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Group;
+import io.rong.imlib.model.UserInfo;
 
 public class LoginActivity extends BaseTitleActivity {
 
@@ -186,10 +194,56 @@ public class LoginActivity extends BaseTitleActivity {
                     AppContext.set("rytoken",result.getData().getRytoken());
                     AppContext.set("userimager",result.getData().getUserimage());
                     AppContext.set("IS_LOGIN",true);
-                    service();
-
+                    Initialization();//初始化聊天界面信息
+                    setResult(1001);
                     finish();
 
+                }
+            }
+        });
+    }
+
+    private void Initialization() {
+        reqGroup();
+        //组信息
+        RongIM.setGroupInfoProvider(new RongIM.GroupInfoProvider() {
+            @Override
+            public Group getGroupInfo(String s) {
+                List<GroupEntity> groupEntityList = AppContext.getInstance().getGroupEntityList();
+                for(GroupEntity entity : groupEntityList){
+                    if(entity.getGroupid().equals(s)){
+                        return new Group(s,entity.getGroupname(), Uri.parse(entity.getGroupimg()));
+                    }
+                }
+                return null;
+            }
+        },true);
+//        //组成员信息
+//
+//        RongIM.setGroupUserInfoProvider(new RongIM.GroupUserInfoProvider() {
+//            @Override
+//            public GroupUserInfo getGroupUserInfo(String s, String s1) {
+//                return null;
+//            }
+//        },true);
+//        //个人信息
+//        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+//            @Override
+//            public UserInfo getUserInfo(String s) {
+//                return null;
+//            }
+//        },true);
+        service();
+    }
+
+    private void reqGroup() {
+        BaseDTO dto = new BaseDTO();
+        dto.setUserid(AppContext.get("usertoken", ""));
+        CommonApiClient.group(this, dto, new CallBack<GroupResult>() {
+            @Override
+            public void onSuccess(GroupResult result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    AppContext.getInstance().setGroupEntityList(result.getData());
                 }
             }
         });
@@ -224,6 +278,10 @@ public class LoginActivity extends BaseTitleActivity {
                 @Override
                 public void onSuccess(String userid) {
                     LogUtils.e("--onSuccess", "--onSuccess" + userid);
+                    LogUtils.e("--onSuccess", "--onSuccess" + userid);
+                    LogUtils.e("AppContext.get(\"username\",\"\")----",""+AppContext.get("username",""));
+                    RongIM.getInstance().setCurrentUserInfo(new UserInfo(userid,AppContext.get("username",""), Uri.parse(AppContext.get("userimager",""))));
+                    RongIM.getInstance().setMessageAttachedUserInfo(true);
                 }
 
                 /*  *

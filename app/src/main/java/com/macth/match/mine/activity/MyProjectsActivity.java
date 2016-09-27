@@ -98,7 +98,7 @@ public class MyProjectsActivity extends BaseListActivity<MineProjectsEntity> {
         }else {
             flag ="2";
         }
-        b.putString("title","修改项目");
+        b.putString("title","项目详情");
         b.putString("url", AppConfig.DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
         LogUtils.e("url---",""+AppConfig.DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
         RecommendUiGoto.gotoPdb(this, b);

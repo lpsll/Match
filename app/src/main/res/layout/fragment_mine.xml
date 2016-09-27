@@ -23,7 +23,7 @@
                 android:layout_width="@dimen/ds_230"
                 android:layout_height="@dimen/ds_230"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/touxiang_zhuce" />
+                 />
 
             <TextView
                 android:layout_marginTop="@dimen/ds_30"

@@ -61,29 +61,17 @@ public class MineFragment extends BaseFragment {
     public void initView(View view) {
         //获取用户登录状态
         isLogin = AppContext.get("IS_LOGIN", false);
-        LogUtils.e("登录状态====" + AppContext.get("IS_LOGIN", false));
-
-        addUsernameAndPhone();
-
-    }
-
-    @Override
-    public void initData() {
-
-    }
-
-    /**
-     * 显示登录用户的用户名和手机号
-     */
-    private void addUsernameAndPhone() {
+        LogUtils.e("isLogin====","" + AppContext.get("IS_LOGIN", false));
+        LogUtils.e("userimager====" ,""+ AppContext.get("userimager", ""));
         if (isLogin) {
-            imgLoginTouxiang.setBackgroundResource(R.drawable.touxiangxdpi_03);
+            LogUtils.e("if====" ,"if");
             String userName = AppContext.get("username", "");
             tvUsername.setText(userName);
             String mobile = AppContext.get("usermobile", "");
             tvUserphone.setText(mobile);
+            LogUtils.e("userimager---", AppContext.get("userimager", ""));
             if (TextUtils.isEmpty(AppContext.get("userimager", ""))) {
-                LogUtils.e("userimager---", "" + AppContext.get("userimager", ""));
+
                 imgLoginTouxiang.setBackgroundResource(R.drawable.morenxdpi_03);
             } else {
                 ImageLoaderUtils.displayAvatarImage(AppContext.get("userimager", ""), imgLoginTouxiang);
@@ -91,10 +79,17 @@ public class MineFragment extends BaseFragment {
             }
 
         } else {
+            LogUtils.e("else====" ,"else");
             imgLoginTouxiang.setBackgroundResource(R.drawable.touxiang_zhuce);
             tvUserphone.setText("");
             tvUsername.setText("请登录");
         }
+
+    }
+
+    @Override
+    public void initData() {
+
     }
 
 
@@ -202,13 +197,16 @@ public class MineFragment extends BaseFragment {
         AppContext.set("userwork", "");
         AppContext.set("usertoken", "");
         AppContext.set("cooperativeid", "");
+        AppContext.set("userimager", "");
         AppContext.set("IS_LOGIN", false);
 
-
+        imgLoginTouxiang.setBackgroundResource(R.drawable.touxiang_zhuce);
+        tvUserphone.setText("");
+        tvUsername.setText("请登录");
         //刷新MainActivity
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        MineFragment meFragment = (MineFragment) fragmentManager.findFragmentByTag("tag4");
-        meFragment.initView(null);
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        MineFragment meFragment = (MineFragment) fragmentManager.findFragmentByTag("tag4");
+//        meFragment.initView(null);
 
 
     }

@@ -37,10 +37,9 @@ import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
 
 /**
- * Created by John_Libo on 2016/9/26.
+ * 群成员列表
  */
 public class GroupMembersFragment extends BasePullScrollViewFragment {
-    boolean login;
     @Bind(R.id.group_list)
     RecyclerView groupList;
     BaseSimpleRecyclerAdapter mAdapter;
@@ -56,8 +55,6 @@ public class GroupMembersFragment extends BasePullScrollViewFragment {
     @Override
     public void initView(View view) {
         super.initView(view);
-        login = AppContext.get("IS_LOGIN", false);
-        LogUtils.e("rytoken----",""+AppContext.get("rytoken",""));
         groupList.setLayoutManager(new FullyLinearLayoutManager(getActivity()));
         mAdapter=new BaseSimpleRecyclerAdapter<MembersEntity>() {
             @Override
@@ -83,7 +80,7 @@ public class GroupMembersFragment extends BasePullScrollViewFragment {
             @Override
             public void onItemClick(View itemView, Object itemBean, int position) {
                 entity = (MembersEntity) itemBean;
-                RongIM.getInstance().startPrivateChat(getActivity(), entity.getId(), "标题");
+                RongIM.getInstance().startPrivateChat(getActivity(), entity.getId(), entity.getName());
             }
         });
 

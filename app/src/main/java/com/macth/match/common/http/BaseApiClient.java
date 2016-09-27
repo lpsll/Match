@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.macth.match.AppConfig;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.mine.entity.MdInformationResult;
+import com.macth.match.recommend.entity.RecommendResult;
 
 import java.io.File;
 import java.net.FileNameMap;
@@ -25,6 +26,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okio.ByteString;
 
 public class BaseApiClient {
 
@@ -144,9 +146,46 @@ public class BaseApiClient {
 	}
 
 	/**
-	 * post传键值对 (传图片)
+	 * post传键值对 (一张图片上传)
 	 */
-	public static <T> void postImg(String url, Object dto, File file, List<File> listFile, String id,AsyncCallBack<T>asyncCallBack) {
+	public static <T> void postImg(String url, Object dto, File file, String id,AsyncCallBack<T>asyncCallBack) {
+		LogUtils.e("http_request_url:" + url);
+		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+		LogUtils.e("builder---0",""+builder);
+		LogUtils.e("post-------------reqParams   start-------------");
+		Map<String, ?> map = objectToMap(dto);
+		if (map == null)
+			return;
+		Set<String> key = map.keySet();
+		for (Iterator<String> it = key.iterator(); it.hasNext();) {
+			String s =  it.next();
+			builder.addFormDataPart(s, map.get(s).toString());
+			LogUtils.e(s + " = " + map.get(s).toString());
+		}
+		LogUtils.e("file---",""+file);
+		if(null!=file){
+			MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(file.getAbsolutePath()));
+			RequestBody fileBody = null;
+			fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
+			String fileName = file.getName();
+			builder.addFormDataPart(id,fileName,fileBody);
+
+			LogUtils.e("fileBody---file",""+fileBody);
+		}
+
+		LogUtils.e("post-------------reqParams    end-------------");
+		Request request = new Request.Builder()
+				.tag(asyncCallBack.getTag())
+				.url(url)
+				.post(builder.build())
+				.build();
+		enqueue(request, asyncCallBack);
+	}
+
+	/**
+	 * post传键值对 (多张图片数组上传)
+	 */
+	public static <T> void postArrayImg(String url, Object dto, File file, File[] listFile, String id, AsyncCallBack<RecommendResult> asyncCallBack) {
 		LogUtils.e("http_request_url:" + url);
 		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 		LogUtils.e("builder---0",""+builder);
@@ -171,17 +210,37 @@ public class BaseApiClient {
 
 			LogUtils.e("fileBody---file",""+fileBody);
 		}
-		if(null!=listFile){
-			RequestBody fileBody = null;
-			for(int i=0;i<listFile.size();i++){
-				MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(listFile.get(i).getAbsolutePath()));
-				fileBody = RequestBody.create(MEDIA_TYPE_PNG, listFile.get(i));
-				LogUtils.e("fileBody---listFile---",""+fileBody);
-				String fileName = listFile.get(i).getName();
-				builder.addFormDataPart(id,fileName,fileBody);
-			}
+//		if(null!=listFile){
+//			RequestBody fileBody = null;
+////			for(int i=0;i<listFile.size();i++){
+////
+////			}
+////			for (int i = 0; i < listFile.length; i++)
+////			{
+////				Pair<String, File> filePair = listFile[i];
+////				String fileKeyName = filePair.first;
+////				File file = filePair.second;
+////				String fileName = file.getName();
+////				fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
+////				builder.addPart(Headers.of("Content-application/octet-stream",
+////						"form-data; name=\"" + fileKeyName + "\"; filename=\"" + fileName + "\""),
+////						fileBody);
+////			}
+//
+//
+//			MediaType MEDIA_TYPE_PNG = MediaType.parse("Content-Disposition");
+//			fileBody = RequestBody.create(MEDIA_TYPE_PNG, String.valueOf(listFile));
+//			LogUtils.e("fileBody---listFile---",""+fileBody);
+//			builder.addFormDataPart(id, "", fileBody);
+//
+//			LogUtils.e("builder---2",""+builder);
+//		}
 
-			LogUtils.e("builder---2",""+builder);
+		if (listFile != null ) {
+			for (int i=0;i<listFile.length;i++) {
+				builder.addPart(Headers.of("Content-Disposition", "form-data; name=\""),
+						RequestBody.create(null, listFile[i]));
+			}
 		}
 
 		LogUtils.e("post-------------reqParams    end-------------");

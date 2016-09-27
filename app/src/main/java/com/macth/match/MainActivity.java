@@ -1,5 +1,6 @@
 package com.macth.match;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,11 +18,13 @@ import com.macth.match.common.base.SimplePage;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
+import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.TextViewUtils;
 import com.macth.match.common.utils.UIHelper;
 import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.find.fragment.FindFragment;
+import com.macth.match.group.GroupUiGoto;
 import com.macth.match.group.entity.GroupEntity;
 import com.macth.match.group.entity.GroupResult;
 import com.macth.match.group.fragment.ConversationFragment;
@@ -82,6 +85,7 @@ public class MainActivity extends BaseTitleActivity {
     private TextView mBaseEnsure, mBaseBack;
     int fg1,fg2,fg3,fg4,fg5;
     private String flag;
+    boolean login;
 
     @Override
     protected int getContentResId() {
@@ -90,36 +94,11 @@ public class MainActivity extends BaseTitleActivity {
 
     @Override
     public void initView() {
-        reqGroup();
-        //组信息
-        RongIM.setGroupInfoProvider(new RongIM.GroupInfoProvider() {
-            @Override
-            public Group getGroupInfo(String s) {
-                List<GroupEntity> groupEntityList = AppContext.getInstance().getGroupEntityList();
-                for(GroupEntity entity : groupEntityList){
-                    if(entity.getGroupid().equals(s)){
-                        return new Group(s,entity.getGroupname(),Uri.parse(entity.getGroupimg()));
-                    }
-                }
-                return null;
-            }
-        },true);
-//        //组成员信息
-//
-//        RongIM.setGroupUserInfoProvider(new RongIM.GroupUserInfoProvider() {
-//            @Override
-//            public GroupUserInfo getGroupUserInfo(String s, String s1) {
-//                return null;
-//            }
-//        },true);
-//        //个人信息
-//        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
-//            @Override
-//            public UserInfo getUserInfo(String s) {
-//                return null;
-//            }
-//        },true);
-        service();
+        login = AppContext.get("IS_LOGIN",false);
+        if(login){
+            Initialization();//初始化聊天界面信息
+        }
+
         fg1 = 0;
         fg2 = 0;
         fg3 = 0;
@@ -153,6 +132,38 @@ public class MainActivity extends BaseTitleActivity {
         showTab(0); // 显示目标tab
     }
 
+    private void Initialization() {
+        reqGroup();
+        //组信息
+        RongIM.setGroupInfoProvider(new RongIM.GroupInfoProvider() {
+            @Override
+            public Group getGroupInfo(String s) {
+                List<GroupEntity> groupEntityList = AppContext.getInstance().getGroupEntityList();
+                for(GroupEntity entity : groupEntityList){
+                    if(entity.getGroupid().equals(s)){
+                        return new Group(s,entity.getGroupname(),Uri.parse(entity.getGroupimg()));
+                    }
+                }
+                return null;
+            }
+        },true);
+//        //组成员信息
+//
+//        RongIM.setGroupUserInfoProvider(new RongIM.GroupUserInfoProvider() {
+//            @Override
+//            public GroupUserInfo getGroupUserInfo(String s, String s1) {
+//                return null;
+//            }
+//        },true);
+//        //个人信息
+//        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+//            @Override
+//            public UserInfo getUserInfo(String s) {
+//                return null;
+//            }
+//        },true);
+        service();
+    }
 
 
     /**
@@ -304,7 +315,7 @@ public class MainActivity extends BaseTitleActivity {
                 if(fg3==0){
                     fg3=1;
                 }else {
-                    targetFragment.initData();
+                    targetFragment.initView(null);
                 }
                 break;
             case 4:
@@ -343,13 +354,26 @@ public class MainActivity extends BaseTitleActivity {
 
                 }
                 else if(mBaseEnsure.getText().toString().equals("群组")){
-                    UIHelper.showFragment(MainActivity.this, SimplePage.GROUP);//群组
+                    LogUtils.e("login---",""+login);
+                    login =AppContext.get("IS_LOGIN",false);
+                    if(login) {
+                        UIHelper.showFragment(MainActivity.this, SimplePage.GROUP);//群组
+                    }else {
+                        DialogUtils.confirm(this, "您尚未登录，是否去登录？", listener);
+                    }
                 }
 
             default:
                 break;
         }
     }
+
+    DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            GroupUiGoto.gotoLogin(MainActivity.this);
+        }
+    };
 
 
     @Override
@@ -359,6 +383,14 @@ public class MainActivity extends BaseTitleActivity {
             MineFragment meFragment = (MineFragment) fragmentManager.findFragmentByTag("tag4");
             if (meFragment != null) {
                 meFragment.initView(null);
+            }
+        }
+
+        if (requestCode == GroupUiGoto.LG_REQUEST) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            ConversationFragment conversationFragment = (ConversationFragment) fragmentManager.findFragmentByTag("tag3");
+            if (conversationFragment != null) {
+                conversationFragment.initView(null);
             }
         }
     }

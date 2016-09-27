@@ -103,15 +103,15 @@ public class CommonApiClient extends BaseApiClient {
      * @param act
      * @param dto
      * @param imageFile
-     * @param imgListFile
+     * @param files
      * @param id
      * @param callback
      */
     public static void upload(Activity act, UploadDTO
-            dto, File imageFile, List<File> imgListFile, String id, CallBack<RecommendResult> callback) {
+            dto, File imageFile, File[] files, String id, CallBack<RecommendResult> callback) {
         AsyncCallBack<RecommendResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, RecommendResult.class);
-        postImg(getAbsoluteUrl("Home/Projects/uploadProjectFunds"), dto,imageFile,imgListFile,id,
+        postArrayImg(getAbsoluteUrl("Home/Projects/uploadProjectFunds"), dto,imageFile,files,id,
                 asyncCallBack);
     }
 
@@ -531,8 +531,10 @@ public class CommonApiClient extends BaseApiClient {
     public static void mdInfo(Activity act, AddInfoDTO dto, File imageFile, String id, CallBack<MdInformationResult> callback) {
         AsyncCallBack<MdInformationResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, MdInformationResult.class);
-        postImg(getAbsoluteUrl("Home/Login/perfectUserData"), dto,imageFile,null,id, asyncCallBack);
+        postImg(getAbsoluteUrl("Home/Login/perfectUserData"), dto,imageFile,id, asyncCallBack);
     }
+
+
 
     /**
      * 消息列表
