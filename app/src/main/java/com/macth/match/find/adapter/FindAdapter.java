@@ -29,7 +29,13 @@ public class FindAdapter extends BaseSimpleRecyclerAdapter<FindEntity> {
         }
         holder.setText(R.id.tv_find_price, findEntity.getPrice() + "万元");
 
-        holder.setText(R.id.tv_find_project_termunit, findEntity.getProject_termunit() + "年");
+//        holder.setText(R.id.tv_find_project_termunit, findEntity.getProject_termunit() + "年");
+        if("1".equals(findEntity.getProject_termunit())) {
+            holder.setText(R.id.tv_find_project_termunit, findEntity.getProject_termvalue() + "年 ");
+        }else if("2".equals(findEntity.getProject_termunit())) {
+            holder.setText(R.id.tv_find_project_termunit, findEntity.getProject_termvalue() + "个月 ");
+        }
+
         holder.setText(R.id.tv_find_project_type, findEntity.getProject_type());
         holder.setText(R.id.tv_find_ctime, findEntity.getCtime());
 

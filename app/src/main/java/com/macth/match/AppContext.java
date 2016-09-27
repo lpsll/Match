@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.macth.match.common.base.BaseApplication;
-import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.group.entity.GroupEntity;
 
 import java.util.Collections;
@@ -43,6 +42,7 @@ public class AppContext extends BaseApplication {
         this.editor = this.sp.edit();
 
         ShareSDK.initSDK(this,"17533b6d06b7c");
+
     }
 
     /**
