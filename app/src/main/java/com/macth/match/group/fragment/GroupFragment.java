@@ -83,7 +83,7 @@ public class GroupFragment extends BasePullScrollViewFragment {
                 GroupEntity entity = (GroupEntity) itemBean;
                 AppContext.set("groupname",entity.getGroupname());
                 RongIM.getInstance().startGroupChat(getActivity(),
-                        entity.getGroupid(), "群组聊天");
+                        entity.getGroupid(), entity.getGroupname());
             }
         });
 

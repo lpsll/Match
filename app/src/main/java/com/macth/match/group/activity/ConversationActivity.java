@@ -21,15 +21,21 @@ import com.macth.match.R;
 import com.macth.match.common.base.BaseApplication;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.base.SimplePage;
+import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.UIHelper;
+import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.group.adapter.ListAdapter;
 import com.macth.match.group.dto.MembersDTO;
+import com.macth.match.group.entity.GroupEntity;
+import com.macth.match.group.entity.GroupResult;
 import com.macth.match.group.entity.MembersEntity;
 import com.macth.match.group.entity.MembersResult;
+import com.macth.match.group.entity.UserInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +43,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationFragment;
+import io.rong.imkit.mention.RongMentionManager;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
@@ -63,6 +70,8 @@ public class ConversationActivity extends BaseTitleActivity {
 
     List<MembersEntity> data;
 
+    List<io.rong.imlib.model.UserInfo> list ;
+
     @Override
     protected int getContentResId() {
         return R.layout.conversation;
@@ -70,6 +79,10 @@ public class ConversationActivity extends BaseTitleActivity {
 
     @Override
     public void initView() {
+
+
+
+
         tv = (TextView) findViewById(R.id.base_titlebar_ensure);
         Intent intent = getIntent();
         mTargetId = intent.getData().getQueryParameter("targetId");
@@ -108,6 +121,37 @@ public class ConversationActivity extends BaseTitleActivity {
         //xxx 为你要加载的 id
         transaction.add(R.id.fragment_conversation, fragment);
         transaction.commit();
+//        reqGroup();
+
+
+
+    }
+
+    private void reqGroup() {
+        BaseDTO dto = new BaseDTO();
+        dto.setUserid(AppContext.get("usertoken", ""));
+        CommonApiClient.group(this, dto, new CallBack<GroupResult>() {
+            @Override
+            public void onSuccess(GroupResult result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("获取用户群成功");
+                    initDotice();
+
+                }
+            }
+        });
+    }
+
+    private void initDotice() {
+        RongIM.getInstance().setGroupMembersProvider(new RongIM.IGroupMembersProvider() {
+            @Override
+            public void getGroupMembers(String groupId, RongIM.IGroupMemberCallback callback) {
+                //获取群组成员信息列表
+                LogUtils.e("list----",""+list);
+                callback.onGetGroupMembersResult(list); // 调用 callback 的 onGetGroupMembersResult 回传群组信息
+//                RongMentionManager.getInstance().mentionMember(item.userInfo);
+            }
+        });
     }
 
     @Override
@@ -122,6 +166,7 @@ public class ConversationActivity extends BaseTitleActivity {
                 finish();
                 break;
             case R.id.base_titlebar_ensure:
+                AppContext.set("groupname",mTargetIds);
                 UIHelper.showFragment(ConversationActivity.this, SimplePage.GROUP_MEMBERS);//群成员
 //                reqMembers();
                 break;

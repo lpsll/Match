@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,7 +38,6 @@ import butterknife.OnClick;
  * 注册页
  */
 public class RegisterActivity extends BaseTitleActivity {
-
 
     @Bind(R.id.cb_register_username_img)
     CheckBox cbRegisterUsernameImg;

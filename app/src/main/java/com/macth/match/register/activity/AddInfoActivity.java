@@ -31,6 +31,7 @@ import com.lidong.photopicker.PhotoPickerActivity;
 import com.lidong.photopicker.SelectModel;
 import com.lidong.photopicker.intent.PhotoPickerIntent;
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.dto.BaseDTO;
@@ -70,8 +71,6 @@ public class AddInfoActivity extends BaseTitleActivity {
     LinearLayout llAddInfoUsername;
     @Bind(R.id.cb_add_info_phone)
     CheckBox cbAddInfoPhone;
-    @Bind(R.id.et_add_info_phone)
-    EditText etAddInfoPhone;
     @Bind(R.id.ll_add_info_phone)
     LinearLayout llAddInfoPhone;
     @Bind(R.id.cb_add_info_shenfen)
@@ -327,25 +326,7 @@ public class AddInfoActivity extends BaseTitleActivity {
                 }
             }
         });
-        etAddInfoPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    cbAddInfoPhone.setChecked(true);
-                    llAddInfoPhone.setBackgroundResource(R.drawable.login_border_light);
 
-                } else {
-                    if (!TextUtils.isEmpty(etAddInfoPhone.getText().toString())) {
-                        cbAddInfoPhone.setChecked(true);
-                        llAddInfoPhone.setBackgroundResource(R.drawable.login_border_light);
-                    } else {
-                        cbAddInfoPhone.setChecked(false);
-                        llAddInfoPhone.setBackgroundResource(R.drawable.login_border);
-                    }
-
-                }
-            }
-        });
         etAddInfoCompany.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -530,20 +511,7 @@ public class AddInfoActivity extends BaseTitleActivity {
      * 手机号用户名不能为空
      */
     private void phoneVerify() {
-        String phone = etAddInfoPhone.getText().toString().trim();
         String username = etAddInfoUsername.getText().toString().trim();
-        //手机号非空验证
-        if (TextUtils.isEmpty(phone)) {
-            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("手机号不能为空!").setPositiveButton("确定", null).show();
-            return;
-        }
-
-        //手机号码格式验证
-        boolean valid = PhoneUtils.isPhoneNumberValid(phone);
-        if (!valid) {
-            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请输入正确的电话号码!").setPositiveButton("确定", null).show();
-            return;
-        }
 
         //用户名非空验证
         if (TextUtils.isEmpty(username)) {
@@ -587,7 +555,7 @@ public class AddInfoActivity extends BaseTitleActivity {
      */
     private void addInfo() {
 
-        String usermobile = etAddInfoPhone.getText().toString().trim();
+        String usermobile = AppContext.get("usermobile","");
         String username = etAddInfoUsername.getText().toString().trim();
         String company = etAddInfoCompany.getText().toString().trim();
         String work = etAddInfoWork.getText().toString().trim();

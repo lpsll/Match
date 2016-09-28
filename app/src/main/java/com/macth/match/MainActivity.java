@@ -1,16 +1,26 @@
 package com.macth.match;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.macth.match.common.base.BaseApplication;
 import com.macth.match.common.base.BaseFragment;
 import com.macth.match.common.base.BaseTitleActivity;
@@ -21,13 +31,14 @@ import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.TextViewUtils;
+import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.common.utils.UIHelper;
 import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.find.fragment.FindFragment;
 import com.macth.match.group.GroupUiGoto;
 import com.macth.match.group.entity.GroupEntity;
 import com.macth.match.group.entity.GroupResult;
-import com.macth.match.group.fragment.ConversationFragment;
+import com.macth.match.group.fragment.CsationFragment;
 import com.macth.match.group.fragment.GroupFragment;
 import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.fragment.MineFragment;
@@ -86,6 +97,7 @@ public class MainActivity extends BaseTitleActivity {
     int fg1,fg2,fg3,fg4,fg5;
     private String flag;
     boolean login;
+    private LocationClient mLocationClient = null;
 
     @Override
     protected int getContentResId() {
@@ -94,8 +106,25 @@ public class MainActivity extends BaseTitleActivity {
 
     @Override
     public void initView() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int readSDPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+            if (readSDPermission != PackageManager.PERMISSION_GRANTED) {
+                LogUtils.e("readSDPermission", "" + readSDPermission);
+                ActivityCompat.requestPermissions(this, new String[]{
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_PHONE_STATE},
+                        123);
+            }
+        }
         login = AppContext.get("IS_LOGIN",false);
         if(login){
+            mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+            initLocation();//初始化定位
+
             Initialization();//初始化聊天界面信息
         }
 
@@ -166,6 +195,112 @@ public class MainActivity extends BaseTitleActivity {
     }
 
 
+    private void initLocation() {
+
+        LogUtils.e("initLocation", "initLocation");
+
+        requestLocationInfo();//发请定位
+    }
+    /**
+     * 发起定位
+     */
+    public void requestLocationInfo(){
+        mLocationClient.registerLocationListener( new MyLocationListener());    //注册监听函数
+        setLocationOption();
+        LogUtils.e("mLocationClient-----", ""+mLocationClient);
+        if (mLocationClient != null && !mLocationClient.isStarted()){
+            LogUtils.e("start-----", "start");
+            mLocationClient.start();
+        }
+        if (mLocationClient != null && mLocationClient.isStarted()){
+            LogUtils.e("requestLocation-----", "requestLocation");
+            mLocationClient.requestLocation();
+        }
+    }
+
+    /**
+     * 设置相关参数
+     */
+    private void setLocationOption(){
+        LogUtils.e("setLocationOption", "setLocationOption");
+
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true);        //是否打开GPS
+        option.setCoorType("bd09ll");       //设置返回值的坐标类型。
+        option.setAddrType("all");//返回的定位结果包含地址信息
+        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
+        option.setProdName("Cuohe"); //设置产品线名称。强烈建议您使用自定义的产品线名称，方便我们以后为您提供更高效准确的定位服务。
+        option.setScanSpan(5000);//设置发起定位请求的间隔时间为5000ms
+        option.disableCache(true);//禁止启用缓存定位
+        mLocationClient.setLocOption(option);
+    }
+
+    class MyLocationListener implements BDLocationListener {
+        StringBuffer sb = new StringBuffer(256);
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (location == null) {
+                mLocationClient.start();
+                LogUtils.e("location_failed----", "location_failed");
+                return;
+            }
+            else {
+                if (location.getLocType() == BDLocation.TypeGpsLocation) {
+                    LogUtils.e("TypeGpsLocation----", "gps定位成功");
+                    int locType = location.getLocType();
+                    LogUtils.e("locType:", "" + locType);
+                    LogUtils.e("getLatitude:", "" + location.getLatitude());
+                    LogUtils.e("getLongitude:", "" + location.getLongitude());
+                    if (TextUtils.isEmpty(String.valueOf(location.getLatitude()))) {
+
+                        mLocationClient.start();
+                    } else {
+                        AppContext.set("radius", String.valueOf(location.getRadius()));
+                        AppContext.set("latitude", String.valueOf(location.getLatitude()));
+                        AppContext.set("longitude", String.valueOf(location.getLongitude()));
+                        String latitude = AppContext.get("latitude", "");
+                        String longitude = AppContext.get("longitude", "");
+                        String radius = AppContext.get("radius", "");
+                        mLocationClient.stop();
+                    }
+
+
+                }
+                else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
+                    sb.append("\naddr : ");
+                    sb.append(location.getAddrStr());
+                    //运营商信息
+                    sb.append("\noperationers : ");
+                    sb.append(location.getOperators());
+                    sb.append("\ndescribe : ");
+                    sb.append("网络定位成功");
+                }
+                else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
+                    sb.append("\ndescribe : ");
+                    sb.append("离线定位成功，离线定位结果也是有效的");
+                }
+                else if (location.getLocType() == BDLocation.TypeServerError) {
+                    sb.append("\ndescribe : ");
+                    sb.append("服务端网络定位失败，可以反馈IMEI号和大体定位时间到loc-bugs@baidu.com，会有人追查原因");
+                }
+                else if (location.getLocType() == BDLocation.TypeNetWorkException) {
+                    sb.append("\ndescribe : ");
+                    sb.append("网络不同导致定位失败，请检查网络是否通畅");
+                }
+                else if (location.getLocType() == BDLocation.TypeCriteriaException) {
+                    sb.append("\ndescribe : ");
+                    sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
+                }
+                LogUtils.e("sb----------:", "" + sb.toString());
+
+            }
+
+
+        }
+    }
+
+
     /**
      * @param fragment 除了fragment，其他的都hide
      */
@@ -196,7 +331,7 @@ public class MainActivity extends BaseTitleActivity {
                 fragment = new NoticeFragment();
                 break;
             case 3:
-                fragment = new ConversationFragment();
+                fragment = new CsationFragment();
                 break;
             case 4:
                 fragment = new MineFragment();
@@ -388,7 +523,7 @@ public class MainActivity extends BaseTitleActivity {
 
         if (requestCode == GroupUiGoto.LG_REQUEST) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            ConversationFragment conversationFragment = (ConversationFragment) fragmentManager.findFragmentByTag("tag3");
+            CsationFragment conversationFragment = (CsationFragment) fragmentManager.findFragmentByTag("tag3");
             if (conversationFragment != null) {
                 conversationFragment.initView(null);
             }
@@ -452,5 +587,32 @@ public class MainActivity extends BaseTitleActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        if (mLocationClient != null && mLocationClient.isStarted()) {
+            mLocationClient.stop();
+            mLocationClient = null;
+        }
+        RongIM.getInstance().logout();
+    }
+
+    /**
+     * 连按两次返回退出应用
+     */
+    private long fistTime = 0;
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            if((System.currentTimeMillis() - fistTime)>2000){
+                ToastUtils.showShort(this,"连按两次返回键退出应用");
+                fistTime = System.currentTimeMillis();
+                return true;
+            }
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }

@@ -88,6 +88,41 @@ public class DialogUtils {
         return dialog;
     }
 
+    /**
+     * 提示对话框
+     *
+     * @param context
+     * @param mes
+     * @param btn
+     * @return
+     */
+    public static Dialog showPromptListen(Context context, String mes,String st,String btn,View.OnClickListener listener) {
+        final Dialog dialog =  new Dialog(context, R.style.CommonLoadingShadeDialog);;
+        View mView = LayoutInflater.from(context).inflate(
+                R.layout.base_prompt, null);
+//		mView.setBackgroundResource(R.drawable.base_loading_bg);
+        mView.setVisibility(View.VISIBLE);
+        mView.setPadding(30, 30, 30, 30);
+        TextView tv = (TextView) mView.findViewById(R.id.prompt_tv);
+        TextView text = (TextView) mView.findViewById(R.id.prompt_text);
+        Button mTvYes = (Button) mView.findViewById(R.id.prompt_tv_yes);
+        mTvYes.setOnClickListener(listener);
+        tv.setTextColor(ContextCompat.getColor(context,R.color.color_00));
+        if (!TextUtils.isEmpty(st)) {
+            tv.setText(st);
+            tv.setTextSize(TDevice.dip2px(context,8));
+        }
+        if (!TextUtils.isEmpty(mes)) {
+            text.setText(mes);
+        }
+        if (!TextUtils.isEmpty(btn)) {
+            mTvYes.setText(btn);
+        }
+        dialog.setContentView(mView);
+        dialog.show();
+        return dialog;
+    }
+
     public static Dialog showLoading(Context context) {
         return showLoading(context, "加载中...");
     }

@@ -47,6 +47,7 @@ import com.macth.match.register.dto.VerifyDTO;
 import com.macth.match.register.entity.ShenFenEntity;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**

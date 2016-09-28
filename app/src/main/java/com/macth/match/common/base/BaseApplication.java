@@ -48,7 +48,7 @@ public class BaseApplication extends Application {
         initImageLoader(this);//图片初始化
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
         //注意该方法要再setContentView方法之前实现
-        SDKInitializer.initialize(getApplicationContext());
+
         RongIM.init(this);//融云初始化
         try {
             helper=new DiskLruCacheHelper(_context);

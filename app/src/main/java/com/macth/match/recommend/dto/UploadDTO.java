@@ -2,6 +2,8 @@ package com.macth.match.recommend.dto;
 
 import com.macth.match.common.dto.BaseDTO;
 
+import java.io.File;
+
 /**
  * Created by John_Libo on 2016/9/21.
  */
@@ -11,7 +13,17 @@ public class UploadDTO extends BaseDTO {
     private String address;
     private String lbs;
     private String lbsimg;
-    private String pimg;
+    private File[] pimg;
+
+    public File[] getPimg() {
+        return pimg;
+    }
+
+    public void setPimg(File[] pimg) {
+        this.pimg = pimg;
+    }
+
+
     public String getProjectno() {
         return projectno;
     }
@@ -52,13 +64,6 @@ public class UploadDTO extends BaseDTO {
         this.lbsimg = lbsimg;
     }
 
-    public String getPimg() {
-        return pimg;
-    }
-
-    public void setPimg(String pimg) {
-        this.pimg = pimg;
-    }
 
 
 }

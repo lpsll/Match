@@ -15,6 +15,7 @@ import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.cache.CacheManager;
 import com.macth.match.common.entity.BaseEntity;
+import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.StringUtils;
 import com.macth.match.common.utils.TDevice;
 import com.macth.match.common.widget.EmptyLayout;
@@ -36,7 +37,7 @@ public abstract class BaseListActivity<T> extends BaseTitleActivity implements B
     protected PtrRecyclerView mPtrRecyclerView;
     protected BaseRecyclerAdapter<T> mAdapter;
     protected int mCurrentPage = 1;
-    protected final static int PAGE_SIZE = 20;
+    protected final static int PAGE_SIZE = 10;
     private final static int ACTION_PULL_REFRESH = 1;
     private final static int ACTION_LOAD_MORE = 2;
     private AsyncTask<String, Void, List<T>> mCacheTask;
@@ -165,6 +166,7 @@ public abstract class BaseListActivity<T> extends BaseTitleActivity implements B
             }
         } else if (list != null && list.size() > 0) {
             mCurrentPage += 1;
+            LogUtils.e("mCurrentPage---",""+mCurrentPage);
             if (action == ACTION_PULL_REFRESH) {
                 mAdapter.removeAll();
                 mAdapter.append(list);

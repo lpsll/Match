@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.base.SimplePage;
+import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.UIHelper;
 import com.macth.match.common.widget.ProgressWebView;
@@ -22,6 +25,7 @@ public class ModificationProjectBrowserActivity extends BaseTitleActivity {
 
     protected ProgressWebView mWebView;
     protected String strUrl;
+    protected String mProjectNo;
 
     @Override
     protected int getContentResId() {
@@ -62,12 +66,32 @@ public class ModificationProjectBrowserActivity extends BaseTitleActivity {
         }
         @JavascriptInterface
         public void UpdateItemComplete(String projectno) {
+            mProjectNo = projectno;
+            String string;
+            if(AppContext.get("useridentity","").equals("内部用户")){
+                string ="提交成功！";
+            }else {
+                string ="提交成功，等待审核！";
+            }
+            DialogUtils.showPromptListen(ModificationProjectBrowserActivity.this, "提示",string, "知道了",listener);
             Bundle b = new Bundle();
             b.putString("projectNo", projectno);
             b.putString("flag","0");
             UIHelper.showBundleFragment(ModificationProjectBrowserActivity.this, SimplePage.ADD_USE,b);//增加资金用途
         }
     }
+
+    View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Bundle b = new Bundle();
+            b.putString("projectNo", mProjectNo);
+            b.putString("flag","0");
+            finish();
+            UIHelper.showBundleFragment(ModificationProjectBrowserActivity.this, SimplePage.ADD_USE,b);//增加资金用途
+
+        }
+    };
 
 
     @Override

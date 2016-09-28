@@ -41,6 +41,7 @@ import com.lidong.photopicker.intent.PhotoPickerIntent;
 import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
+import com.macth.match.common.base.BaseApplication;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.entity.BaseEntity;
@@ -55,6 +56,8 @@ import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.PhotoSystemUtils;
 import com.macth.match.common.utils.SelectPhotoDialogHelper;
+import com.macth.match.group.entity.GroupEntity;
+import com.macth.match.group.entity.GroupResult;
 import com.macth.match.mine.dto.AddInfoDTO;
 import com.macth.match.mine.entity.InformationEntity;
 import com.macth.match.mine.entity.MdInformationResult;
@@ -73,6 +76,10 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Group;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * 修改用户信息
@@ -241,8 +248,101 @@ public class ModifyInformationActivity extends BaseTitleActivity {
                     LogUtils.e("修改用户信息成功");
                     AppContext.set("username",etAddInfoUsername.getText().toString());
                     AppContext.set("userimager",result.getData().getUserimg());
+                    Initialization();//初始化聊天界面信息
                     setResult(000001);
                     finish();
+                }
+            }
+        });
+    }
+
+    private void Initialization() {
+        reqGroup();
+        //组信息
+        RongIM.setGroupInfoProvider(new RongIM.GroupInfoProvider() {
+            @Override
+            public Group getGroupInfo(String s) {
+                List<GroupEntity> groupEntityList = AppContext.getInstance().getGroupEntityList();
+                for(GroupEntity entity : groupEntityList){
+                    if(entity.getGroupid().equals(s)){
+                        return new Group(s,entity.getGroupname(),Uri.parse(entity.getGroupimg()));
+                    }
+                }
+                return null;
+            }
+        },true);
+//        //组成员信息
+//
+//        RongIM.setGroupUserInfoProvider(new RongIM.GroupUserInfoProvider() {
+//            @Override
+//            public GroupUserInfo getGroupUserInfo(String s, String s1) {
+//                return null;
+//            }
+//        },true);
+//        //个人信息
+//        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+//            @Override
+//            public UserInfo getUserInfo(String s) {
+//                return null;
+//            }
+//        },true);
+        service();
+    }
+
+    private void service() {
+        if (this.getApplicationInfo().packageName
+                .equals(BaseApplication.getCurProcessName(this.getApplicationContext()))) {
+                        /*IMKit SDK调用第二步, 建立与服务器的连接*/
+            LogUtils.e("rytoken",""+AppContext.get("rytoken", ""));
+            RongIM.connect(AppContext.get("rytoken",""), new RongIMClient.ConnectCallback() {
+                /*  *
+                  *
+                  Token 错误
+                  ，
+                  在线上环境下主要是因为 Token
+                  已经过期，
+                  您需要向 App
+                  Server 重新请求一个新的
+                  Token*/
+                @Override
+                public void onTokenIncorrect() {
+                    LogUtils.e("", "--onTokenIncorrect");
+                }
+
+                /**
+                 *连接融云成功
+                 *
+                 @param
+                 userid 当前
+                 token*/
+                @Override
+                public void onSuccess(String userid) {
+                    LogUtils.e("--onSuccess", "--onSuccess" + userid);
+                    LogUtils.e("AppContext.get(\"username\",\"\")----",""+AppContext.get("username",""));
+                    RongIM.getInstance().setCurrentUserInfo(new UserInfo(userid,AppContext.get("username",""), Uri.parse(AppContext.get("userimager",""))));
+                    RongIM.getInstance().setMessageAttachedUserInfo(true);
+                }
+
+                /*  *
+                  *连接融云失败
+                  @param
+                  errorCode 错误码
+                  可到官网 查看错误码对应的注释*/
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LogUtils.e("--onError", "--onError" + errorCode);
+                }
+            });
+        }}
+
+    private void reqGroup() {
+        BaseDTO dto = new BaseDTO();
+        dto.setUserid(AppContext.get("usertoken", ""));
+        CommonApiClient.group(this, dto, new CallBack<GroupResult>() {
+            @Override
+            public void onSuccess(GroupResult result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    AppContext.getInstance().setGroupEntityList(result.getData());
                 }
             }
         });

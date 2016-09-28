@@ -6,24 +6,13 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/ds_350">
-
-        <ImageView
-            android:layout_width="@dimen/ds_270"
-            android:layout_height="@dimen/ds_270"
-            android:layout_gravity="center"
-            android:background="@drawable/touxiang_zhuce" />
-    </FrameLayout>
-
     <RelativeLayout
         android:id="@+id/rl_register_username"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ds_140"
         android:layout_marginLeft="@dimen/ds_80"
         android:layout_marginRight="@dimen/ds_80"
-        android:layout_marginTop="@dimen/ds_30"
+        android:layout_marginTop="@dimen/ds_150"
         android:background="@drawable/login_border">
 
         <CheckBox
@@ -44,7 +33,7 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:gravity="center_vertical"
-            android:hint="请输入用户名"
+            android:hint="请输入手机号"
             android:layout_marginLeft="@dimen/ds_180"
             android:textColor="@color/navi"
             android:textColorHint="@color/tv_hintdc3"

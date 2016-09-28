@@ -6,13 +6,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.base.SimplePage;
+import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.UIHelper;
 import com.macth.match.common.widget.ProgressWebView;
@@ -22,7 +25,7 @@ import com.macth.match.common.widget.ProgressWebView;
  */
 public class AddItemBrowserActivity extends BaseTitleActivity {
     protected ProgressWebView mWebView;
-    protected String strUrl;
+    protected String strUrl,mProjectNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +67,32 @@ public class AddItemBrowserActivity extends BaseTitleActivity {
         }
         @JavascriptInterface
         public void AddItemComplete(String projectNo) {
-            Bundle b = new Bundle();
-            b.putString("projectNo", projectNo);
-            b.putString("flag","1");
-            UIHelper.showBundleFragment(AddItemBrowserActivity.this, SimplePage.ADD_USE,b);//增加资金用途
+            mProjectNo = projectNo;
+//            Bundle b = new Bundle();
+//            b.putString("projectNo", mProjectNo);
+//            b.putString("flag","1");
+//            UIHelper.showBundleFragment(AddItemBrowserActivity.this, SimplePage.ADD_USE,b);//增加资金用途
+            String string;
+            if(AppContext.get("useridentity","").equals("内部用户")){
+                string ="提交成功！";
+            }else {
+                string ="提交成功，等待审核！";
+            }
+            DialogUtils.showPromptListen(AddItemBrowserActivity.this, "提示",string, "知道了",listener);
+
         }
     }
+    View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Bundle b = new Bundle();
+            b.putString("projectNo", mProjectNo);
+            b.putString("flag","1");
+            finish();
+            UIHelper.showBundleFragment(AddItemBrowserActivity.this, SimplePage.ADD_USE,b);//增加资金用途
+
+        }
+    };
 
 
 

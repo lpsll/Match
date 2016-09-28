@@ -10,6 +10,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
@@ -21,8 +25,12 @@ import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.ToastUtils;
+import com.macth.match.common.widget.EmptyLayout;
+import com.macth.match.group.dto.MembersDTO;
 import com.macth.match.group.entity.GroupEntity;
 import com.macth.match.group.entity.GroupResult;
+import com.macth.match.group.entity.MembersEntity;
+import com.macth.match.group.entity.MembersResult;
 import com.macth.match.login.dto.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
 import com.macth.match.register.activity.ForgetPwdActivity;
@@ -33,6 +41,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.model.GroupUserInfo;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.UserInfo;
@@ -58,6 +67,7 @@ public class LoginActivity extends BaseTitleActivity {
     LinearLayout llLoginUsername;
     @Bind(R.id.ll_login_pwd)
     LinearLayout llLoginPwd;
+    public LocationClient mLocationClient = null;
 
     @Override
     protected int getContentResId() {
@@ -195,6 +205,7 @@ public class LoginActivity extends BaseTitleActivity {
                     AppContext.set("userimager",result.getData().getUserimage());
                     AppContext.set("IS_LOGIN",true);
                     Initialization();//初始化聊天界面信息
+//                    initLocation();//初始化定位
                     setResult(1001);
                     finish();
 
@@ -203,8 +214,65 @@ public class LoginActivity extends BaseTitleActivity {
         });
     }
 
+    private void initLocation() {
+        requestLocationInfo();//发请定位
+    }
+    /**
+     * 发起定位
+     */
+    public void requestLocationInfo(){
+        setLocationOption();
+        if (mLocationClient != null && !mLocationClient.isStarted()){
+            mLocationClient.start();
+        }
+        if (mLocationClient != null && mLocationClient.isStarted()){
+            mLocationClient.requestLocation();
+        }
+    }
+
+    /**
+     * 设置相关参数
+     */
+    private void setLocationOption(){
+        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+        mLocationClient.registerLocationListener( new MyLocationListener());    //注册监听函数
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true);        //是否打开GPS
+        option.setCoorType("bd09ll");       //设置返回值的坐标类型。
+        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
+        option.setProdName("LocationDemo"); //设置产品线名称。强烈建议您使用自定义的产品线名称，方便我们以后为您提供更高效准确的定位服务。
+        mLocationClient.setLocOption(option);
+    }
+
+    class MyLocationListener implements BDLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (location == null) {
+                LogUtils.e("location_failed----","location_failed");
+                return;
+            } else {
+                int locType = location.getLocType();
+                LogUtils.i("locType:",""+locType);
+                LogUtils.i("getLatitude:","" + location.getLatitude());
+                LogUtils.i("getLongitude:" ,""+ location.getLongitude());
+                if (TextUtils.isEmpty(String.valueOf(location.getLatitude()))) {
+                    LogUtils.e("locType----","定位失败");
+                    mLocationClient.start();
+                } else {
+
+                    AppContext.set("latitude",String.valueOf(location.getLatitude()));
+                    AppContext.set("longitude",String.valueOf(location.getLongitude()));
+                    mLocationClient.stop();
+                }
+            }
+
+        }
+    }
+
     private void Initialization() {
         reqGroup();
+        reqMembers();
         //组信息
         RongIM.setGroupInfoProvider(new RongIM.GroupInfoProvider() {
             @Override
@@ -212,24 +280,38 @@ public class LoginActivity extends BaseTitleActivity {
                 List<GroupEntity> groupEntityList = AppContext.getInstance().getGroupEntityList();
                 for(GroupEntity entity : groupEntityList){
                     if(entity.getGroupid().equals(s)){
+                        LogUtils.e("Uri-----",""+Uri.parse(entity.getGroupimg()));
                         return new Group(s,entity.getGroupname(), Uri.parse(entity.getGroupimg()));
                     }
                 }
                 return null;
             }
         },true);
-//        //组成员信息
-//
+
+        //组成员信息
+
 //        RongIM.setGroupUserInfoProvider(new RongIM.GroupUserInfoProvider() {
 //            @Override
 //            public GroupUserInfo getGroupUserInfo(String s, String s1) {
+//                List<MembersEntity> membersEntity = AppContext.getInstance().getMembersEntity();
+////                for(MembersEntity entity : membersEntity){
+////                    if(entity.getId().equals(s)){
+////                        return new GroupUserInfo(s,entity.getName(), Uri.parse(entity.getImg()));
+////                    }
+////                }
 //                return null;
 //            }
 //        },true);
-//        //个人信息
+        //个人信息
 //        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
 //            @Override
 //            public UserInfo getUserInfo(String s) {
+//                List<MembersEntity> membersEntity = AppContext.getInstance().getMembersEntity();
+//                for(MembersEntity entity : membersEntity){
+//                    if(entity.getId().equals(s)){
+//                        return new UserInfo(s,entity.getName(), Uri.parse(entity.getImg()));
+//                    }
+//                }
 //                return null;
 //            }
 //        },true);
@@ -243,7 +325,22 @@ public class LoginActivity extends BaseTitleActivity {
             @Override
             public void onSuccess(GroupResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("获取群列表成功");
                     AppContext.getInstance().setGroupEntityList(result.getData());
+                }
+            }
+        });
+    }
+
+    private void reqMembers() {
+        MembersDTO dto = new MembersDTO();
+        dto.setName(AppContext.get("groupname", "")+"群");
+        CommonApiClient.members(this, dto, new CallBack<MembersResult>() {
+            @Override
+            public void onSuccess(MembersResult result) {
+                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("获取群成员成功");
+                    AppContext.getInstance().setMembersEntity(result.getData());
                 }
             }
         });
@@ -280,6 +377,7 @@ public class LoginActivity extends BaseTitleActivity {
                     LogUtils.e("--onSuccess", "--onSuccess" + userid);
                     LogUtils.e("--onSuccess", "--onSuccess" + userid);
                     LogUtils.e("AppContext.get(\"username\",\"\")----",""+AppContext.get("username",""));
+                    LogUtils.e("AppContext.get(\"userimager\",\"\")----",""+AppContext.get("userimager",""));
                     RongIM.getInstance().setCurrentUserInfo(new UserInfo(userid,AppContext.get("username",""), Uri.parse(AppContext.get("userimager",""))));
                     RongIM.getInstance().setMessageAttachedUserInfo(true);
                 }

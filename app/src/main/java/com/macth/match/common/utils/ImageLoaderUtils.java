@@ -50,6 +50,7 @@ public class ImageLoaderUtils {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)
+                .showImageOnFail(R.drawable.defalt)
                 .showImageForEmptyUri(R.drawable.defalt)
                 .cacheOnDisk(true).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565).build();

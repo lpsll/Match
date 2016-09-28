@@ -52,7 +52,7 @@ public class MyProjectsActivity extends BaseListActivity<MineProjectsEntity> {
 
     @Override
     public void initData() {
-//        sendRequestData();
+        sendRequestData();
     }
 
     public boolean autoRefreshIn() {

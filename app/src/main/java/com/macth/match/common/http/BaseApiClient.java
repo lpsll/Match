@@ -1,18 +1,19 @@
 package com.macth.match.common.http;
 
-import android.text.TextUtils;
-import android.util.Pair;
-
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.macth.match.AppConfig;
 import com.macth.match.common.utils.LogUtils;
-import com.macth.match.mine.entity.MdInformationResult;
 import com.macth.match.recommend.entity.RecommendResult;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.RandomAccessFile;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +27,6 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okio.ByteString;
 
 public class BaseApiClient {
 
@@ -201,47 +201,32 @@ public class BaseApiClient {
 		}
 		LogUtils.e("file---",""+file);
 		LogUtils.e("listFile---",""+listFile);
-		if(null!=file){
-			MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(file.getAbsolutePath()));
-			RequestBody fileBody = null;
-			fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
-			String fileName = file.getName();
-			builder.addFormDataPart(id,fileName,fileBody);
-
-			LogUtils.e("fileBody---file",""+fileBody);
-		}
+//		if(null!=file){
+//			MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(file.getAbsolutePath()));
+//			RequestBody fileBody = null;
+//			fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
+//			String fileName = file.getName();
+//			builder.addFormDataPart("lbsimg",fileName,fileBody);
+//
+//			LogUtils.e("fileBody---file",""+fileBody);
+//		}
 //		if(null!=listFile){
 //			RequestBody fileBody = null;
-////			for(int i=0;i<listFile.size();i++){
-////
-////			}
-////			for (int i = 0; i < listFile.length; i++)
-////			{
-////				Pair<String, File> filePair = listFile[i];
-////				String fileKeyName = filePair.first;
-////				File file = filePair.second;
-////				String fileName = file.getName();
-////				fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
-////				builder.addPart(Headers.of("Content-application/octet-stream",
-////						"form-data; name=\"" + fileKeyName + "\"; filename=\"" + fileName + "\""),
-////						fileBody);
-////			}
+//			for(int i=0;i<listFile.length;i++){
+//				MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(listFile[i].getAbsolutePath()));
+//				fileBody = RequestBody.create(MEDIA_TYPE_PNG, listFile[i]);
+//				LogUtils.e("fileBody---listFile---",""+fileBody);
+//				String fileName = listFile[i].getName();
+////				builder.addFormDataPart(id,fileName,fileBody);
+//				LogUtils.e("fileName---",""+fileName);
+//				LogUtils.e("Headers---","form-data; name=\"" +"lbsimg" + "\"; filename=\"" + fileName.replaceAll("\\[\\d+\\]", "") + "\"");
 //
-//
-//			MediaType MEDIA_TYPE_PNG = MediaType.parse("Content-Disposition");
-//			fileBody = RequestBody.create(MEDIA_TYPE_PNG, String.valueOf(listFile));
-//			LogUtils.e("fileBody---listFile---",""+fileBody);
-//			builder.addFormDataPart(id, "", fileBody);
-//
+//				builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" +"lbsimg" + "\"; filename=\"" + fileName.replaceAll("\\[\\d+\\]", "") + "\""),
+//						fileBody);
+//			}
 //			LogUtils.e("builder---2",""+builder);
 //		}
 
-		if (listFile != null ) {
-			for (int i=0;i<listFile.length;i++) {
-				builder.addPart(Headers.of("Content-Disposition", "form-data; name=\""),
-						RequestBody.create(null, listFile[i]));
-			}
-		}
 
 		LogUtils.e("post-------------reqParams    end-------------");
 		Request request = new Request.Builder()
@@ -251,6 +236,23 @@ public class BaseApiClient {
 				.build();
 		enqueue(request, asyncCallBack);
 	}
+
+
+
+	public static void testWriteBuffered(File[] listFile, String fileName) throws IOException {
+		ObjectOutputStream objectOutputStream = null;
+		try {
+			RandomAccessFile raf = new RandomAccessFile(fileName, "rw");
+			FileOutputStream fos = new FileOutputStream(raf.getFD());
+			objectOutputStream = new ObjectOutputStream(fos);
+			objectOutputStream.writeObject(listFile);
+		} finally {
+			if (objectOutputStream != null) {
+				objectOutputStream.close();
+			}
+		}
+	}
+
 
 	private static String guessMimeType(String path)
 	{

@@ -23,6 +23,7 @@ import com.macth.match.mine.entity.PicEvent;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import io.rong.imkit.RongIM;
 
 /**
  * 我的
@@ -69,10 +70,8 @@ public class MineFragment extends BaseFragment {
             tvUsername.setText(userName);
             String mobile = AppContext.get("usermobile", "");
             tvUserphone.setText(mobile);
-            LogUtils.e("userimager---", AppContext.get("userimager", ""));
             if (TextUtils.isEmpty(AppContext.get("userimager", ""))) {
-
-                imgLoginTouxiang.setBackgroundResource(R.drawable.morenxdpi_03);
+                imgLoginTouxiang.setImageDrawable(getResources().getDrawable(R.drawable.morenxdpi_03));
             } else {
                 ImageLoaderUtils.displayAvatarImage(AppContext.get("userimager", ""), imgLoginTouxiang);
 
@@ -80,7 +79,7 @@ public class MineFragment extends BaseFragment {
 
         } else {
             LogUtils.e("else====" ,"else");
-            imgLoginTouxiang.setBackgroundResource(R.drawable.touxiang_zhuce);
+            imgLoginTouxiang.setImageDrawable(getResources().getDrawable(R.drawable.touxiang_zhuce));
             tvUserphone.setText("");
             tvUsername.setText("请登录");
         }
@@ -189,7 +188,7 @@ public class MineFragment extends BaseFragment {
      * 退出操作
      */
     private void exit() {
-
+        RongIM.getInstance().logout();
         AppContext.set("username", "");
         AppContext.set("usermobile", "");
         AppContext.set("useridentity", "");
@@ -200,13 +199,14 @@ public class MineFragment extends BaseFragment {
         AppContext.set("userimager", "");
         AppContext.set("IS_LOGIN", false);
 
+
         imgLoginTouxiang.setBackgroundResource(R.drawable.touxiang_zhuce);
         tvUserphone.setText("");
         tvUsername.setText("请登录");
         //刷新MainActivity
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        MineFragment meFragment = (MineFragment) fragmentManager.findFragmentByTag("tag4");
-//        meFragment.initView(null);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        MineFragment meFragment = (MineFragment) fragmentManager.findFragmentByTag("tag4");
+        meFragment.initView(null);
 
 
     }
@@ -221,7 +221,7 @@ public class MineFragment extends BaseFragment {
             tvUsername.setText(AppContext.get("username", ""));
             LogUtils.e("userimager---", "" + AppContext.get("userimager", ""));
             if (TextUtils.isEmpty(AppContext.get("userimager", ""))) {
-                imgLoginTouxiang.setBackgroundResource(R.drawable.morenxdpi_03);
+                imgLoginTouxiang.setImageDrawable(getResources().getDrawable(R.drawable.morenxdpi_03));
             } else {
                 ImageLoaderUtils.displayAvatarImage(AppContext.get("userimager", ""), imgLoginTouxiang);
 
