@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,11 +34,9 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.bumptech.glide.Glide;
@@ -367,7 +362,7 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
     }
     private View popWon;
     private void showPopup(BDLocation location) {
-        popWon = LayoutInflater.from(this).inflate(R.layout.pop_baidu, null);
+        popWon = LayoutInflater.from(this).inflate(R.layout.pop_baidu_item, null);
         TextView popText = ((TextView)popWon.findViewById(R.id.location_tips));
         LogUtils.e("location.getAddrStr()----",""+location.getAddrStr());
         popText.setText("[我的位置]\n" + location.getAddrStr());
