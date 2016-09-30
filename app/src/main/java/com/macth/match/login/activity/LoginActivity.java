@@ -208,6 +208,7 @@ public class LoginActivity extends BaseTitleActivity {
                     AppContext.set("userimager",result.getData().getUserimage());
                     AppContext.set("IS_LOGIN",true);
 
+                    AppContext.set("receiver","0");
                     AppContext.set("RI","1");
                     Initialization();//初始化聊天界面信息
                     initNotice();//是否有未读消息通知
@@ -400,6 +401,7 @@ public class LoginActivity extends BaseTitleActivity {
 //                return null;
 //            }
 //        },true);
+
         service();
     }
 
