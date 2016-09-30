@@ -196,25 +196,25 @@
 
         <!--必选： SDK 核心功能-->
         <!--第三方相关,向第三方推送服务请求 token 的服务 -->
-        <service
-            android:name="io.rong.push.core.PushRegistrationService"
-            android:exported="false">
-        </service>
+        <!--<service-->
+            <!--android:name="io.rong.push.core.PushRegistrationService"-->
+            <!--android:exported="false">-->
+        <!--</service>-->
 
 
-        <!-- 处理 push 消息相关的服务 -->
-        <service
-            android:name="io.rong.push.core.MessageHandleService"
-            android:exported="true">
-        </service>
+        <!--&lt;!&ndash; 处理 push 消息相关的服务 &ndash;&gt;-->
+        <!--<service-->
+            <!--android:name="io.rong.push.core.MessageHandleService"-->
+            <!--android:exported="true">-->
+        <!--</service>-->
 
 
-        <!-- push服务 -->
-        <service
-            android:name="io.rong.push.PushService"
-            android:exported="false"
-            android:process="io.rong.push">  <!-- push进程，可以改名 -->
-        </service>
+        <!--&lt;!&ndash; push服务 &ndash;&gt;-->
+        <!--<service-->
+            <!--android:name="io.rong.push.PushService"-->
+            <!--android:exported="false"-->
+            <!--android:process="io.rong.push">  &lt;!&ndash; push进程，可以改名 &ndash;&gt;-->
+        <!--</service>-->
 
         <!-- push 相关事件接收器 -->
         <!--<receiver-->
@@ -246,7 +246,6 @@
         <!-- 融云的消息推送 start-->
         <receiver
             android:exported="true"
-            android:process="io.rong.push"
             android:name="com.macth.match.receiver.NotificationReceiver">
             <intent-filter>
                 <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
@@ -256,6 +255,9 @@
             </intent-filter>
         </receiver>
         <!-- 融云的消息推送 end-->
+
+
+
         <activity android:name=".find.SearchActivity" />
         <activity android:name=".mine.activity.NewsActivity"></activity>
 
