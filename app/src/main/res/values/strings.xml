@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Match</string>
+    <string name="app_name">撮合</string>
     <string name="common_loading">加载中&#8230;</string>
     <string name="dialog_prompt">提示</string>
     <string name="dialog_prompt_no">暂无可提现余额</string>

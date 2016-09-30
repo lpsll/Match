@@ -71,8 +71,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/ds_600"
             android:layout_marginTop="@dimen/ds_40"
-            android:layout_marginRight="@dimen/ds_60"
-            android:layout_marginLeft="@dimen/ds_60"
+            android:layout_marginRight="@dimen/ds_40"
+            android:layout_marginLeft="@dimen/ds_40"
             android:clickable="true" />
 
 

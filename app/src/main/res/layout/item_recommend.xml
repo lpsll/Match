@@ -91,7 +91,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/term"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:maxLength="8"
+                    android:maxLines="1"
+                    android:text=""
                     android:textColor="@color/color_01"
                     android:textSize="@dimen/ds_45" />
             </LinearLayout>

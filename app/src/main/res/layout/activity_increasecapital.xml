@@ -14,7 +14,12 @@
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/ds_40"
+        android:layout_marginTop="@dimen/ds_40"
+        android:layout_marginRight="@dimen/ds_40"
+        android:divider="@null"
+        android:layout_marginBottom="@dimen/ds_60">
 
     </ListView>
         </LinearLayout>

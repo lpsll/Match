@@ -1,6 +1,7 @@
 package com.macth.match.group.fragment;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -34,7 +35,9 @@ import java.util.List;
 import butterknife.Bind;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imkit.mention.RongMentionManager;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * 群成员列表
@@ -46,15 +49,22 @@ public class GroupMembersFragment extends BasePullScrollViewFragment {
 
     List<MembersEntity> data;
     MembersEntity entity;
+    private String IMenType;
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_group;
+        return R.layout.fragment_groupmembers;
     }
 
     @Override
     public void initView(View view) {
         super.initView(view);
+        Bundle b = getArguments();
+        if(null!=b){
+            IMenType = b.getString("IMenType");
+        }else {
+            IMenType ="2";
+        }
         groupList.setLayoutManager(new FullyLinearLayoutManager(getActivity()));
         mAdapter=new BaseSimpleRecyclerAdapter<MembersEntity>() {
             @Override
@@ -80,7 +90,17 @@ public class GroupMembersFragment extends BasePullScrollViewFragment {
             @Override
             public void onItemClick(View itemView, Object itemBean, int position) {
                 entity = (MembersEntity) itemBean;
-                RongIM.getInstance().startPrivateChat(getActivity(), entity.getId(), entity.getName());
+                if(IMenType.equals("1")){
+
+                    LogUtils.e("UserInfo---","  getId"+entity.getId()+"  getName"+entity.getName()+"   getImg--"+Uri.parse(entity.getImg()));
+                    RongMentionManager.getInstance().mentionMember(new UserInfo(entity.getId(),entity.getName(),Uri.parse(entity.getImg())));
+                    getActivity().finish();
+                }else {
+
+                    RongIM.getInstance().startPrivateChat(getActivity(), entity.getId(), entity.getName());
+                }
+
+
             }
         });
 

@@ -1,79 +1,103 @@
 package com.macth.match.notice.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.macth.match.AppConfig;
 import com.macth.match.R;
-import com.macth.match.common.base.BaseListFragment;
+import com.macth.match.common.base.BasePullScrollViewFragment;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.widget.EmptyLayout;
-import com.macth.match.notice.activity.NoticeDetailActivity;
-import com.macth.match.notice.adapter.NoticeAdapter;
 import com.macth.match.notice.entity.NoticeEntity;
 import com.macth.match.notice.entity.NoticeResult;
+import com.macth.match.recommend.RecommendUiGoto;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerAdapter;
+import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
+import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
 
-import java.io.Serializable;
-import java.util.List;
+import butterknife.Bind;
 
 /**
- * Created by John_Libo on 2016/8/22.
  * 公告页面
  */
-public class NoticeFragment extends BaseListFragment<NoticeEntity> {
-
-    private NoticeAdapter noticeAdapter;
+public class NoticeFragment extends BasePullScrollViewFragment {
+    @Bind(R.id.recyclerview_notice)
+    RecyclerView mRecyclerview;
+    BaseSimpleRecyclerAdapter mAdapter;
 
 
     @Override
-    public BaseRecyclerAdapter<NoticeEntity> createAdapter() {
-        noticeAdapter = new NoticeAdapter(getContext());
-        return noticeAdapter;
+    protected int getLayoutResId() {
+        return R.layout.fragment_notice;
+    }
+    @Override
+    public void initView(View view) {
+        super.initView(view);
+        mRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter=new BaseSimpleRecyclerAdapter<NoticeEntity>() {
+
+            @Override
+            public int getItemViewLayoutId() {
+                return R.layout.item_notice;
+            }
+
+            @Override
+            public void bindData(BaseRecyclerViewHolder holder, NoticeEntity noticeEntity, int position) {
+                holder.setText(R.id.tv_title, noticeEntity.getMessage_title());
+                holder.setText(R.id.tv_notice_date, noticeEntity.getMessage_ctime());
+                holder.setText(R.id.tv_notice_msg, noticeEntity.getMessage_content());
+
+            }
+
+
+
+        };
+        mRecyclerview.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, Object itemBean, int position) {
+                NoticeEntity noticeBean = (NoticeEntity) itemBean;
+                Bundle b = new Bundle();
+                b.putString("url",noticeBean.getMessage_url());
+                b.putString("title","公告详情");
+                RecommendUiGoto.gotoBrowser(getActivity(),b);
+            }
+        });
+
+
     }
 
     @Override
-    protected String getCacheKeyPrefix() {
-        return "NoticesFragment";
+    public void initData() {
+        sendRequestData();
     }
-
-    @Override
-    public List<NoticeEntity> readList(Serializable seri) {
-        return ((NoticeResult) seri).getData().getList();
-    }
-
     @Override
     protected void sendRequestData() {
+        reqNotice();
+    }
+
+    private void reqNotice() {
         BaseDTO dto = new BaseDTO();
         CommonApiClient.notice(this, dto, new CallBack<NoticeResult>() {
             @Override
             public void onSuccess(NoticeResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
-                    LogUtils.e("推荐项目列表成功");
-                    mErrorLayout.setErrorMessage("暂无推荐记录", mErrorLayout.FLAG_NODATA);
+                    LogUtils.e("公告成功");
+                    mErrorLayout.setErrorMessage("暂无公告记录", mErrorLayout.FLAG_NODATA);
                     mErrorLayout.setErrorImag(R.drawable.page_icon_empty, mErrorLayout.FLAG_NODATA);
-                    if (null == result.getData()) {
+                    if (null == result.getData().getList()) {
                         mErrorLayout.setErrorType(EmptyLayout.NODATA);
                     } else {
-                        requestDataSuccess(result);
-                        setDataResult(result.getData().getList());
+                        mAdapter.removeAll();
+                        mAdapter.append(result.getData().getList());
+                        refreshComplete();
 
-                        //点击每一项的监听
-                        noticeAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnRecyclerViewItemClickListener() {
-                            @Override
-                            public void onItemClick(View itemView, Object itemBean, int position) {
-                                LogUtils.d("position====" + position);
-                                NoticeEntity noticeBean = (NoticeEntity) itemBean;
-                                String url = noticeBean.getMessage_url();
-                                LogUtils.d("url====" + url);
-                                //跳转到对应的h5页面
-                                openH5( url);
-
-                            }
-                        });
                     }
                 }
 
@@ -82,25 +106,10 @@ public class NoticeFragment extends BaseListFragment<NoticeEntity> {
 
     }
 
-    /**
-     * 跳转到对应的h5页面
-     */
-    private void openH5(String url) {
-
-        Intent intent = new Intent(getContext(), NoticeDetailActivity.class);
-        intent.putExtra("noticeUrl",url);
-        startActivity(intent);
-
-
-    }
-
     @Override
-    public void initData() {
-        mCurrentPage = 1;
-        sendRequestData();
-    }
-
-    public boolean autoRefreshIn() {
+    public boolean pulltoRefresh() {
         return true;
     }
+
+
 }

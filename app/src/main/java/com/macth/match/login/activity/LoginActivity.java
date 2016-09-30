@@ -28,6 +28,7 @@ import com.macth.match.common.utils.ToastUtils;
 import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.group.dto.MembersDTO;
 import com.macth.match.group.entity.GroupEntity;
+import com.macth.match.group.entity.GroupNewsEvent;
 import com.macth.match.group.entity.GroupResult;
 import com.macth.match.group.entity.MembersEntity;
 import com.macth.match.group.entity.MembersResult;
@@ -40,9 +41,11 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.GroupUserInfo;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.UserInfo;
 
@@ -204,7 +207,10 @@ public class LoginActivity extends BaseTitleActivity {
                     AppContext.set("rytoken",result.getData().getRytoken());
                     AppContext.set("userimager",result.getData().getUserimage());
                     AppContext.set("IS_LOGIN",true);
+
+                    AppContext.set("RI","1");
                     Initialization();//初始化聊天界面信息
+                    initNotice();//是否有未读消息通知
 //                    initLocation();//初始化定位
                     setResult(1001);
                     finish();
@@ -212,6 +218,85 @@ public class LoginActivity extends BaseTitleActivity {
                 }
             }
         });
+    }
+
+    private void initNotice() {
+        if (RongIM.getInstance() != null) {
+            /**
+             * 接收未读消息的监听器。
+             *
+             * @param listener          接收所有未读消息消息的监听器。
+             */
+            RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyGroupReceiveUnreadCountChangedListener(), Conversation.ConversationType.GROUP);
+            RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyPrivateReceiveUnreadCountChangedListener(), Conversation.ConversationType.PRIVATE);
+        }
+    }
+
+
+    /**
+     * 接收未读消息的监听器。(单聊消息)
+     */
+    int groupCount;
+    public class MyPrivateReceiveUnreadCountChangedListener implements RongIM.OnReceiveUnreadCountChangedListener {
+
+        /**
+         * @param count           未读消息数。
+         */
+        @Override
+        public void onMessageIncreased(int count) {
+            groupCount = count;
+            LogUtils.e("count---2",""+count);
+            LogUtils.e("prCount---2",""+prCount);
+            if(prCount==0){
+                initCount(count);
+            }else {
+                initCount(prCount);
+            }
+
+
+
+
+        }
+    }
+
+    private void initCount(int count) {
+        String string =AppContext.get("RI","");
+        if(string.equals("1")){
+            if(count>0){
+                EventBus.getDefault().post(
+                        new GroupNewsEvent("1"));
+            }else {
+                EventBus.getDefault().post(
+                        new GroupNewsEvent("0"));
+            }
+        }
+
+
+    }
+
+    /**
+     * 接收未读消息的监听器。(群消息)
+     */
+    int prCount;
+    public class MyGroupReceiveUnreadCountChangedListener implements RongIM.OnReceiveUnreadCountChangedListener {
+
+        /**
+         * @param count           未读消息数。
+         */
+        @Override
+        public void onMessageIncreased(int count) {
+            prCount = count;
+            LogUtils.e("count---1",""+count);
+            LogUtils.e("groupCount---1",""+groupCount);
+            if(groupCount==0){
+                initCount(count);
+            }else {
+                initCount(groupCount);
+            }
+
+
+
+        }
     }
 
     private void initLocation() {

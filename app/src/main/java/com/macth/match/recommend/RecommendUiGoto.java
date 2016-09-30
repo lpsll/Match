@@ -98,10 +98,12 @@ public class RecommendUiGoto {
     /**
      * 跳转到项目详情(加载h5页面)
      * @param context
+     * @param b
      */
 
-    public static void gotoBrowser(Context context){
+    public static void gotoBrowser(Context context, Bundle b){
         Intent intent = new Intent(context, BrowserActivity.class);
+        intent.putExtra("bundle",b);
         context.startActivity(intent);
     }
 

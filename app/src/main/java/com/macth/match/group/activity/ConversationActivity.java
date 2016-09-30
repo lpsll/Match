@@ -80,7 +80,7 @@ public class ConversationActivity extends BaseTitleActivity {
     @Override
     public void initView() {
 
-
+        RongMentionManager.getInstance().setMentionedInputListener((io.rong.imkit.mention.IMentionedInputListener) listener);
 
 
         tv = (TextView) findViewById(R.id.base_titlebar_ensure);
@@ -114,18 +114,33 @@ public class ConversationActivity extends BaseTitleActivity {
         Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
                 .appendPath("conversation").appendPath(mConversationType.getName().toLowerCase())
                 .appendQueryParameter("targetId", mTargetId).build();
-
+        LogUtils.e("uri----",""+uri);
         fragment.setUri(uri);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        //xxx 为你要加载的 id
         transaction.add(R.id.fragment_conversation, fragment);
         transaction.commit();
+
 //        reqGroup();
 
 
 
     }
+
+
+
+    io.rong.imkit.mention.IMentionedInputListener listener = new io.rong.imkit.mention.IMentionedInputListener() {
+        @Override
+        public boolean onMentionedInput(Conversation.ConversationType conversationType, String targetId) {
+            LogUtils.e("targetId----",""+targetId);
+            AppContext.set("groupname",mTargetIds);
+            LogUtils.e("mTargetIds----",""+mTargetIds);
+            Bundle bundle = new Bundle();
+            bundle.putString("IMenType","1");
+            UIHelper.showBundleFragment(ConversationActivity.this, SimplePage.GROUP_MEMBERS,bundle);//群成员
+            return true;
+        }
+    };
 
     private void reqGroup() {
         BaseDTO dto = new BaseDTO();

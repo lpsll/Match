@@ -2,27 +2,38 @@ package com.macth.match.group.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseApplication;
+import com.macth.match.common.base.BaseFragment;
 import com.macth.match.common.base.BasePullScrollViewFragment;
+import com.macth.match.common.base.BasePullScrollViewSearchViewFragment;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
+import com.macth.match.common.widget.ClearEditText;
 import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.common.widget.FullyLinearLayoutManager;
+import com.macth.match.common.widget.SearchView;
 import com.macth.match.group.GroupUiGoto;
+import com.macth.match.group.adapter.SortAdapter;
 import com.macth.match.group.entity.GroupEntity;
 import com.macth.match.group.entity.GroupResult;
 import com.macth.match.recommend.RecommendUiGoto;
@@ -42,57 +53,26 @@ import io.rong.imlib.model.Conversation;
 /**
  * 群组列表
  */
-public class GroupFragment extends BasePullScrollViewFragment {
+public class GroupFragment extends BaseFragment {
+    @Bind(R.id.group_et)
+    EditText mEroupEt;
     @Bind(R.id.group_list)
-    RecyclerView groupList;
-    BaseSimpleRecyclerAdapter mAdapter;
+    ListView groupList;
+    List<GroupEntity> entity;
+    private SortAdapter sortadapter;
+    int flag;
+
+
+    @Override
+    protected void retry() {
+
+    }
 
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_group;
     }
 
-    @Override
-    public void initView(View view) {
-        super.initView(view);
-        LogUtils.e("rytoken----",""+AppContext.get("rytoken",""));
-        groupList.setLayoutManager(new FullyLinearLayoutManager(getActivity()));
-        mAdapter=new BaseSimpleRecyclerAdapter<GroupEntity>() {
-            @Override
-            public int getItemViewLayoutId() {
-                return R.layout.item_group;
-            }
-
-            @Override
-            public void bindData(BaseRecyclerViewHolder holder, GroupEntity groupEntity, int position) {
-                holder.setText(R.id.group_tv, groupEntity.getGroupname());
-                ImageView img = holder.getView(R.id.group_img);
-                if(TextUtils.isEmpty(groupEntity.getGroupimg())){
-
-                }else {
-                    ImageLoaderUtils.displayAvatarImage(groupEntity.getGroupimg(),img);
-                }
-            }
-
-        };
-        groupList.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, Object itemBean, int position) {
-                LogUtils.e("rytoken----",""+AppContext.get("rytoken",""));
-                GroupEntity entity = (GroupEntity) itemBean;
-                AppContext.set("groupname",entity.getGroupname());
-                RongIM.getInstance().startGroupChat(getActivity(),
-                        entity.getGroupid(), entity.getGroupname());
-            }
-        });
-
-    }
-
-    @Override
-    protected void sendRequestData() {
-            reqGroup();
-    }
 
     private void reqGroup() {
         BaseDTO dto = new BaseDTO();
@@ -103,30 +83,73 @@ public class GroupFragment extends BasePullScrollViewFragment {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     AppContext.getInstance().setGroupEntityList(result.getData());
                     LogUtils.e("获取用户群成功");
-                    mErrorLayout.setErrorMessage("暂无用户群记录", mErrorLayout.FLAG_NODATA);
-                    mErrorLayout.setErrorImag(R.drawable.page_icon_empty, mErrorLayout.FLAG_NODATA);
-                    if (null == result.getData()) {
-                        mErrorLayout.setErrorType(EmptyLayout.NODATA);
-                    } else {
-                        mAdapter.removeAll();
-                        mAdapter.append(result.getData());
-                        refreshComplete();
-                    }
+                    entity = result.getData();
+                    sortadapter = new SortAdapter(getActivity(), result.getData());
+                    groupList.setAdapter(sortadapter);
                 }
+            }
+        });
+    }
+
+
+    @Override
+    public void initView(View view) {
+        groupList.setSelected(true);
+        mEroupEt.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
+                LogUtils.e("s----",""+s.toString());
+                filterData(s.toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AppContext.set("groupname",entity.get(position).getGroupname());
+                RongIM.getInstance().startGroupChat(getActivity(),
+                        entity.get(position).getGroupid(), entity.get(position).getGroupname());
             }
         });
     }
 
     @Override
     public void initData() {
-        sendRequestData();
+        reqGroup();
     }
 
+    /**
+     * 根据输入框中的值来过滤数据并更新ListView
+     * @param filterStr
+     */
+    private void filterData(String filterStr) {
+        LogUtils.e("filterStr----",""+filterStr);
+        if (TextUtils.isEmpty(filterStr)) {
+            return;
 
-    @Override
-    public boolean pulltoRefresh() {
-        return true;
+        }else {
+            for(int i =0;i<entity.size();i++){
+                if(entity.get(i).getGroupname().contains(filterStr)){
+                    flag = i;
+                    LogUtils.e("flag----",""+flag);
+                    groupList.setSelection(flag);
+                    sortadapter.notifyDataSetInvalidated();
+                    return;
+                }
+            }
+        }
+
     }
-
-
 }

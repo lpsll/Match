@@ -39,7 +39,7 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
     RecyclerView mUpdataList;
     BaseSimpleRecyclerAdapter mAdapter;
     private String mProjectID, mDID;
-    List<Boolean> mList = new ArrayList<>();
+    List<String> sList = new ArrayList<>();
     List<String> tList = new ArrayList<>();
     boolean isFrist;
 
@@ -72,31 +72,24 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
 
                 LogUtils.e("isFrist--",""+isFrist);
                 if (isFrist) {
-                    tList.add(position,milDetailsEntity.getFinsh());
                     if (position == 0) {
-                        mList.add(position, true);
+                        sList.add(position,"1");
                     } else {
-                        mList.add(position, false);
+                        sList.add(position,"2");
                     }
-                    LogUtils.e("milDetailsEntity.getFinsh()----", "" + milDetailsEntity.getFinsh());
+
+                    tList.add(position,milDetailsEntity.getFinsh());
 
                 }
-                LogUtils.e("milDetailsEntity.getFinsh()----", "" + tList.get(position));
+
                 if (tList.get(position).equals("1")) {
                     tv02.setText("未完成");
                 } else {
                     tv02.setText("已完成");
                 }
 
-                if (mList.get(position)) {
-                    tv02.setEnabled(true);
-                } else {
-                    tv02.setEnabled(false);
-                }
-                LogUtils.e("mList----", "" + mList);
 
                 holder.setText(R.id.md_tv_01, milDetailsEntity.getName());
-
 
                 tv02.setOnClickListener(new View.OnClickListener() {
                     TextView tv = tv02;
@@ -104,39 +97,47 @@ public class UpdateMilestoneFragment extends BasePullScrollViewFragment {
                     public void onClick(View v) {
                         tv02 = (TextView) v;
                         isFrist = false;
-                        if (position + 1 < mList.size()) {
-                            mList.set(position + 1, true);
-                        }
-                        if (tv02.getText().toString().equals("已完成")) {
+                        if(sList.get(position).equals("1")&&tv02.getText().toString().equals("已完成")){
                             DialogUtils.showPrompt(getActivity(), "提示", "里程碑更新已完成！", "知道了");
+                            if (position + 1 < sList.size()) {
+                                sList.set(position + 1, "1");
+                            }
                             mAdapter.notifyDataSetChanged();
-                        } else {
-                            DialogUtils.confirm(getActivity(), "确定要更新里程碑吗?", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    UpdataDTO dto = new UpdataDTO();
-                                    dto.setCooperativeID(AppContext.get("cooperativeid", ""));
-                                    dto.setProjectID(mProjectID);
-                                    dto.setMilepostID(list.get(position));
-                                    dto.setUserID(AppContext.get("usertoken", ""));
-                                    CommonApiClient.milestoneStatus(getActivity(), dto, new CallBack<MilDetailsResult>() {
-                                        @Override
-                                        public void onSuccess(MilDetailsResult result) {
-                                            if (AppConfig.SUCCESS.equals(result.getCode())) {
-                                                LogUtils.e("更新里程碑状态成功");
-                                                ToastUtils.showShort(getActivity(), "更新里程碑状态成功");
-                                                tv.setText("已完成");
-                                                tList.set(position, "2");
-
+                        }else {
+                            if(sList.get(position).equals("1")){
+                                DialogUtils.confirm(getActivity(), "确定要更新里程碑吗?", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UpdataDTO dto = new UpdataDTO();
+                                        dto.setCooperativeID(AppContext.get("cooperativeid", ""));
+                                        dto.setProjectID(mProjectID);
+                                        dto.setMilepostID(list.get(position));
+                                        dto.setUserID(AppContext.get("usertoken", ""));
+                                        CommonApiClient.milestoneStatus(getActivity(), dto, new CallBack<MilDetailsResult>() {
+                                            @Override
+                                            public void onSuccess(MilDetailsResult result) {
+                                                if (AppConfig.SUCCESS.equals(result.getCode())) {
+                                                    LogUtils.e("更新里程碑状态成功");
+                                                    ToastUtils.showShort(getActivity(), "更新里程碑状态成功");
+                                                    tv.setText("已完成");
+                                                    tList.set(position,"2");
+                                                    if (position + 1 < sList.size()) {
+                                                        sList.set(position + 1, "1");
+                                                    }
+                                                }
+                                                mAdapter.notifyDataSetChanged();
                                             }
-                                            mAdapter.notifyDataSetChanged();
-                                        }
-                                    });
+                                        });
 
-                                }
-                            });
+                                    }
+                                });
+                            }
+                            else {
+                                DialogUtils.showPrompt(getActivity(), "提示", "请依次更新里程碑！", "知道了");
+                            }
 
                         }
+
 
                     }
                 });

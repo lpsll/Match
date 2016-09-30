@@ -3,11 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/group_list"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:descendantFocusability="afterDescendants"
-        >
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="@dimen/ds_110"
+        android:background="@drawable/group_sousou"
+        android:layout_marginLeft="@dimen/ds_40"
+        android:layout_marginRight="@dimen/ds_40"
+        android:layout_marginTop="@dimen/ds_40"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/ds_80"
+            android:layout_height="@dimen/ds_80"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/ds_40"
+            android:background="@drawable/sousuoxdpi_03"/>
+        <EditText
+            android:id="@+id/group_et"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/ds_30"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:hint="请输入搜索"
+            android:background="@null"
+            android:text=""
+            android:textSize="@dimen/fs_45"
+            android:textColor="@color/color_00"
+            />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/group_list"
+        android:layout_marginTop="@dimen/ds_40"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
 </LinearLayout>

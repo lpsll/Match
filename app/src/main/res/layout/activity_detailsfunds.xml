@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_ff"
     android:orientation="vertical">
     <ScrollView
         android:layout_width="match_parent"
@@ -13,13 +14,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/ds_60"
         android:layout_marginTop="@dimen/ds_40"
         android:orientation="horizontal">
         <TextView
             android:layout_width="@dimen/ds_40"
             android:layout_height="@dimen/ds_40"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/ds_60"
+
             android:background="@color/navi"/>
     <TextView
         android:layout_width="wrap_content"
@@ -49,12 +51,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ds_40"
+        android:layout_marginLeft="@dimen/ds_60"
         android:orientation="horizontal">
         <TextView
             android:layout_width="@dimen/ds_40"
             android:layout_height="@dimen/ds_40"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/ds_60"
+
             android:background="@color/navi"/>
     <TextView
         android:layout_width="wrap_content"
@@ -84,12 +87,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ds_40"
+        android:layout_marginLeft="@dimen/ds_60"
         android:orientation="horizontal">
         <TextView
             android:layout_width="@dimen/ds_40"
             android:layout_height="@dimen/ds_40"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/ds_60"
+
             android:background="@color/navi"/>
     <TextView
         android:layout_width="wrap_content"
@@ -114,12 +118,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/ds_40"
+        android:layout_marginLeft="@dimen/ds_60"
         android:orientation="horizontal">
         <TextView
             android:layout_width="@dimen/ds_40"
             android:layout_height="@dimen/ds_40"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/ds_60"
             android:background="@color/navi"/>
     <TextView
         android:layout_width="wrap_content"
@@ -143,6 +147,8 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="@dimen/ds_60"
                 android:layout_marginRight="@dimen/ds_60"
+                android:layout_marginBottom="@dimen/ds_60"
+                android:divider="@null"
                 android:layout_height="wrap_content">
 
             </ListView>

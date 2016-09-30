@@ -33,11 +33,21 @@
 
 
     <LinearLayout style="@style/BottomTabItemLayout">
+        <FrameLayout
+            style="@style/BottomTabItemText">
 
         <TextView
             android:id="@+id/tv_tab_group"
             style="@style/BottomTabItemText"
             android:text="@string/tab_group" />
+            <ImageView
+                android:id="@+id/tab_img"
+                android:visibility="gone"
+                android:layout_width="@dimen/ds_25"
+                android:layout_height="@dimen/ds_25"
+                android:background="@drawable/red_yuan"
+                android:layout_marginLeft="@dimen/ds_80"/>
+        </FrameLayout>
     </LinearLayout>
 
 

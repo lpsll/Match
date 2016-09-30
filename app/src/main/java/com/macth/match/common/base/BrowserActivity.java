@@ -29,6 +29,7 @@ public class BrowserActivity extends BaseTitleActivity {
         Intent mIntent = getIntent();
         if (mIntent != null) {
             strUrl = mIntent.getBundleExtra("bundle").getString("url");
+            title  = mIntent.getBundleExtra("bundle").getString("title");
             LogUtils.e("strUrl------------",strUrl);
 
         }

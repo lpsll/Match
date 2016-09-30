@@ -130,7 +130,7 @@
         <!-- 生产环境 -->
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="bmdehs6pdb78s" />
+            android:value="m7ua80gbuukrm" />
  <!-- 开发环境 -->
         <!-- <meta-data -->
         <!-- android:name="RONG_CLOUD_APP_KEY" -->

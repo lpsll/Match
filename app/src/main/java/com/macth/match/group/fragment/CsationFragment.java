@@ -9,6 +9,7 @@ import com.macth.match.AppContext;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseFragment;
 import com.macth.match.common.utils.DialogUtils;
+import com.macth.match.common.utils.LogUtils;
 import com.macth.match.group.GroupUiGoto;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class CsationFragment extends BaseFragment {
                     .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
                     .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
                     .build();
+            LogUtils.e("uri----",""+uri);
             fragment.setUri(uri);
 
 

@@ -2,8 +2,10 @@ package com.macth.match.mine.activity;
 
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
@@ -19,6 +21,9 @@ import java.io.File;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 public class SettingActivity extends BaseTitleActivity {
 
@@ -29,6 +34,8 @@ public class SettingActivity extends BaseTitleActivity {
     TextView tvMoresettingCache;
     @Bind(R.id.rl_setting_clear_cache)
     RelativeLayout rlSettingClearCache;
+    @Bind(R.id.togglebutton)
+    ToggleButton mToggle;
 
     @Override
     protected int getContentResId() {
@@ -38,7 +45,53 @@ public class SettingActivity extends BaseTitleActivity {
     @Override
     public void initView() {
         setTitleText("设置");
+        mToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if(isChecked){
+//                    RongIM.getInstance().setConversationNotificationStatus(Conversation.ConversationType conversationType, String targetId,
+//                            Conversation.ConversationNotificationStatus notificationStatus,
+//                            RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus> callback);
+
+                    if (RongIM.getInstance() != null) {
+                        /**
+                         * 接收未读消息的监听器。
+                         *
+                         * @param listener          接收所有未读消息消息的监听器。
+                         */
+                        RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyReceiveUnreadCountChangedListener());
+
+                        /**
+                         * 设置接收未读消息的监听器。
+                         *
+                         * @param listener          接收未读消息消息的监听器。
+                         * @param conversationTypes 接收指定会话类型的未读消息数。
+                         */
+//                        RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyReceiveUnreadCountChangedListener(), Conversation.ConversationType.PRIVATE);
+                    }
+
+
+                }else{
+                }
+            }
+        });
+
+    }
+
+    /**
+     * 接收未读消息的监听器。
+     */
+    private class MyReceiveUnreadCountChangedListener implements RongIM.OnReceiveUnreadCountChangedListener {
+
+        /**
+         * @param count           未读消息数。
+         */
+        @Override
+        public void onMessageIncreased(int count) {
+
+        }
     }
 
     @Override

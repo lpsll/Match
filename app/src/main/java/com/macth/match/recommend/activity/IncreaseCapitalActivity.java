@@ -500,10 +500,11 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 
         }
         File[] files = (File[])mPic.toArray(new File[mPic.size()]);
-        dto.setPimg(files);
+//        dto.setPimg(files);
         String id = "lbsimg";
+        String ids = "pimg";
 
-        CommonApiClient.upload(this, dto, imageFile, files, id, new CallBack<RecommendResult>() {
+        CommonApiClient.upload(this, dto, imageFile,id, files, ids, new CallBack<RecommendResult>() {
             @Override
             public void onSuccess(RecommendResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {

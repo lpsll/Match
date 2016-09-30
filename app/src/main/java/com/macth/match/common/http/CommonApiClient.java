@@ -104,15 +104,16 @@ public class CommonApiClient extends BaseApiClient {
      * @param act
      * @param dto
      * @param imageFile
+     * @param s
      * @param files
      * @param id
      * @param callback
      */
     public static void upload(Activity act, UploadDTO
-            dto, File imageFile, File[] files, String id, CallBack<RecommendResult> callback) {
+            dto, File imageFile, String s, File[] files, String id, CallBack<RecommendResult> callback) {
         AsyncCallBack<RecommendResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, RecommendResult.class);
-        postArrayImg(getAbsoluteUrl("Home/Projects/uploadProjectFunds"), dto,imageFile,files,id,
+        postArrayImg(getAbsoluteUrl("Home/Projects/uploadProjectFunds"), dto,imageFile,s,files,id,
                 asyncCallBack);
     }
 

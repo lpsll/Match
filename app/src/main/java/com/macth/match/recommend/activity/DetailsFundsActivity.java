@@ -84,9 +84,7 @@ public class DetailsFundsActivity extends BaseTitleActivity {
     private void setResult(FundsResult result) {
         et01.setText(result.getData().getFunds_desc());
         et02.setText(result.getData().getFunds_companyaddrress());
-        if(result.getData().getImageurl().length>1){
-            ImageLoaderUtils.displayImage(result.getData().getImageurl()[0], img01);
-        }
+        ImageLoaderUtils.displayImage(result.getData().getImageurl()[0], img01);
         listAdapter = new ListAdapter(result.getData().getImageurl());
         list.setAdapter(listAdapter);
         setListViewHeightBasedOnChildren(list);
@@ -150,16 +148,20 @@ public class DetailsFundsActivity extends BaseTitleActivity {
                 holder.image = (ImageView) convertView.findViewById(R.id.item_in_img);
                 convertView.setTag(holder);
             } else {
+
                 holder = (ViewHolder) convertView.getTag();
             }
 
             final String path = listUrls[position];
             LogUtils.e("path----",""+path);
-            if (TextUtils.isEmpty(path)) {
-                holder.image.setVisibility(View.GONE);
-            } else {
-                ImageLoaderUtils.displayImage(path, holder.image);
-            }
+           if(position==0){
+               holder.image.setVisibility(View.GONE);
+           }else {
+               holder.image.setVisibility(View.VISIBLE);
+               ImageLoaderUtils.displayImage(path, holder.image);
+           }
+
+
             return convertView;
         }
 

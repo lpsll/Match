@@ -78,9 +78,6 @@
         </activity>
 
         <activity
-            android:name=".notice.activity.NoticeDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".recommend.activity.ProjectDetailsActivity"
             android:screenOrientation="portrait" />
 
@@ -114,6 +111,7 @@
         <activity
             android:name=".common.base.SimpleActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
              />
         <activity
             android:name=".mine.activity.MyMilepostActivityBrowserActivity"

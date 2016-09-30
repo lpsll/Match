@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -26,6 +27,7 @@ import com.macth.match.common.base.BaseFragment;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.base.SimplePage;
 import com.macth.match.common.dto.BaseDTO;
+import com.macth.match.common.eventbus.ErrorEvent;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
@@ -37,6 +39,7 @@ import com.macth.match.common.widget.EmptyLayout;
 import com.macth.match.find.fragment.FindFragment;
 import com.macth.match.group.GroupUiGoto;
 import com.macth.match.group.entity.GroupEntity;
+import com.macth.match.group.entity.GroupNewsEvent;
 import com.macth.match.group.entity.GroupResult;
 import com.macth.match.group.fragment.CsationFragment;
 import com.macth.match.group.fragment.GroupFragment;
@@ -50,10 +53,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import de.greenrobot.event.EventBus;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.GroupUserInfo;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.UserInfo;
 
@@ -68,6 +73,8 @@ public class MainActivity extends BaseTitleActivity {
     TextView mTvTabGroup;
     @Bind(R.id.tv_tab_mine)
     TextView mTvTabMine;
+    @Bind(R.id.tab_img)
+    ImageView mTabImg;
 
     public static final int TAB_NUM = 5;
     private TextView[] mTabViews = new TextView[TAB_NUM];
@@ -122,10 +129,11 @@ public class MainActivity extends BaseTitleActivity {
         }
         login = AppContext.get("IS_LOGIN",false);
         if(login){
+            AppContext.set("RI","1");
             mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
             initLocation();//初始化定位
-
             Initialization();//初始化聊天界面信息
+
         }
 
         fg1 = 0;
@@ -159,6 +167,82 @@ public class MainActivity extends BaseTitleActivity {
             });
         }
         showTab(0); // 显示目标tab
+    }
+
+    public void initNotice() {
+        if (RongIM.getInstance() != null) {
+            /**
+             * 接收未读消息的监听器。
+             *
+             * @param listener          接收所有未读消息消息的监听器。
+             */
+            LogUtils.e("initNotice----","initNotice");
+            RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyGroupReceiveUnreadCountChangedListener(), Conversation.ConversationType.GROUP);
+            RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyPrivateReceiveUnreadCountChangedListener(), Conversation.ConversationType.PRIVATE);
+
+        }
+    }
+
+    /**
+     * 接收未读消息的监听器。(单聊消息)
+     */
+    int groupCount;
+    public class MyPrivateReceiveUnreadCountChangedListener implements RongIM.OnReceiveUnreadCountChangedListener {
+
+        /**
+         * @param count           未读消息数。
+         */
+        @Override
+        public void onMessageIncreased(int count) {
+            groupCount = count;
+            LogUtils.e("count---2",""+count);
+            LogUtils.e("prCount---2",""+prCount);
+            if(prCount==0){
+                initCount(count);
+            }else {
+                initCount(prCount);
+            }
+
+
+
+
+        }
+    }
+
+    private void initCount(int count) {
+        String string =AppContext.get("RI","");
+        if(string.equals("1")){
+            if(count>0){
+                mTabImg.setVisibility(View.VISIBLE);
+            }else {
+                mTabImg.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * 接收未读消息的监听器。(群消息)
+     */
+    int prCount;
+    public class MyGroupReceiveUnreadCountChangedListener implements RongIM.OnReceiveUnreadCountChangedListener {
+
+        /**
+         * @param count           未读消息数。
+         */
+        @Override
+        public void onMessageIncreased(int count) {
+            prCount = count;
+            LogUtils.e("count---1",""+count);
+            LogUtils.e("groupCount---1",""+groupCount);
+            if(groupCount==0){
+                initCount(count);
+            }else {
+                initCount(groupCount);
+            }
+
+
+
+        }
     }
 
     private void Initialization() {
@@ -255,16 +339,7 @@ public class MainActivity extends BaseTitleActivity {
                     if (TextUtils.isEmpty(String.valueOf(location.getLatitude()))) {
 
                         mLocationClient.start();
-                    } else {
-                        AppContext.set("radius", String.valueOf(location.getRadius()));
-                        AppContext.set("latitude", String.valueOf(location.getLatitude()));
-                        AppContext.set("longitude", String.valueOf(location.getLongitude()));
-                        String latitude = AppContext.get("latitude", "");
-                        String longitude = AppContext.get("longitude", "");
-                        String radius = AppContext.get("radius", "");
-                        mLocationClient.stop();
                     }
-
 
                 }
                 else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
@@ -275,6 +350,7 @@ public class MainActivity extends BaseTitleActivity {
                     sb.append(location.getOperators());
                     sb.append("\ndescribe : ");
                     sb.append("网络定位成功");
+
                 }
                 else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
                     sb.append("\ndescribe : ");
@@ -293,6 +369,7 @@ public class MainActivity extends BaseTitleActivity {
                     sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
                 }
                 LogUtils.e("sb----------:", "" + sb.toString());
+                mLocationClient.stop();
 
             }
 
@@ -562,6 +639,7 @@ public class MainActivity extends BaseTitleActivity {
                     LogUtils.e("AppContext.get(\"username\",\"\")----",""+AppContext.get("username",""));
                     RongIM.getInstance().setCurrentUserInfo(new UserInfo(userid,AppContext.get("username",""), Uri.parse(AppContext.get("userimager",""))));
                     RongIM.getInstance().setMessageAttachedUserInfo(true);
+                    initNotice();//是否有未读消息通知
                 }
 
                 /*  *
@@ -583,6 +661,7 @@ public class MainActivity extends BaseTitleActivity {
             @Override
             public void onSuccess(GroupResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
+                    LogUtils.e("初始化群组成功");
                     AppContext.getInstance().setGroupEntityList(result.getData());
                 }
             }
@@ -597,7 +676,9 @@ public class MainActivity extends BaseTitleActivity {
             mLocationClient.stop();
             mLocationClient = null;
         }
+        AppContext.set("RI","0");
         RongIM.getInstance().logout();
+
     }
 
     /**
@@ -614,5 +695,21 @@ public class MainActivity extends BaseTitleActivity {
             }
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    public void onEventMainThread(GroupNewsEvent event) {
+        String msg = event.getMsg();
+        LogUtils.e("mainActivity---msg---", "" + msg);
+        if(null==msg){
+
+        }else {
+            if(msg.equals("0")){
+                mTabImg.setVisibility(View.GONE);
+            }else {
+                mTabImg.setVisibility(View.VISIBLE);
+            }
+
+        }
+
     }
 }

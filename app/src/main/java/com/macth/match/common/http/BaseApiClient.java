@@ -185,7 +185,7 @@ public class BaseApiClient {
 	/**
 	 * post传键值对 (多张图片数组上传)
 	 */
-	public static <T> void postArrayImg(String url, Object dto, File file, File[] listFile, String id, AsyncCallBack<RecommendResult> asyncCallBack) {
+	public static <T> void postArrayImg(String url, Object dto, File file, String id, File[] listFile, String ids, AsyncCallBack<RecommendResult> asyncCallBack) {
 		LogUtils.e("http_request_url:" + url);
 		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 		LogUtils.e("builder---0",""+builder);
@@ -201,31 +201,31 @@ public class BaseApiClient {
 		}
 		LogUtils.e("file---",""+file);
 		LogUtils.e("listFile---",""+listFile);
-//		if(null!=file){
-//			MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(file.getAbsolutePath()));
-//			RequestBody fileBody = null;
-//			fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
-//			String fileName = file.getName();
-//			builder.addFormDataPart("lbsimg",fileName,fileBody);
-//
-//			LogUtils.e("fileBody---file",""+fileBody);
-//		}
-//		if(null!=listFile){
-//			RequestBody fileBody = null;
-//			for(int i=0;i<listFile.length;i++){
-//				MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(listFile[i].getAbsolutePath()));
-//				fileBody = RequestBody.create(MEDIA_TYPE_PNG, listFile[i]);
-//				LogUtils.e("fileBody---listFile---",""+fileBody);
-//				String fileName = listFile[i].getName();
-////				builder.addFormDataPart(id,fileName,fileBody);
-//				LogUtils.e("fileName---",""+fileName);
-//				LogUtils.e("Headers---","form-data; name=\"" +"lbsimg" + "\"; filename=\"" + fileName.replaceAll("\\[\\d+\\]", "") + "\"");
-//
-//				builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" +"lbsimg" + "\"; filename=\"" + fileName.replaceAll("\\[\\d+\\]", "") + "\""),
+		if(null!=file){
+			MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(file.getAbsolutePath()));
+			RequestBody fileBody = null;
+			fileBody = RequestBody.create(MEDIA_TYPE_PNG, file);
+			String fileName = file.getName();
+			builder.addFormDataPart(id,fileName,fileBody);
+
+			LogUtils.e("fileBody---file",""+fileBody);
+		}
+		if(null!=listFile){
+			RequestBody fileBody = null;
+			for(int i=0;i<listFile.length;i++){
+				MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(listFile[i].getAbsolutePath()));
+				fileBody = RequestBody.create(MEDIA_TYPE_PNG, listFile[i]);
+				LogUtils.e("fileBody---listFile---",""+fileBody);
+				String fileName = listFile[i].getName();
+				builder.addFormDataPart(ids,fileName,fileBody);
+				LogUtils.e("fileName---",""+fileName);
+				LogUtils.e("Headers---","form-data; name=\"" +"lbsimg" + "\"; filename=\"" + fileName.replaceAll("\\[\\d+\\]", "") + "\"");
+
+//				builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" +ids + "\"; filename=\"" + fileName.replaceAll("\\[\\d+\\]", "") + "\""),
 //						fileBody);
-//			}
-//			LogUtils.e("builder---2",""+builder);
-//		}
+			}
+			LogUtils.e("builder---2",""+builder);
+		}
 
 
 		LogUtils.e("post-------------reqParams    end-------------");

@@ -74,10 +74,7 @@ public class ModificationProjectBrowserActivity extends BaseTitleActivity {
                 string ="提交成功，等待审核！";
             }
             DialogUtils.showPromptListen(ModificationProjectBrowserActivity.this, "提示",string, "知道了",listener);
-            Bundle b = new Bundle();
-            b.putString("projectNo", projectno);
-            b.putString("flag","0");
-            UIHelper.showBundleFragment(ModificationProjectBrowserActivity.this, SimplePage.ADD_USE,b);//增加资金用途
+
         }
     }
 
