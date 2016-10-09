@@ -553,21 +553,27 @@ public class MainActivity extends BaseTitleActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.base_titlebar_ensure:
+                login =AppContext.get("IS_LOGIN",false);
                 if(mBaseEnsure.getText().toString().equals("新增项目")){
-                    if(AppContext.get("useridentity","").equals("内部用户")){
-                        flag ="1";
+                    if(login){
+                        if(AppContext.get("useridentity","").equals("内部用户")){
+                            flag ="1";
+                        }else {
+                            flag ="2";
+                        }
+                        Bundle b = new Bundle();
+                        b.putString("url", AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag);
+                        LogUtils.e("url---",""+AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag);
+                        RecommendUiGoto.gotoAdded(this, b);
                     }else {
-                        flag ="2";
+                        DialogUtils.confirm(this, "您尚未登录，是否去登录？", listener);
                     }
-                    Bundle b = new Bundle();
-                    b.putString("url", AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag);
-                    LogUtils.e("url---",""+AppConfig.ADD_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag);
-                    RecommendUiGoto.gotoAdded(this, b);
+
 
                 }
                 else if(mBaseEnsure.getText().toString().equals("群组")){
                     LogUtils.e("login---",""+login);
-                    login =AppContext.get("IS_LOGIN",false);
+
                     if(login) {
                         UIHelper.showFragment(MainActivity.this, SimplePage.GROUP);//群组
                     }else {

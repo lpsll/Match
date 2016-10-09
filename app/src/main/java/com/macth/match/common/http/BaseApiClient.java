@@ -199,8 +199,6 @@ public class BaseApiClient {
 			builder.addFormDataPart(s, map.get(s).toString());
 			LogUtils.e(s + " = " + map.get(s).toString());
 		}
-		LogUtils.e("file---",""+file);
-		LogUtils.e("listFile---",""+listFile);
 		if(null!=file){
 			MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(file.getAbsolutePath()));
 			RequestBody fileBody = null;
@@ -208,23 +206,18 @@ public class BaseApiClient {
 			String fileName = file.getName();
 			builder.addFormDataPart(id,fileName,fileBody);
 
-			LogUtils.e("fileBody---file",""+fileBody);
 		}
 		if(null!=listFile){
-			RequestBody fileBody = null;
+
 			for(int i=0;i<listFile.length;i++){
+				RequestBody fileBody = null;
 				MediaType MEDIA_TYPE_PNG = MediaType.parse(guessMimeType(listFile[i].getAbsolutePath()));
 				fileBody = RequestBody.create(MEDIA_TYPE_PNG, listFile[i]);
-				LogUtils.e("fileBody---listFile---",""+fileBody);
 				String fileName = listFile[i].getName();
-				builder.addFormDataPart(ids,fileName,fileBody);
-				LogUtils.e("fileName---",""+fileName);
-				LogUtils.e("Headers---","form-data; name=\"" +"lbsimg" + "\"; filename=\"" + fileName.replaceAll("\\[\\d+\\]", "") + "\"");
-
-//				builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" +ids + "\"; filename=\"" + fileName.replaceAll("\\[\\d+\\]", "") + "\""),
-//						fileBody);
+//				builder.addFormDataPart(ids,fileName,fileBody);
+				builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" +ids + i + "\"; filename=\"" + fileName.replaceAll("\\[\\d+\\]", "") + "\""),
+						fileBody).build();
 			}
-			LogUtils.e("builder---2",""+builder);
 		}
 
 

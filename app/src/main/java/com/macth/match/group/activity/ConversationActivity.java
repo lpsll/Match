@@ -41,9 +41,12 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.mention.RongMentionManager;
+import io.rong.imkit.widget.provider.ImageInputProvider;
+import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
@@ -91,7 +94,7 @@ public class ConversationActivity extends BaseTitleActivity {
         LogUtils.e("intent-----",""+mTargetIds);
         mConversationType = Conversation.ConversationType.valueOf(intent.getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
         String string = mConversationType.getName();
-        LogUtils.e("string----",string);
+        LogUtils.e("mConversationType----",""+mConversationType);
         if(mTargetIds.equals("群组聊天")||string.equals("group")){
             tv.setVisibility(View.VISIBLE);
             tv.setText("群成员");
@@ -120,6 +123,16 @@ public class ConversationActivity extends BaseTitleActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_conversation, fragment);
         transaction.commit();
+        //扩展功能自定义
+        InputProvider.ExtendProvider[] provider = {
+                new ImageInputProvider(RongContext.getInstance()),//图片
+//                new CameraInputProvider(RongContext.getInstance()),//相机
+//                new LocationInputProvider(RongContext.getInstance()),//地理位置
+//                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
+//                new ContactsProvider(RongContext.getInstance())//自定义通讯录
+        };
+
+        RongIM.resetInputExtensionProvider(mConversationType, provider);
 
 //        reqGroup();
 
