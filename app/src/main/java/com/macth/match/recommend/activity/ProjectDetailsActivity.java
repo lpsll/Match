@@ -49,7 +49,7 @@ import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 
 /**
- * 项目详情页
+ * 项目详情页（暂时不用，用h5）
  */
 public class ProjectDetailsActivity extends BaseTitleActivity {
     @Bind(R.id.pd_tv01)
@@ -257,18 +257,12 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
                 type = "2";
                 showShare();
                 break;
-            case R.id.share_weibo:
-                type = "3";
-                showShare();
-                break;
+
             case R.id.share_qq:
                 type = "4";
                 showShare();
                 break;
-            case R.id.share_qzone:
-                type = "5";
-                showShare();
-                break;
+
             case R.id.pop_share_text:
                 backgroundAlpha(1f);
                 popWindow.dismiss();
@@ -317,12 +311,10 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
                 .findViewById(R.id.share_weixin);
         friend = (LinearLayout) view
                 .findViewById(R.id.share_friend);
-        weibo = (LinearLayout) view
-                .findViewById(R.id.share_weibo);
+
         qq = (LinearLayout) view
                 .findViewById(R.id.share_qq);
-        qqZon = (LinearLayout) view
-                .findViewById(R.id.share_qzone);
+
 
         text = (TextView) view
                 .findViewById(R.id.pop_share_text);
@@ -370,7 +362,7 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
             LogUtils.e("type---",""+type);
             WechatMoments.ShareParams sp = new WechatMoments.ShareParams();
             sp.setShareType(Platform.SHARE_WEBPAGE);
-            sp.setTitle("项目详情");
+            sp.setTitle("撮合");
             // text是分享文本，所有平台都需要这个字段
             sp.setText("项目详情");
             // url仅在微信（包括好友和朋友圈）中使用11111
@@ -390,7 +382,7 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
             LogUtils.e("type---",""+type);
             Wechat.ShareParams sp = new Wechat.ShareParams();
             sp.setShareType(Platform.SHARE_WEBPAGE);
-            sp.setTitle("项目详情");
+            sp.setTitle("撮合");
             // text是分享文本，所有平台都需要这个字段
             sp.setText("项目详情");
             // url仅在微信（包括好友和朋友圈）中使用
@@ -399,7 +391,7 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.juesehxdpi_03);
             sp.setImageData(bitmap);
 
-//            sp.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jp");
+            sp.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jp");
 
             Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
             wechat.setPlatformActionListener(paListener);
@@ -420,14 +412,12 @@ public class ProjectDetailsActivity extends BaseTitleActivity {
         }
         else if(type.equals("4")){
             LogUtils.e("type---",""+type);
-
             QQ.ShareParams sp = new QQ.ShareParams();
-            sp.setTitle("项目详情");
+            sp.setTitle("撮合");
             // text是分享文本，所有平台都需要这个字段
             // titleUrl是标题的网络链接，QQ和QQ空间等使用
             sp.setTitleUrl("");
             sp.setText("项目详情");
-
             sp.setImageUrl("");
 
 

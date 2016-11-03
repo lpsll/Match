@@ -36,9 +36,9 @@ public class SearchActivity extends BaseListActivity<FindEntity> {
         rl_search.setVisibility(View.VISIBLE);
         setTitleText("搜索");
         //自动获得焦点并弹出软键盘
-        et_find_search.setFocusable(true);
-        et_find_search.setFocusableInTouchMode(true);
-        et_find_search.requestFocus();
+//        et_find_search.setFocusable(false);
+//        et_find_search.setFocusableInTouchMode(true);
+//        et_find_search.requestFocus();
 //                InputMethodManager imm = (InputMethodManager)et_find_search.getContext().getSystemService(getContext().INPUT_METHOD_SERVICE);
 //                imm.toggleSoftInput(0,InputMethodManager.SHOW_FORCED);
 
@@ -152,8 +152,10 @@ public class SearchActivity extends BaseListActivity<FindEntity> {
         }else {
             flag ="2";
         }
+        b.putString("isflag","0");
         b.putString("title","项目详情");
-        b.putString("url", AppConfig.DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
+        b.putString("url", AppConfig.DETAILS_H5_URL+ "userid="+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
+        b.putString("pid", entity.getPid());
         LogUtils.e("url---",""+AppConfig.DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
         RecommendUiGoto.gotoPdb(this, b);
     }

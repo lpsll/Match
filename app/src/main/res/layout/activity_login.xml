@@ -7,16 +7,7 @@
     android:orientation="vertical"
     tools:context="com.macth.match.login.activity.LoginActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/ds_470">
 
-        <ImageView
-            android:layout_width="@dimen/ds_270"
-            android:layout_height="@dimen/ds_270"
-            android:layout_gravity="center"
-            android:background="@drawable/touxiangboyxdpi_03" />
-    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/ll_login_username"
@@ -24,7 +15,7 @@
         android:layout_height="@dimen/ds_150"
         android:layout_marginLeft="@dimen/ds_80"
         android:layout_marginRight="@dimen/ds_80"
-        android:layout_marginTop="@dimen/ds_30"
+        android:layout_marginTop="@dimen/ds_350"
         android:background="@drawable/login_border"
         android:orientation="horizontal">
 

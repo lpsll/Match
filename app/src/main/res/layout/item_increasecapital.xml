@@ -4,6 +4,9 @@
     android:layout_height="wrap_content"
     android:background="@color/color_ff"
     android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/item_in_img"
         android:layout_width="match_parent"
@@ -11,5 +14,13 @@
         android:layout_marginTop="@dimen/ds_40"
         android:scaleType="fitXY"
         />
-
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/item_img_sc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ds_40"
+            android:layout_gravity="end"
+            android:background="@drawable/increase_sc"/>
+    </FrameLayout>
 </LinearLayout>

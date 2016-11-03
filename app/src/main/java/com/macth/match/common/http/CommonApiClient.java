@@ -18,6 +18,7 @@ import com.macth.match.mine.dto.ChangePwdDTO;
 import com.macth.match.mine.dto.CloseDTO;
 import com.macth.match.mine.dto.DeleteNewDTO;
 import com.macth.match.mine.dto.UpdataDTO;
+import com.macth.match.mine.entity.AddInformationResult;
 import com.macth.match.mine.entity.InformationResult;
 import com.macth.match.mine.entity.MdInformationResult;
 import com.macth.match.mine.entity.MineProjectsResult;
@@ -29,6 +30,7 @@ import com.macth.match.recommend.dto.CooperativeDTO;
 import com.macth.match.recommend.dto.DeleteListDTO;
 import com.macth.match.recommend.dto.FundsDTO;
 import com.macth.match.recommend.dto.MinestoneDetailsDTO;
+import com.macth.match.recommend.dto.ModifyCapitalDTO;
 import com.macth.match.recommend.dto.SubmitDTO;
 import com.macth.match.recommend.dto.UploadDTO;
 import com.macth.match.recommend.entity.AddItemListResult;
@@ -121,16 +123,19 @@ public class CommonApiClient extends BaseApiClient {
 
     /**
      * 上传项目资金用途
-     *
      * @param act
      * @param dto
+     * @param imageFile
+     * @param id
+     * @param files
+     * @param ids
      * @param callback
      */
-    public static void upMdCaoital(Activity act, UploadDTO
-            dto, CallBack<MilDetailsResult> callback) {
+    public static void upMdCaoital(Activity act, ModifyCapitalDTO
+            dto, File imageFile, String id, File[] files, String ids, CallBack<MilDetailsResult> callback) {
         AsyncCallBack<MilDetailsResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, MilDetailsResult.class);
-        post(getAbsoluteUrl("Home/Projects/updateProjectFunds "), dto,
+        postArrayImg(getAbsoluteUrl("Home/Projects/updateProjectFunds"), dto,imageFile,id,files,ids,
                 asyncCallBack);
     }
 
@@ -510,15 +515,16 @@ public class CommonApiClient extends BaseApiClient {
 
     /**
      * 完善用户信息信息
-     *
-     * @param act
      * @param
+     * @param act
+     * @param imageFile
+     * @param id
      * @param callback
      */
-    public static void addInfo(Activity act, AddInfoDTO dto, CallBack<MdInformationResult> callback) {
+    public static void addInfo(Activity act, AddInfoDTO dto, File imageFile, String id, CallBack<MdInformationResult> callback) {
         AsyncCallBack<MdInformationResult> asyncCallBack = new AsyncCallBack<>(
                 act, callback, MdInformationResult.class);
-        post(getAbsoluteUrl("Home/Login/perfectUserData"), dto,
+        postImg(getAbsoluteUrl("Home/Login/perfectUserData"), dto,imageFile,id,
                 asyncCallBack);
     }
 

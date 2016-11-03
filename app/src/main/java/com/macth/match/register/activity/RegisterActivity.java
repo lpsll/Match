@@ -249,14 +249,14 @@ public class RegisterActivity extends BaseTitleActivity {
         CommonApiClient.register(this, registerDTO, new CallBack<BaseEntity>() {
             @Override
             public void onSuccess(BaseEntity result) {
-                if(result.getCode().equals("0")){
-                    finish();
-                    MineUIGoto.gotoAddInfo(RegisterActivity.this);//必须完善个人信息
-                }
+//                if(result.getCode().equals("0")){
+//                    finish();
+//                    MineUIGoto.gotoAddInfo(RegisterActivity.this);//必须完善个人信息
+//                }
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
                     LogUtils.e("注册成功");
                     finish();
-                    MineUIGoto.gotoAddInfo(RegisterActivity.this);//必须完善个人信息
+                    MineUIGoto.gotoAddInfo(RegisterActivity.this);//完善个人信息
                 }
             }
         });

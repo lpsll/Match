@@ -197,6 +197,6 @@
         android:id="@+id/tv_register_ok"
         style="@style/button_click1"
         android:layout_marginTop="@dimen/ds_120"
-        android:text="注册" />
+        android:text="下一步" />
 
 </LinearLayout>

@@ -37,8 +37,8 @@ public class SettingActivity extends BaseTitleActivity {
     TextView tvMoresettingCache;
     @Bind(R.id.rl_setting_clear_cache)
     RelativeLayout rlSettingClearCache;
-    @Bind(R.id.togglebutton)
-    ToggleButton mToggle;
+//    @Bind(R.id.togglebutton)
+//    ToggleButton mToggle;
 
     @Override
     protected int getContentResId() {
@@ -53,19 +53,19 @@ public class SettingActivity extends BaseTitleActivity {
         } catch (RongException e) {
             e.printStackTrace();
         }
-        mToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-                if(isChecked){
-                    AppContext.set("receiver","0");
-                }
-                else{
-                    AppContext.set("receiver","1");
-                }
-            }
-        });
+//        mToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView,
+//                                         boolean isChecked) {
+//                if(isChecked){
+//                    AppContext.set("receiver","0");
+//                }
+//                else{
+//                    AppContext.set("receiver","1");
+//                }
+//            }
+//        });
 
     }
 

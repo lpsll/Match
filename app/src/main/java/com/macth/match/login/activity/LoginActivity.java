@@ -34,6 +34,7 @@ import com.macth.match.group.entity.MembersEntity;
 import com.macth.match.group.entity.MembersResult;
 import com.macth.match.login.dto.LoginDTO;
 import com.macth.match.login.entity.LoginEntity;
+import com.macth.match.mine.MineUIGoto;
 import com.macth.match.register.activity.ForgetPwdActivity;
 import com.macth.match.register.activity.RegisterActivity;
 
@@ -216,6 +217,10 @@ public class LoginActivity extends BaseTitleActivity {
                     setResult(1001);
                     finish();
 
+                }else {
+                    if(result.getMsg().equals("信息未完善请完善信息")){
+                        MineUIGoto.gotoAddInfo(LoginActivity.this);//必须完善个人信息
+                    }
                 }
             }
         });
@@ -228,77 +233,114 @@ public class LoginActivity extends BaseTitleActivity {
              *
              * @param listener          接收所有未读消息消息的监听器。
              */
-            RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyGroupReceiveUnreadCountChangedListener(), Conversation.ConversationType.GROUP);
-            RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyPrivateReceiveUnreadCountChangedListener(), Conversation.ConversationType.PRIVATE);
+
+            Conversation.ConversationType[] type = {
+                    Conversation.ConversationType.GROUP,
+                    Conversation.ConversationType.PRIVATE,
+                    Conversation.ConversationType.DISCUSSION,
+                    Conversation.ConversationType.PUBLIC_SERVICE,
+                    Conversation.ConversationType.PUSH_SERVICE
+            };
+            RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyReceiveUnreadCountChangedListener(), type);
+//            RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyGroupReceiveUnreadCountChangedListener(), Conversation.ConversationType.);
+
+//            RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyGroupReceiveUnreadCountChangedListener(), Conversation.ConversationType.GROUP);
+//            RongIM.getInstance().setOnReceiveUnreadCountChangedListener(new MyPrivateReceiveUnreadCountChangedListener(), type);
         }
     }
 
 
     /**
-     * 接收未读消息的监听器。(单聊消息)
+     * 接收未读消息的监听器。(所有)
      */
-    int groupCount;
-    public class MyPrivateReceiveUnreadCountChangedListener implements RongIM.OnReceiveUnreadCountChangedListener {
+    public class MyReceiveUnreadCountChangedListener implements RongIM.OnReceiveUnreadCountChangedListener {
 
         /**
          * @param count           未读消息数。
          */
         @Override
         public void onMessageIncreased(int count) {
-            groupCount = count;
-            LogUtils.e("count---2",""+count);
-            LogUtils.e("prCount---2",""+prCount);
-            if(prCount==0){
-                initCount(count);
-            }else {
-                initCount(prCount);
+            LogUtils.e("count---",""+count);
+            String string =AppContext.get("RI","");
+            if(string.equals("1")){
+                if(count>0){
+                    EventBus.getDefault().post(
+                            new GroupNewsEvent("1",count));
+                }else {
+                    EventBus.getDefault().post(
+                            new GroupNewsEvent("0",count));
+                }
             }
-
-
-
 
         }
     }
 
-    private void initCount(int count) {
-        String string =AppContext.get("RI","");
-        if(string.equals("1")){
-            if(count>0){
-                EventBus.getDefault().post(
-                        new GroupNewsEvent("1"));
-            }else {
-                EventBus.getDefault().post(
-                        new GroupNewsEvent("0"));
-            }
-        }
 
+//    /**
+//     * 接收未读消息的监听器。(单聊消息)
+//     */
+//    int groupCount;
+//    public class MyPrivateReceiveUnreadCountChangedListener implements RongIM.OnReceiveUnreadCountChangedListener {
+//
+//        /**
+//         * @param count           未读消息数。
+//         */
+//        @Override
+//        public void onMessageIncreased(int count) {
+//            groupCount = count;
+//            LogUtils.e("count---2",""+count);
+//            LogUtils.e("prCount---2",""+prCount);
+//            if(prCount==0){
+//                initCount(count);
+//            }else {
+//                initCount(prCount);
+//            }
+//
+//
+//
+//
+//        }
+//    }
 
-    }
+//    private void initCount(int count) {
+//        String string =AppContext.get("RI","");
+//        if(string.equals("1")){
+//            if(count>0){
+//                EventBus.getDefault().post(
+//                        new GroupNewsEvent("1"));
+//            }else {
+//                EventBus.getDefault().post(
+//                        new GroupNewsEvent("0"));
+//            }
+//        }
+//
+//
+//    }
 
-    /**
-     * 接收未读消息的监听器。(群消息)
-     */
-    int prCount;
-    public class MyGroupReceiveUnreadCountChangedListener implements RongIM.OnReceiveUnreadCountChangedListener {
-
-        /**
-         * @param count           未读消息数。
-         */
-        @Override
-        public void onMessageIncreased(int count) {
-            prCount = count;
-            LogUtils.e("count---1",""+count);
-            LogUtils.e("groupCount---1",""+groupCount);
-            if(groupCount==0){
-                initCount(count);
-            }else {
-                initCount(groupCount);
-            }
-
-
-
-        }
-    }
+//    /**
+//     * 接收未读消息的监听器。(群消息)
+//     */
+//    int prCount;
+//    public class MyGroupReceiveUnreadCountChangedListener implements RongIM.OnReceiveUnreadCountChangedListener {
+//
+//        /**
+//         * @param count           未读消息数。
+//         */
+//        @Override
+//        public void onMessageIncreased(int count) {
+//            prCount = count;
+//            LogUtils.e("count---1",""+count);
+//            LogUtils.e("groupCount---1",""+groupCount);
+//            if(groupCount==0){
+//                initCount(count);
+//            }else {
+//                initCount(groupCount);
+//            }
+//
+//
+//
+//        }
+//    }
 
     private void initLocation() {
         requestLocationInfo();//发请定位

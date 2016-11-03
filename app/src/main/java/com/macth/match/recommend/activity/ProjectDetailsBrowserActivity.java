@@ -1,11 +1,15 @@
 package com.macth.match.recommend.activity;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.macth.match.AppConfig;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.utils.LogUtils;
@@ -24,6 +29,7 @@ import com.macth.match.common.utils.TextViewUtils;
 import com.macth.match.common.widget.ProgressWebView;
 import com.macth.match.recommend.RecommendUiGoto;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
@@ -42,6 +48,9 @@ public class ProjectDetailsBrowserActivity extends BaseTitleActivity {
     protected ProgressWebView mWebView;
     protected String strUrl;
     protected String title;
+    protected String isflag;
+    protected String pid_url;
+    protected String pid;
 
     private TextView mBaseEnsure;
 
@@ -59,6 +68,9 @@ public class ProjectDetailsBrowserActivity extends BaseTitleActivity {
         if (mIntent != null) {
             strUrl = mIntent.getBundleExtra("bundle").getString("url");
             title = mIntent.getBundleExtra("bundle").getString("title");
+            isflag = mIntent.getBundleExtra("bundle").getString("isflag");
+            pid = mIntent.getBundleExtra("bundle").getString("pid");
+            pid_url  = AppConfig.FX_URL+"pid="+pid;
             LogUtils.e("strUrl------------", strUrl);
 
         }
@@ -74,10 +86,13 @@ public class ProjectDetailsBrowserActivity extends BaseTitleActivity {
         mWebView.setWebViewClient(new MyWebViewClient());
 
         mBaseEnsure = (TextView) findViewById(R.id.base_titlebar_ensure);
-        // 初始化返回按钮图片大小
-        TextViewUtils.setTextViewIcon(this, mBaseEnsure, R.drawable.fenxiangxdpi_03,
-                R.dimen.common_titlebar_right_width,
-                R.dimen.common_titlebar_icon_height, TextViewUtils.DRAWABLE_LEFT);
+        if(isflag.equals("0")){
+            // 初始化返回按钮图片大小
+            TextViewUtils.setTextViewIcon(this, mBaseEnsure, R.drawable.fenxiangxdpi_03,
+                    R.dimen.common_titlebar_right_width,
+                    R.dimen.common_titlebar_icon_height, TextViewUtils.DRAWABLE_LEFT);
+        }
+
     }
 
 
@@ -148,16 +163,8 @@ public class ProjectDetailsBrowserActivity extends BaseTitleActivity {
                 type = "2";
                 showShare();
                 break;
-            case R.id.share_weibo:
-                type = "3";
-                showShare();
-                break;
             case R.id.share_qq:
                 type = "4";
-                showShare();
-                break;
-            case R.id.share_qzone:
-                type = "5";
                 showShare();
                 break;
             case R.id.pop_share_text:
@@ -190,20 +197,16 @@ public class ProjectDetailsBrowserActivity extends BaseTitleActivity {
                 .findViewById(R.id.share_weixin);
         friend = (LinearLayout) view
                 .findViewById(R.id.share_friend);
-        weibo = (LinearLayout) view
-                .findViewById(R.id.share_weibo);
+
         qq = (LinearLayout) view
                 .findViewById(R.id.share_qq);
-        qqZon = (LinearLayout) view
-                .findViewById(R.id.share_qzone);
+
 
         text = (TextView) view
                 .findViewById(R.id.pop_share_text);
         weixin.setOnClickListener(this);
         friend.setOnClickListener(this);
-        weibo.setOnClickListener(this);
         qq.setOnClickListener(this);
-        qqZon.setOnClickListener(this);
         text.setOnClickListener(this);
 
         View parent = this.getWindow().getDecorView();//高度为手机实际的像素高度
@@ -238,99 +241,64 @@ public class ProjectDetailsBrowserActivity extends BaseTitleActivity {
 
 
     private void showShare() {
-
+        LogUtils.e("type---",""+type);
         if(type.equals("1")){
-            LogUtils.e("type---",""+type);
             WechatMoments.ShareParams sp = new WechatMoments.ShareParams();
             sp.setShareType(Platform.SHARE_WEBPAGE);
-            sp.setTitle("项目详情");
+            sp.setTitle("撮合");
             // text是分享文本，所有平台都需要这个字段
             sp.setText("项目详情");
             // url仅在微信（包括好友和朋友圈）中使用11111
-            sp.setUrl(strUrl);
-
+            sp.setUrl(pid_url);
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.juesehxdpi_03);
-//            sp.setImageData(bitmap);
-
+            sp.setImageData(bitmap);
             LogUtils.e("sp---",""+sp);
             Platform wm = ShareSDK.getPlatform(WechatMoments.NAME);
             wm.setPlatformActionListener(paListener);
-            LogUtils.e("wm---",""+wm);
-
             wm.share(sp);
         }
         else if(type.equals("2")){
-            LogUtils.e("type---",""+type);
             Wechat.ShareParams sp = new Wechat.ShareParams();
             sp.setShareType(Platform.SHARE_WEBPAGE);
-            sp.setTitle("项目详情");
+            sp.setTitle("撮合");
             // text是分享文本，所有平台都需要这个字段
             sp.setText("项目详情");
             // url仅在微信（包括好友和朋友圈）中使用
-            sp.setUrl(strUrl);
-
+            sp.setUrl(pid_url);
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.juesehxdpi_03);
-//            sp.setImageData(bitmap);
-
-
+            sp.setImageData(bitmap);
+            LogUtils.e("sp---",""+sp);
             Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
             wechat.setPlatformActionListener(paListener);
             wechat.share(sp);
         }
-        else if(type.equals("3")){
-            LogUtils.e("type---",""+type);
-            SinaWeibo.ShareParams sp = new SinaWeibo.ShareParams();
-            sp.setTitle("项目详情");
-            // text是分享文本，所有平台都需要这个字段
-            sp.setText("项目详情");
-
-//            sp.setImageUrl("");
-
-            Platform sn = ShareSDK.getPlatform(SinaWeibo.NAME);
-            sn.setPlatformActionListener(paListener);
-            sn.share(sp);
-        }
         else if(type.equals("4")){
-            LogUtils.e("type---",""+type);
-
             QQ.ShareParams sp = new QQ.ShareParams();
-            sp.setTitle("项目详情");
+            sp.setTitle("撮合");
             // text是分享文本，所有平台都需要这个字段
             // titleUrl是标题的网络链接，QQ和QQ空间等使用
-            sp.setTitleUrl(strUrl);
+            sp.setTitleUrl(pid_url);
             sp.setText("项目详情");
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.juesehxdpi_03);
+//            sp.setImageData(bitmap);
 
-//            sp.setImageUrl("");
 
-
+            sp.setImageUrl("");
             LogUtils.e("sp---",""+sp);
             Platform qq = ShareSDK.getPlatform(QQ.NAME);
             qq.setPlatformActionListener(paListener);
-            LogUtils.e("qq---",""+qq);
             qq.share(sp);
         }
-        else if(type.equals("5")){
-            LogUtils.e("type---",""+type);
-            QZone.ShareParams sp = new QZone.ShareParams();
-            sp.setTitle("项目详情");
-            // text是分享文本，所有平台都需要这个字段
-            sp.setText("项目详情");
-            // titleUrl是标题的网络链接，QQ和QQ空间等使用
-            sp.setTitleUrl(strUrl);
-            // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-            sp.setComment("项目详情");
-            // site是分享此内容的网站名称，仅在QQ空间使用
-            sp.setSite(getString(R.string.app_name));
-            // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-            sp.setSiteUrl(strUrl);
 
 
-//            sp.setImageUrl("");
+    }
 
-            Platform qzone = ShareSDK.getPlatform(QZone.NAME);
-            qzone.setPlatformActionListener(paListener);
-            qzone.share(sp);
-        }
+    public static String convertIconToString(Bitmap bitmap)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();// outputstream
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] appicon = baos.toByteArray();// 转为byte数组
+        return Base64.encodeToString(appicon, Base64.DEFAULT);
 
     }
 

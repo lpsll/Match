@@ -37,7 +37,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
- * 新增项目页
+ * 新增项目页(暂时不用，用h5)
  */
 public class AddItemActivity extends BaseTitleActivity {
     @Bind(R.id.et01)

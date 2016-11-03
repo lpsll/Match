@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.macth.match.login.activity.LoginActivity;
-import com.macth.match.recommend.activity.ProjectDetailsActivity;
 
 /**
  * Created by John_Libo on 2016/9/19.

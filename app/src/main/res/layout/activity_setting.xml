@@ -18,16 +18,26 @@
         android:background="#ffffff"
         android:paddingLeft="@dimen/ds_60"
         android:paddingRight="@dimen/ds_60">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/xg"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_height="match_parent"
             android:text="修改密码"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/ds_20"
             android:textColor="@color/tv_black"
             android:textSize="@dimen/fs_50" />
 
-
+        </LinearLayout>
         <ImageView
             android:layout_width="@dimen/ds_30"
             android:layout_height="@dimen/ds_40"
@@ -49,15 +59,24 @@
         android:background="#ffffff"
         android:paddingLeft="@dimen/ds_60"
         android:paddingRight="@dimen/ds_60">
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/qc"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/ds_20"
             android:text="清除缓存"
             android:textColor="@color/tv_black"
             android:textSize="@dimen/fs_50" />
-
+        </LinearLayout>
         <TextView
             android:id="@+id/tv_moresetting_cache"
             android:layout_width="wrap_content"
@@ -81,40 +100,40 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/ds_40"
         android:background="@color/linear_gray" />
-    <RelativeLayout
-        android:id="@+id/rl_setting_news"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/ds_160"
-        android:background="#ffffff"
-        android:paddingLeft="@dimen/ds_60"
-        android:paddingRight="@dimen/ds_60">
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_setting_news"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/ds_160"-->
+        <!--android:background="#ffffff"-->
+        <!--android:paddingLeft="@dimen/ds_60"-->
+        <!--android:paddingRight="@dimen/ds_60">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="是否开启消息免打扰"
-            android:textColor="@color/tv_black"
-            android:textSize="@dimen/fs_50" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:text="是否开启消息免打扰"-->
+            <!--android:textColor="@color/tv_black"-->
+            <!--android:textSize="@dimen/fs_50" />-->
 
 
 
-        <ToggleButton
-            android:id="@+id/togglebutton"
-            android:layout_width="@dimen/ds_250"
-            android:layout_height="@dimen/ds_100"
-            android:layout_marginRight="@dimen/ds_10"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:layout_alignParentRight="true"
-            android:background="@android:color/transparent"
-            android:button="@drawable/ios7_btn"
-            android:checked="true"
-            android:text=""
-            android:textOff=""
-            android:textOn="" />
+        <!--<ToggleButton-->
+            <!--android:id="@+id/togglebutton"-->
+            <!--android:layout_width="@dimen/ds_250"-->
+            <!--android:layout_height="@dimen/ds_100"-->
+            <!--android:layout_marginRight="@dimen/ds_10"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:button="@drawable/ios7_btn"-->
+            <!--android:checked="true"-->
+            <!--android:text=""-->
+            <!--android:textOff=""-->
+            <!--android:textOn="" />-->
 
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 
 
 </LinearLayout>

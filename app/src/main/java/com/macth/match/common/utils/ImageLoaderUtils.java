@@ -77,8 +77,8 @@ public class ImageLoaderUtils {
     public static DisplayImageOptions getAvatarOptions() {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true).cacheInMemory(true)
-                .showImageForEmptyUri(R.drawable.base_loading_bg)
-                .showImageOnFail(R.drawable.base_loading_bg)
+                .showImageForEmptyUri(R.drawable.defalt)
+                .showImageOnFail(R.drawable.defalt)
                 .cacheOnDisk(true).displayer(new RoundedBitmapDisplayer(200))
                 .considerExifParams(true).bitmapConfig(Bitmap.Config.RGB_565)
                 .build();

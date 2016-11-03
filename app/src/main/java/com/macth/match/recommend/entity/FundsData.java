@@ -14,6 +14,16 @@ public class FundsData extends BaseEntity{
     private String funds_companyaddrress;
     private String funds_lbs;
     private String funds_images;
+
+    public String getFunds_lbsimage() {
+        return funds_lbsimage;
+    }
+
+    public void setFunds_lbsimage(String funds_lbsimage) {
+        this.funds_lbsimage = funds_lbsimage;
+    }
+
+    private String funds_lbsimage;
     String[] imageurl;
 
     public String[] getImageurl() {

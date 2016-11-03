@@ -56,7 +56,39 @@
                 android:textSize="@dimen/fs_55" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_add_info_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ds_140"
+            android:layout_marginLeft="@dimen/ds_80"
+            android:layout_marginRight="@dimen/ds_80"
+            android:layout_marginTop="@dimen/ds_30"
+            android:background="@drawable/login_border"
+            android:orientation="horizontal">
 
+            <CheckBox
+                android:id="@+id/cb_add_info_phone"
+                android:layout_width="@dimen/ds_140"
+                android:layout_height="match_parent"
+                android:background="@drawable/register_shouji"
+                android:button="@null"
+                android:checked="false"
+                android:clickable="false" />
+
+            <EditText
+                android:id="@+id/et_add_info_userphone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入您的手机号"
+                android:paddingLeft="@dimen/ds_40"
+                android:maxLength="11"
+                android:textColor="@color/navi"
+                android:textColorHint="@color/tv_hintdc3"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/fs_55" />
+        </LinearLayout>
 
 
         <LinearLayout

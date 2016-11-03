@@ -2,6 +2,7 @@ package com.macth.match.recommend.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -136,7 +137,7 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
                         123);
             }
         }
-        setEnsureText("完成");
+        setEnsureText("提交");
         mId = getIntent().getBundleExtra("bundle").getString("pid");
         setTitleText("添加资金用途");
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -686,12 +687,13 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.item_increasecapital, parent, false);
                 holder.image = (ImageView) convertView.findViewById(R.id.item_in_img);
+                holder.image_sc = (ImageView) convertView.findViewById(R.id.item_img_sc);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -712,9 +714,24 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 
             }
 
+            holder.image_sc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DialogUtils.confirm(IncreaseCapitalActivity.this, "是否删除图片？", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            listUrls.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    });
+
+                }
+            });
             if (path.equals("000000")) {
                 holder.image.setImageResource(R.drawable.paizhaoxdpi_03);
+                holder.image_sc.setVisibility(View.GONE);
             } else {
+                holder.image_sc.setVisibility(View.VISIBLE);
                 Glide.with(IncreaseCapitalActivity.this)
                         .load(path)
                         .placeholder(R.mipmap.default_error)
@@ -728,6 +745,7 @@ public class IncreaseCapitalActivity extends BaseTitleActivity {
 
         class ViewHolder {
             ImageView image;
+            ImageView image_sc;
         }
     }
 

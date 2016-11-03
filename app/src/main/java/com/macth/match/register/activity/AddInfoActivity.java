@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,15 +39,19 @@ import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.dto.BaseDTO;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
+import com.macth.match.common.utils.CircleTransform;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.common.utils.PhoneUtils;
 import com.macth.match.common.utils.PhotoSystemUtils;
+import com.macth.match.common.utils.SelectPhotoDialogHelper;
 import com.macth.match.mine.dto.AddInfoDTO;
+import com.macth.match.mine.entity.AddInformationResult;
 import com.macth.match.mine.entity.MdInformationResult;
 import com.macth.match.register.entity.Data;
 import com.macth.match.register.entity.ShenFenEntity;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -65,14 +71,14 @@ import butterknife.OnClick;
 public class AddInfoActivity extends BaseTitleActivity {
     @Bind(R.id.cb_add_info_username)
     CheckBox cbAddInfoUsername;
-    @Bind(R.id.et_add_info_username)
-    EditText etAddInfoUsername;
-    @Bind(R.id.ll_add_info_username)
-    LinearLayout llAddInfoUsername;
     @Bind(R.id.cb_add_info_phone)
     CheckBox cbAddInfoPhone;
     @Bind(R.id.ll_add_info_phone)
     LinearLayout llAddInfoPhone;
+    @Bind(R.id.et_add_info_username)
+    EditText etAddInfoUsername;
+    @Bind(R.id.ll_add_info_username)
+    LinearLayout llAddInfoUsername;
     @Bind(R.id.cb_add_info_shenfen)
     CheckBox cbAddInfoShenfen;
     @Bind(R.id.et_add_info_shenfen)
@@ -83,6 +89,8 @@ public class AddInfoActivity extends BaseTitleActivity {
     CheckBox cbAddInfoCompany;
     @Bind(R.id.et_add_info_company)
     EditText etAddInfoCompany;
+    @Bind(R.id.et_add_info_userphone)
+    EditText etAddInfoUserphone;
     @Bind(R.id.ll_add_info_company)
     LinearLayout llAddInfoCompany;
     @Bind(R.id.cb_add_info_work)
@@ -120,6 +128,8 @@ public class AddInfoActivity extends BaseTitleActivity {
     /* 请求识别码 */
     private static final int CODE_CAMERA_REQUEST = 0xa1;
     private static final int REQUEST_CAMERA_CODE = 10;
+    private SelectPhotoDialogHelper selectPhotoDialogHelper;//选择图片工具类
+    private File imageFile;//选择的图像文件
 
     private String saveDir = Environment.getExternalStorageDirectory()
             .getPath() + "/temp_image";
@@ -147,8 +157,6 @@ public class AddInfoActivity extends BaseTitleActivity {
         }
 
         setTitleText("完善个人信息");
-        mBaseBack = (TextView) findViewById(R.id.base_titlebar_back);
-        mBaseBack.setVisibility(View.GONE);
         //设置框背景色
         setEdittextBackground();
 
@@ -301,11 +309,31 @@ public class AddInfoActivity extends BaseTitleActivity {
      */
     private void setEdittextBackground() {
         cbAddInfoCompany.setClickable(false);
-        cbAddInfoPhone.setClickable(false);
         cbAddInfoRole.setClickable(false);
         cbAddInfoShenfen.setClickable(false);
         cbAddInfoUsername.setClickable(false);
         cbAddInfoWork.setClickable(false);
+        etAddInfoUserphone.setClickable(false);
+
+        etAddInfoUserphone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    cbAddInfoPhone.setChecked(true);
+                    llAddInfoPhone.setBackgroundResource(R.drawable.login_border_light);
+
+                } else {
+                    if (!TextUtils.isEmpty(etAddInfoUserphone.getText().toString())) {
+                        cbAddInfoPhone.setChecked(true);
+                        llAddInfoPhone.setBackgroundResource(R.drawable.login_border_light);
+                    } else {
+                        cbAddInfoPhone.setChecked(false);
+                        llAddInfoPhone.setBackgroundResource(R.drawable.login_border);
+                    }
+
+                }
+            }
+        });
 
         etAddInfoUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -427,7 +455,9 @@ public class AddInfoActivity extends BaseTitleActivity {
                 break;
             case R.id.img_user_card:
                 //用户选择名片
-                showPicPop();
+                selectPhotoDialogHelper = new SelectPhotoDialogHelper(this, new OnPickPhotoFinishListener(),300,1,1);
+                selectPhotoDialogHelper.showPickPhotoDialog();
+//                showPicPop();
                 break;
 
             case R.id.btn_alter_pic_camera://拍照
@@ -512,10 +542,15 @@ public class AddInfoActivity extends BaseTitleActivity {
      */
     private void phoneVerify() {
         String username = etAddInfoUsername.getText().toString().trim();
+        String userPhone = etAddInfoUserphone.getText().toString().trim();
 
         //用户名非空验证
         if (TextUtils.isEmpty(username)) {
             new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("用户名不能为空!").setPositiveButton("确定", null).show();
+            return;
+        }
+        if (TextUtils.isEmpty(userPhone)) {
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("手机号不能为空!").setPositiveButton("确定", null).show();
             return;
         }
 
@@ -553,9 +588,11 @@ public class AddInfoActivity extends BaseTitleActivity {
      * cooperative----协同角色
      * userimg--------用户名片
      */
+
+    private String id;
     private void addInfo() {
 
-        String usermobile = AppContext.get("usermobile","");
+        String usermobile = etAddInfoUserphone.getText().toString().trim();
         String username = etAddInfoUsername.getText().toString().trim();
         String company = etAddInfoCompany.getText().toString().trim();
         String work = etAddInfoWork.getText().toString().trim();
@@ -567,12 +604,12 @@ public class AddInfoActivity extends BaseTitleActivity {
         addInfoDto.setCompany(company);
         addInfoDto.setWork(work);
         addInfoDto.setCooperative(roleId + "");
-        if(mUrl == null) {
-
-        }else {
-            addInfoDto.setUserimg(mUrl);
+        id = "userimg";
+        if(null==imageFile){
+            new AlertDialog.Builder(this).setTitle("温馨提示").setMessage("请选择头像！").setPositiveButton("确定", null).show();
+            return;
         }
-        CommonApiClient.addInfo(this, addInfoDto, new CallBack<MdInformationResult>() {
+        CommonApiClient.addInfo(this, addInfoDto,imageFile, id, new CallBack<MdInformationResult>() {
             @Override
             public void onSuccess(MdInformationResult result) {
                 if (AppConfig.SUCCESS.equals(result.getCode())) {
@@ -589,85 +626,106 @@ public class AddInfoActivity extends BaseTitleActivity {
     }
 
 
+    /*选择照片结束的回调*/
+    private class OnPickPhotoFinishListener implements SelectPhotoDialogHelper.OnPickPhotoFinishListener {
+        @Override
+        public void onPickPhotoFinishListener(File imageFile) {
+            if(imageFile!=null){
+                AddInfoActivity.this.imageFile = imageFile;
+                Log.e("imageFile---",""+imageFile);
+                Picasso.with(AddInfoActivity.this).load(Uri.fromFile(imageFile)).transform(new CircleTransform()).into(imgUserCard);
+            }
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-
-            //拍照
-            case CODE_CAMERA_REQUEST:
-                LogUtils.e("CODE_CAMERA_REQUEST----", "CODE_CAMERA_REQUEST");
-                popWindow.dismiss();
-                backgroundAlpha(1f);
-                if (data == null||"".equals(data)) {
-                    LogUtils.e("data----CODE_CAMERA_REQUEST", "" + data);
-                    return;
-                } else {
-                    LogUtils.e("data----else", "else");
-                    String sdStatus = Environment.getExternalStorageState();
-                    if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
-                        LogUtils.e("TestFile", "SD card is not avaiable/writeable right now.");
-                        return;
-                    }
-                    String name = new DateFormat().format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
-                    LogUtils.e("name", "" + name);
-                    Bundle bundle = data.getExtras();
-                    Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
-                    LogUtils.e("bitmap---", "" + bitmap);
-                    Bitmap bm = PhotoSystemUtils.comp(bitmap);
-
-                    File file = new File("/sdcard/myImage/");
-                    file.mkdirs();// 创建文件夹
-                    String fileName = "/sdcard/myImage/" + name;
-                    LogUtils.e("fileName", "" + fileName);
-                    FileOutputStream b = null;
-                    try {
-                        b = new FileOutputStream(fileName);
-                        bm.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    finally {
-                        try {
-                            b.flush();
-                            b.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bm, 200);
-                    imgUserCard.setImageBitmap(roundedCornerBitmap);
-
-//                    mUrl = ImageLoaderUtils.getBitmapByte(fileName,null);
-                }
-                break;
-
-            // 选择照片
-            case REQUEST_CAMERA_CODE:
-                backgroundAlpha(1f);
-                popWindow.dismiss();
-                if(data == null){
-                    return;
-                }else{
-                    ArrayList<String> list = data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT);
-                    LogUtils.e("list: ", "list = " + list + "--size = " + list.size());
-                    if(null==list){
-                        return;
-                    }else {
-                        LogUtils.e("list.get(0)---", "" + list.get(0));
-                        Bitmap bit = ImageLoaderUtils.readBitmap(list.get(0));
-                        Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bit, 200);
-                        imgUserCard.setImageBitmap(roundedCornerBitmap);
-
-//                        mUrl = ImageLoaderUtils.getBitmapByte(list.get(0),null);
-                    }
-                }
-
-                break;
-
+        if(selectPhotoDialogHelper!=null){//选择图片
+            selectPhotoDialogHelper.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        switch (requestCode) {
+//
+//            //拍照
+//            case CODE_CAMERA_REQUEST:
+//                LogUtils.e("CODE_CAMERA_REQUEST----", "CODE_CAMERA_REQUEST");
+//                popWindow.dismiss();
+//                backgroundAlpha(1f);
+//                if (data == null||"".equals(data)) {
+//                    LogUtils.e("data----CODE_CAMERA_REQUEST", "" + data);
+//                    return;
+//                } else {
+//                    LogUtils.e("data----else", "else");
+//                    String sdStatus = Environment.getExternalStorageState();
+//                    if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
+//                        LogUtils.e("TestFile", "SD card is not avaiable/writeable right now.");
+//                        return;
+//                    }
+//                    String name = new DateFormat().format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
+//                    LogUtils.e("name", "" + name);
+//                    Bundle bundle = data.getExtras();
+//                    Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
+//                    LogUtils.e("bitmap---", "" + bitmap);
+//                    Bitmap bm = PhotoSystemUtils.comp(bitmap);
+//
+//                    File file = new File("/sdcard/myImage/");
+//                    file.mkdirs();// 创建文件夹
+//                    String fileName = "/sdcard/myImage/" + name;
+//                    LogUtils.e("fileName", "" + fileName);
+//                    FileOutputStream b = null;
+//                    try {
+//                        b = new FileOutputStream(fileName);
+//                        bm.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                    finally {
+//                        try {
+//                            b.flush();
+//                            b.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bm, 200);
+//                    imgUserCard.setImageBitmap(roundedCornerBitmap);
+//
+////                    mUrl = ImageLoaderUtils.getBitmapByte(fileName,null);
+//                }
+//                break;
+//
+//            // 选择照片
+//            case REQUEST_CAMERA_CODE:
+//                backgroundAlpha(1f);
+//                popWindow.dismiss();
+//                if(data == null){
+//                    return;
+//                }else{
+//                    ArrayList<String> list = data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT);
+//                    LogUtils.e("list: ", "list = " + list + "--size = " + list.size());
+//                    if(null==list){
+//                        return;
+//                    }else {
+//                        LogUtils.e("list.get(0)---", "" + list.get(0));
+//                        Bitmap bit = ImageLoaderUtils.readBitmap(list.get(0));
+//                        Bitmap roundedCornerBitmap = ImageLoaderUtils.createCircleImage(bit, 200);
+//                        imgUserCard.setImageBitmap(roundedCornerBitmap);
+//
+////                        mUrl = ImageLoaderUtils.getBitmapByte(list.get(0),null);
+//                    }
+//                }
+//
+//                break;
+//
+//        }
+//    }
 
 
     @Override

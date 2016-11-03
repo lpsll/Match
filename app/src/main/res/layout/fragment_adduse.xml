@@ -3,24 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/adduse_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ds_30"
+        android:descendantFocusability="afterDescendants"
+        >
+    </android.support.v7.widget.RecyclerView>
     <TextView
         android:id="@+id/tv_btn"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ds_100"
-        android:layout_marginTop="@dimen/ds_120"
+        android:layout_marginTop="@dimen/ds_80"
         android:layout_marginLeft="@dimen/ds_80"
         android:layout_marginRight="@dimen/ds_80"
         android:layout_marginBottom="@dimen/ds_60"
         style="@style/button_click"
         android:text="@string/add_money"
         />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/adduse_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:descendantFocusability="afterDescendants"
-        >
-    </android.support.v7.widget.RecyclerView>
-
 </LinearLayout>

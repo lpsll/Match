@@ -5,6 +5,17 @@ package com.macth.match.group.entity;
  */
 public class GroupNewsEvent {
     private String msg;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+
     public String getMsg() {
         return msg;
     }
@@ -13,8 +24,9 @@ public class GroupNewsEvent {
         this.msg = msg;
     }
 
-    public GroupNewsEvent(String msg) {
+    public GroupNewsEvent(String msg,int count) {
         super();
         this.msg = msg;
+        this.count = count;
     }
 }

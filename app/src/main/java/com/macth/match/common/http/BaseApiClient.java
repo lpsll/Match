@@ -185,7 +185,7 @@ public class BaseApiClient {
 	/**
 	 * post传键值对 (多张图片数组上传)
 	 */
-	public static <T> void postArrayImg(String url, Object dto, File file, String id, File[] listFile, String ids, AsyncCallBack<RecommendResult> asyncCallBack) {
+	public static <T> void postArrayImg(String url, Object dto, File file, String id, File[] listFile, String ids,AsyncCallBack<T> asyncCallBack) {
 		LogUtils.e("http_request_url:" + url);
 		MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 		LogUtils.e("builder---0",""+builder);

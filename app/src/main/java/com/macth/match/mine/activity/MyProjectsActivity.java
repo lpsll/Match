@@ -98,6 +98,7 @@ public class MyProjectsActivity extends BaseListActivity<MineProjectsEntity> {
         }else {
             flag ="2";
         }
+        b.putString("isflag","1");
         b.putString("title","项目详情");
         b.putString("url", AppConfig.MY_DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
         LogUtils.e("url---",""+AppConfig.MY_DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());

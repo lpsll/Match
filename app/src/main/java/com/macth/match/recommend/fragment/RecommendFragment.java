@@ -90,8 +90,10 @@ public class RecommendFragment extends BaseListFragment<RecommendEntity> {
         }else {
             flag ="2";
         }
+        b.putString("isflag","0");
         b.putString("title","项目详情");
-        b.putString("url", AppConfig.DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
+        b.putString("url", AppConfig.DETAILS_H5_URL+ "userid="+AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
+        b.putString("pid", entity.getPid());
         LogUtils.e("url---",""+AppConfig.DETAILS_H5_URL+ AppContext.get("usertoken","")+"&flag="+flag+"&pid="+entity.getPid());
         RecommendUiGoto.gotoPdb(getActivity(), b);
 

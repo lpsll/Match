@@ -2,6 +2,7 @@ package com.macth.match.mine.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,13 +11,16 @@ import android.widget.TextView;
 import com.macth.match.AppConfig;
 import com.macth.match.AppContext;
 import com.macth.match.R;
+import com.macth.match.common.entity.BaseEntity;
 import com.macth.match.common.http.CallBack;
 import com.macth.match.common.http.CommonApiClient;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
 import com.macth.match.mine.dto.CloseDTO;
+import com.macth.match.mine.dto.DeleteNewDTO;
 import com.macth.match.mine.entity.MineProjectsEntity;
+import com.macth.match.mine.entity.NewsEvent;
 import com.macth.match.recommend.RecommendUiGoto;
 import com.macth.match.recommend.entity.MilDetailsResult;
 import com.qluxstory.ptrrecyclerview.BaseRecyclerViewHolder;
@@ -24,6 +28,8 @@ import com.qluxstory.ptrrecyclerview.BaseSimpleRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2016/9/18.
@@ -89,21 +95,27 @@ public class MineProjectsAdapter extends BaseSimpleRecyclerAdapter<MineProjectsE
         tv01.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CloseDTO dto = new CloseDTO();
-                dto.setPid(list.get(position).getPid());
-                CommonApiClient.close((Activity) context, dto, new CallBack<MilDetailsResult>() {
+                DialogUtils.confirm(context, "是否关闭？", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onSuccess(MilDetailsResult result) {
-                        if(AppConfig.SUCCESS.equals(result.getCode())){
-                            LogUtils.e("申请关闭成功");
-                            DialogUtils.showPrompt(context, "提示","申请成功，请等待审核！", "知道了");
-                        }
-                        if(AppConfig.CODE.equals(result.getCode())){
-                            LogUtils.e("AppConfig.CODE");
-                            DialogUtils.showPrompt(context, "提示",result.getMsg(), "知道了");
-                        }
+                    public void onClick(DialogInterface dialog, int which) {
+                        CloseDTO dto = new CloseDTO();
+                        dto.setPid(list.get(position).getPid());
+                        CommonApiClient.close((Activity) context, dto, new CallBack<MilDetailsResult>() {
+                            @Override
+                            public void onSuccess(MilDetailsResult result) {
+                                if(AppConfig.SUCCESS.equals(result.getCode())){
+                                    LogUtils.e("申请关闭成功");
+                                    DialogUtils.showPrompt(context, "提示","申请成功，请等待审核！", "知道了");
+                                }
+                                if(AppConfig.CODE.equals(result.getCode())){
+                                    LogUtils.e("AppConfig.CODE");
+                                    DialogUtils.showPrompt(context, "提示",result.getMsg(), "知道了");
+                                }
+                            }
+                        });
                     }
                 });
+
 
             }
         });

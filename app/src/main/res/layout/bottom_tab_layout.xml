@@ -40,11 +40,15 @@
             android:id="@+id/tv_tab_group"
             style="@style/BottomTabItemText"
             android:text="@string/tab_group" />
-            <ImageView
+            <TextView
                 android:id="@+id/tab_img"
                 android:visibility="gone"
-                android:layout_width="@dimen/ds_25"
-                android:layout_height="@dimen/ds_25"
+                android:text=""
+                android:layout_width="@dimen/ds_45"
+                android:layout_height="@dimen/ds_45"
+                android:textSize="@dimen/fs_30"
+                android:gravity="center"
+                android:textColor="@color/color_ff"
                 android:background="@drawable/red_yuan"
                 android:layout_marginLeft="@dimen/ds_80"/>
         </FrameLayout>
