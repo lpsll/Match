@@ -1,13 +1,20 @@
 package com.macth.match.recommend.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.Gravity;
@@ -23,12 +30,23 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
 import com.bumptech.glide.Glide;
 import com.lidong.photopicker.PhotoPickerActivity;
 import com.lidong.photopicker.SelectModel;
 import com.lidong.photopicker.intent.PhotoPickerIntent;
 import com.macth.match.AppConfig;
+import com.macth.match.AppContext;
+import com.macth.match.MainActivity;
 import com.macth.match.R;
 import com.macth.match.common.base.BaseTitleActivity;
 import com.macth.match.common.http.CallBack;
@@ -67,12 +85,12 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
     EditText mEt01;
     @Bind(R.id.et_02)
     EditText mEt02;
-    @Bind(R.id.mdca_img)
-    ImageView mImg;
     @Bind(R.id.tv)
     TextView tv;
     @Bind(R.id.list)
     ListView list;
+    @Bind(R.id.bmapView)
+    MapView mBmapView;
     private String fundsid;
     private ListAdapter listAdapter;
     PopupWindow popWindow;
@@ -81,6 +99,11 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
     private static final int CODE_CAMERA_REQUEST = 0xa1;
     private static final int REQUEST_CAMERA_CODE = 10;
     private ArrayList<String> imagePaths = new ArrayList<>();
+    boolean isFrist;
+    BaiduMap mBaiduMap;
+    public LocationClient mLocationClient = null;
+    boolean ifFrist = true;
+
 
     @Override
     protected int getContentResId() {
@@ -90,12 +113,187 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
 
     @Override
     public void initView() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int readSDPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+            if (readSDPermission != PackageManager.PERMISSION_GRANTED) {
+                LogUtils.e("readSDPermission", "" + readSDPermission);
+                ActivityCompat.requestPermissions(this, new String[]{
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_PHONE_STATE},
+
+                        123);
+            }
+        }
+        isFrist = true;
         setEnsureText("完成");
         setTitleText("修改资金用途");
         fundsid = getIntent().getBundleExtra("bundle").getString("fundsid");
         LogUtils.e("fundsid----",fundsid);
+        initBaiduMap();
         reqFundsDetails();
 
+    }
+
+    private void initBaiduMap() {
+        mBaiduMap = mBmapView.getMap();
+        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        mBaiduMap.setMyLocationEnabled(true);
+
+        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+        initLocation();//初始化定位
+    }
+
+    private void initLocation() {
+        LogUtils.e("initLocation", "initLocation");
+        requestLocationInfo();//发请定位
+    }
+
+    private void requestLocationInfo() {
+        LogUtils.e("requestLocationInfo----", "requestLocationInfo");
+        mLocationClient.registerLocationListener(new MyLocationListener());    //注册监听函数
+        setLocationOption();
+        if (mLocationClient != null && !mLocationClient.isStarted()) {
+
+            mLocationClient.start();
+        }
+        if (mLocationClient != null && mLocationClient.isStarted()) {
+            mLocationClient.requestLocation();
+        }
+    }
+
+    private void setLocationOption() {
+        LogUtils.e("setLocationOption----", "setLocationOption");
+
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true);        //是否打开GPS
+        option.setCoorType("bd09ll");       //设置返回值的坐标类型。
+        option.setAddrType("all");//返回的定位结果包含地址信息
+        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
+        option.setProdName("Cuohe"); //设置产品线名称。强烈建议您使用自定义的产品线名称，方便我们以后为您提供更高效准确的定位服务。
+        option.setScanSpan(5000);//设置发起定位请求的间隔时间为5000ms
+        option.disableCache(true);//禁止启用缓存定位
+
+        mLocationClient.setLocOption(option);
+    }
+
+    class MyLocationListener implements BDLocationListener {
+        StringBuffer sb = new StringBuffer(256);
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (location == null) {
+                mLocationClient.start();
+                LogUtils.e("location_failed----", "location_failed");
+                return;
+            }
+            else {
+                LogUtils.e("getLocType----", ""+BDLocation.TypeGpsLocation);
+                if (location.getLocType() == BDLocation.TypeGpsLocation) {
+                    LogUtils.e("TypeGpsLocation----", "gps定位成功");
+                    int locType = location.getLocType();
+                    LogUtils.e("locType:", "" + locType);
+                    LogUtils.e("getLatitude:", "" + location.getLatitude());
+                    LogUtils.e("getLongitude:", "" + location.getLongitude());
+                    if (TextUtils.isEmpty(String.valueOf(location.getLatitude()))) {
+
+                        mLocationClient.start();
+                    } else {
+                        initNavigato(location);
+
+                    }
+
+
+                }
+                else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
+                    sb.append("\naddr : ");
+                    sb.append(location.getAddrStr());
+                    //运营商信息
+                    sb.append("\noperationers : ");
+                    sb.append(location.getOperators());
+                    sb.append("\ndescribe : ");
+                    sb.append("网络定位成功");
+                    initNavigato(location);
+                }
+                else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
+                    sb.append("\ndescribe : ");
+                    sb.append("离线定位成功，离线定位结果也是有效的");
+                    initNavigato(location);
+                }
+                else if (location.getLocType() == BDLocation.TypeServerError) {
+                    sb.append("\ndescribe : ");
+                    sb.append("服务端网络定位失败，可以反馈IMEI号和大体定位时间到loc-bugs@baidu.com，会有人追查原因");
+                }
+                else if (location.getLocType() == BDLocation.TypeNetWorkException) {
+                    sb.append("\ndescribe : ");
+                    sb.append("网络不同导致定位失败，请检查网络是否通畅");
+                }
+                else if (location.getLocType() == BDLocation.TypeCriteriaException) {
+                    sb.append("\ndescribe : ");
+                    sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
+                }
+                LogUtils.e("sb----------:", "" + sb.toString());
+
+            }
+
+        }
+
+    }
+
+    private void initNavigato(BDLocation location) {
+        AppContext.set("radius", String.valueOf(location.getRadius()));
+        AppContext.set("latitude", String.valueOf(location.getLatitude()));
+        AppContext.set("longitude", String.valueOf(location.getLongitude()));
+        String latitude = AppContext.get("latitude", "");
+        String longitude = AppContext.get("longitude", "");
+        String radius = AppContext.get("radius", "");
+        navigateTo(location, Double.parseDouble(latitude.toString()), Double.parseDouble(longitude), Float.parseFloat(radius));
+        mLocationClient.stop();
+    }
+
+    private void navigateTo(BDLocation location, double Latitude, double Longitude, float radius) {
+        LogUtils.e("navigateTo---radius", "" + radius);
+        LogUtils.e("navigateTo---Latitude", "" + Latitude);
+        LogUtils.e("navigateTo---Longitude", "" + Longitude);
+        // 开启定位图层
+        mBaiduMap.setMyLocationEnabled(true);
+        // 构造定位数据,显示个人位置图标
+        MyLocationData locData = new MyLocationData.Builder()
+                .accuracy(radius)
+                // 此处设置开发者获取到的方向信息，顺时针0-360
+                .direction(100).latitude(Latitude)
+                .longitude(Longitude).build();
+        // 设置定位数据
+        mBaiduMap.setMyLocationData(locData);
+
+//        // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
+//        mCurrentMarker = BitmapDescriptorFactory
+//                .fromResource(R.drawable.icon_geo);
+//        MyLocationConfiguration config = new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker);
+
+        // 按照经纬度确定地图位置
+        if (ifFrist) {
+            ifFrist = false;
+            LatLng ll = new LatLng(Latitude,
+                    Longitude);
+            MapStatusUpdate update = MapStatusUpdateFactory.newLatLngZoom(ll,16);
+            // 移动到某经纬度,放大
+            mBaiduMap.animateMapStatus(update);
+            showPopup(location);
+
+        }
+
+    }
+
+    private View popWon;
+    private void showPopup(BDLocation location) {
+        popWon = LayoutInflater.from(this).inflate(R.layout.pop_baidu_item, null);
+        TextView popText = ((TextView)popWon.findViewById(R.id.location_tips));
+        LogUtils.e("location.getAddrStr()----",""+location.getAddrStr());
+        popText.setText("[我的位置]\n" + location.getAddrStr());
     }
 
     private void reqFundsDetails() {
@@ -117,7 +315,6 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
     private void setResult(FundsResult result) {
         mEt01.setText(result.getData().getFunds_desc());
         mEt02.setText(result.getData().getFunds_companyaddrress());
-        ImageLoaderUtils.displayAvatarImage(result.getData().getImageurl()[0],mImg);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -135,6 +332,7 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
             imagePaths.add(result.getData().getImageurl()[i]);
         }
         imagePaths.add("000000");
+        LogUtils.e("setResult--imagePaths----", "" + imagePaths);
         listAdapter = new ListAdapter(imagePaths);
         list.setAdapter(listAdapter);
         setListViewHeightBasedOnChildren(list);
@@ -230,7 +428,7 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
                 } else if (TextUtils.isEmpty(mEt02.getText().toString())) {
                     DialogUtils.showPrompt(this, "提示", "公司地址不能为空", "知道了");
                 } else {
-                    reqUpload();//上传资金用途
+                    reqFunds();//地图截图
                 }
                 break;
             case R.id.btn_alter_pic_camera://拍照
@@ -260,6 +458,36 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
         super.onClick(v);
     }
 
+    private void reqFunds() {
+        mBaiduMap.snapshot(new BaiduMap.SnapshotReadyCallback() {
+            @Override
+            public void onSnapshotReady(Bitmap snapshot) {
+                File file = new File("/mnt/sdcard/test.png");
+                FileOutputStream out;
+                try {
+                    out = new FileOutputStream(file);
+                    if (snapshot.compress(Bitmap.CompressFormat.PNG, 100,
+                            out)) {
+                        out.flush();
+                        out.close();
+                    }
+                    LogUtils.e("file---", "" + file);
+                    imageFile = file;
+                    reqUpload();//上传资金用途
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+        });
+
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -273,10 +501,12 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
                 LogUtils.e("CODE_CAMERA_REQUEST----", "CODE_CAMERA_REQUEST");
                 popWindow.dismiss();
                 backgroundAlpha(1f);
+
                 if (data == null || "".equals(data)) {
                     LogUtils.e("data----CODE_CAMERA_REQUEST", "" + data);
                     return;
                 } else {
+                    isFrist = true;
                     LogUtils.e("data----else", "else");
                     String sdStatus = Environment.getExternalStorageState();
                     if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
@@ -339,6 +569,7 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
                 if (data == null) {
                     return;
                 } else {
+                    isFrist = true;
                     ArrayList<String> list = data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT);
                     LogUtils.e("list: ", "list = " + list + "--size = " + list.size());
                     if (null == list) {
@@ -374,6 +605,7 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
         list.setAdapter(listAdapter);
         setListViewHeightBasedOnChildren(list);
 
+
         try {
             JSONArray obj = new JSONArray(imagePaths);
         } catch (Exception e) {
@@ -381,15 +613,66 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
         }
     }
 
+    Runnable networkTask = new Runnable() {
+
+        @Override
+        public void run() {
+            // 在这里进行 http request.网络请求相关操作
+            Bitmap bmp = null;
+            LogUtils.e("imagePaths--1",""+imagePaths);
+            for(int i = 0;i<imagePaths.size()-1;i++){
+                String str1 = imagePaths.get(i);
+                LogUtils.e("str1--",""+str1);
+                String str2 = ""+i;
+                try {
+                    bmp = ImageLoaderUtils.returnBitmap(str1);
+                    LogUtils.e("bmp---", "0--"+bmp);
+                    String string = ImageLoaderUtils.saveJPGFile(bmp, str2);
+                    if(!TextUtils.isEmpty(string)){
+                        mPic.set(i,new File(string));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+            LogUtils.e("mPic--2",""+mPic);
+            Message msg = new Message();
+            msg.what = 1;
+            handler.sendMessage(msg);
+
+        }
+    };
+
+    /**
+     * 网络操作相关的子线程
+     */
+
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    isFrist = false;
+                    break;
+            }
+        }
+    };
+
     private File imageFile;
     private void reqUpload() {
         ModifyCapitalDTO dto = new ModifyCapitalDTO();
         dto.setFundsid(fundsid);
         dto.setDesc(mEt01.getText().toString());
         dto.setAddress(mEt02.getText().toString());
+        LogUtils.e("mPic---",""+mPic);
         File[] files = (File[])mPic.toArray(new File[mPic.size()]);
         String id = "lbsimg";
         String ids = "pimg";
+        LogUtils.e("imageFile---",""+imageFile);
+        LogUtils.e("files---",""+files);
         CommonApiClient.upMdCaoital(this, dto,imageFile,id,files, ids,  new CallBack<MilDetailsResult>() {
             @Override
             public void onSuccess(MilDetailsResult result) {
@@ -463,8 +746,14 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
                 if (listUrls.size() == 8 && flag == true) {
                     mPic.add(new File(listUrls.get(listUrls.size() - 1)));
                 }
+                new Thread(networkTask).start();
                 LogUtils.e("mPic---", "" + mPic);
 
+            }
+            if(isFrist){
+                LogUtils.e("Thread---", "Thread");
+                new Thread(networkTask).start();
+                isFrist = false;
             }
 
             holder.image_sc.setOnClickListener(new View.OnClickListener() {
@@ -473,6 +762,7 @@ public class ModifyCapitalActivity extends BaseTitleActivity {
                     DialogUtils.confirm(ModifyCapitalActivity.this, "是否删除图片？", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            isFrist = true;
                             listUrls.remove(position);
                             notifyDataSetChanged();
                         }

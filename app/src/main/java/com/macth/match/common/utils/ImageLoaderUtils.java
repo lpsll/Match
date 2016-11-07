@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.os.Environment;
 import android.util.Base64;
 import android.widget.ImageView;
 
@@ -19,9 +20,13 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -36,9 +41,9 @@ public class ImageLoaderUtils {
      * @param imageView 显示图片控件View
      */
     public static void displayImage(String imageUrl, ImageView imageView) {
-//        if(imageUrl!=null&&!imageUrl.contains("http://")){
-//            imageUrl= ((AppConfig.BASE_URL).trim()+imageUrl.trim()).trim();
-//        }
+        if(imageUrl!=null&&!imageUrl.contains("http://")){
+            imageUrl= ((AppConfig.BASE_URL).trim()+imageUrl.trim()).trim();
+        }
         ImageLoader.getInstance().displayImage(imageUrl,
                 imageView, getDefaultOptions());
     }
@@ -169,6 +174,37 @@ public class ImageLoaderUtils {
             return null;
         }
     }
+    /**
+    * 根据图片的url路径获得Bitmap对象
+    * @param url
+    * @return
+            */
+    public static Bitmap returnBitmap(String url) {
+        URL fileUrl = null;
+        Bitmap bitmap = null;
+
+        try {
+            fileUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            HttpURLConnection conn = (HttpURLConnection) fileUrl
+                    .openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+
+    }
+
+
 
     private static void copy(InputStream in, OutputStream out)
             throws IOException {
@@ -256,6 +292,50 @@ public class ImageLoaderUtils {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();
+    }
+
+
+    /**
+     *
+     * @param bm
+     *            图片的bitmap
+     * @param fileName
+     *            文件名
+     * @param folderName
+     *            文件夹名
+     * @throws IOException
+     */
+    private static String SDCard= Environment.getExternalStorageDirectory() + "/";
+    public static String saveJPGFile(Bitmap bm, String fileName)
+            throws IOException {
+        FileOutputStream bos=null;
+        String path = SDCard + "/";
+        LogUtils.e("path", ""+path);
+        File dirFile = new File(path);
+        LogUtils.e("dirFile---", ""+dirFile);
+        // 文件夹不存在则创建文件夹
+        if (!dirFile.exists()) {
+            dirFile.mkdirs();
+        }
+        LogUtils.e("保存文件函数", "创建文件夹成功");
+        File myCaptureFile = new File(path + fileName+".jpg");
+        LogUtils.e("myCaptureFile---", ""+myCaptureFile);
+
+        try{
+            bos = new FileOutputStream(myCaptureFile);
+            bm.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            LogUtils.e("保存文件函数", "保存成功");
+            bos.flush();
+            bos.close();
+            if(bm.isRecycled()==false)
+            {
+                bm.recycle();
+                LogUtils.e("Util","回收bitmap");
+            }
+        }catch(Exception e){
+
+        }
+        return ""+myCaptureFile;
     }
 
 }

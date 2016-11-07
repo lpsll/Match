@@ -4,11 +4,13 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -279,11 +281,18 @@ public class ProjectDetailsBrowserActivity extends BaseTitleActivity {
             // titleUrl是标题的网络链接，QQ和QQ空间等使用
             sp.setTitleUrl(pid_url);
             sp.setText("项目详情");
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.juesehxdpi_03);
+//            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.juesehxdpi_03);
 //            sp.setImageData(bitmap);
-
-
-            sp.setImageUrl("");
+//
+//            Resources resources = getResources();
+//            Uri uri =  Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
+//                    + resources.getResourcePackageName(R.drawable.juesehxdpi_03) + "/"
+//                    + resources.getResourceTypeName(R.drawable.juesehxdpi_03) + "/"
+//                    + resources.getResourceEntryName(R.drawable.juesehxdpi_03));
+//            LogUtils.e("uri---",""+uri);
+//            LogUtils.e("getPath---",""+uri.toString());
+//            sp.setImageUrl(convertIconToString(bitmap));
+//            sp.setImagePath(uri.toString());
             LogUtils.e("sp---",""+sp);
             Platform qq = ShareSDK.getPlatform(QQ.NAME);
             qq.setPlatformActionListener(paListener);
@@ -293,6 +302,12 @@ public class ProjectDetailsBrowserActivity extends BaseTitleActivity {
 
     }
 
+    /**
+     * 图片转成string
+     *
+     * @param bitmap
+     * @return
+     */
     public static String convertIconToString(Bitmap bitmap)
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();// outputstream
@@ -301,6 +316,7 @@ public class ProjectDetailsBrowserActivity extends BaseTitleActivity {
         return Base64.encodeToString(appicon, Base64.DEFAULT);
 
     }
+
 
     PlatformActionListener paListener = new PlatformActionListener() {
         @Override

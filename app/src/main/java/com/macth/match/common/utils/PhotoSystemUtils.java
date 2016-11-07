@@ -9,8 +9,12 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by John_Libo on 2016/8/24.
@@ -32,25 +36,34 @@ public class PhotoSystemUtils {
     //根据这个Uri获得其在文件系统中的路径
 
     public static String getRealFilePath(final Context context, final Uri uri ) {
+        LogUtils.e("getRealFilePath---uri--",""+uri);
         if ( null == uri ) return null;
         final String scheme = uri.getScheme();
+        LogUtils.e("scheme--",""+scheme);
         String data = null;
-        if ( scheme == null )
+        if ( scheme == null ){
             data = uri.getPath();
+            LogUtils.e("data--0",""+data);
+
+        }
         else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
             data = uri.getPath();
-        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
+            LogUtils.e("data--1",""+data);
+        }
+        else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
             Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
             if ( null != cursor ) {
                 if ( cursor.moveToFirst() ) {
                     int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
                     if ( index > -1 ) {
                         data = cursor.getString( index );
+                        LogUtils.e("data--2",""+data);
                     }
                 }
                 cursor.close();
             }
         }
+
         return data;
     }
 
@@ -133,6 +146,7 @@ public class PhotoSystemUtils {
         bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
         return compressImage(bitmap);//压缩好比例大小后再进行质量压缩
     }
+
 
 
 }

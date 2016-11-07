@@ -3,6 +3,14 @@ package com.macth.match.mine.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,13 +21,21 @@ import android.widget.TextView;
 
 import com.macth.match.AppContext;
 import com.macth.match.R;
+import com.macth.match.common.base.BaseApplication;
 import com.macth.match.common.base.BaseFragment;
 import com.macth.match.common.utils.DialogUtils;
 import com.macth.match.common.utils.ImageLoaderUtils;
 import com.macth.match.common.utils.LogUtils;
+import com.macth.match.common.utils.PhotoSystemUtils;
 import com.macth.match.mine.MineUIGoto;
 import com.macth.match.mine.activity.MyProjectsActivity;
 import com.macth.match.mine.entity.PicEvent;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -170,6 +186,8 @@ public class MineFragment extends BaseFragment {
 
         }
     }
+
+
 
     /**
      * 退出对话框
